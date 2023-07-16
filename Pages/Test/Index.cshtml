@@ -1,0 +1,54 @@
+﻿@page "/some"
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <form>
+        @Html.AntiForgeryToken()
+    </form>
+    <select>
+    </select>
+
+    <button id="cccc" onclick="getIt()">GET</button>
+    <button id="bbbb" onclick="doIt()">post</button>
+
+</div>
+
+
+@section ScriptRaw{
+    <script>
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            //post request
+                function doIt(){
+                    var data = {
+                        myName: "Jasmeet Singh",
+                    };
+                    axios.defaults.headers.common['RequestVerificationToken'] = token;
+                    axios.post('@Url.Page("/some")?handler=something', data)
+                        .then(function (response) {
+                            console.log(response.data);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            //get request
+                function getIt() {
+                    axios.defaults.headers.common['RequestVerificationToken'] = token;
+                    axios.get('@Url.Page("/some")?handler=anything')
+                        .then(function (response) {
+                            console.log(response.data);
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                        });
+                }
+       
+    </script>
+}

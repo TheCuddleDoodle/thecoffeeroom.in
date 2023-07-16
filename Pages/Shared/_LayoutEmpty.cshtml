@@ -1,0 +1,128 @@
+﻿@{
+
+    ViewData["Title"] ??= "The Coffee Room";
+    ViewData["Tags"] ??= "coffeeroom, blogs, space, shop, apps, social,music,software development, gallery, photography,magazines, creative";
+    ViewData["Description"] ??= "The Coffee Room";
+
+    ViewData["Authors"] ??= "Jass and others";
+    ViewData["Title"] ??= "The Coffee Room";
+    ViewData["Title"] ??= "The Coffee Room";
+
+    ViewData["OgUrl"] ??= "https://thecoffeeroom.in";
+    ViewData["OgType"] ??= "website";
+    ViewData["OgImage"] ??= "website";
+
+    ViewData["BodyBg"] ??= "";
+    ViewData["ActivePage"] ??= "";
+    ViewData["NavWrapper"] ??= "";
+}
+@{
+    var mySessionVariable = Context.Session.GetString("username");
+    if (mySessionVariable != null)
+    {
+        ViewData["user_name"] = Context.Session.GetString("username").ToString();
+        ViewData["first_name"] = Context.Session.GetString("first_name").ToString();
+        ViewData["role"] = Context.Session.GetString("role").ToString();
+        ViewData["avatar"] = Context.Session.GetString("avatar").ToString();
+        ViewData["user_id"] = Context.Session.GetString("user_id").ToString();
+    }
+    else
+    {
+        ViewData["first_name"] = "guest";
+        ViewData["role"] = "guest";
+        ViewData["avatar"] = "default";
+        ViewData["user_id"] = "0";
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Coffeeroom</title>
+    <!-- SEO Meta Tags-->
+    <meta name="keywords" content="@ViewData["Tags"]">
+    <meta name="description" content="@ViewData["Description"]">
+    <meta name="author" content="@ViewData["Authors"]">
+    <!-- Viewport-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon and Touch Icons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" color="#6366f1" href="~/assets/favicon/safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#080032">
+    <meta name="msapplication-config" content="~/assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="white">
+     <script>
+      let mode = window.localStorage.getItem('mode'),
+          root = document.getElementsByTagName('html')[0];
+      if (mode !== undefined && mode === 'dark') {
+        root.classList.add('dark-mode');
+      } else {
+        root.classList.remove('dark-mode');
+      }
+    </script>
+    <script>
+      (function () {
+        window.onload = function () {
+          const preloader = document.querySelector('.page-loading');
+          preloader.classList.remove('active');
+          setTimeout(function () {
+            preloader.remove();
+          }, 1500);
+        };
+      })();
+      
+    </script>
+    <!-- Import Google Font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" id="google-font">
+    
+    <!-- Vendor styles-->
+    <link rel="stylesheet" media="screen" href="~/assets/vendor/aos/dist/aos.css"/>
+    <!-- Main Theme Styles + Bootstrap-->
+    <link rel="stylesheet" media="screen" href="~/assets/css/theme.min.css">
+    @await RenderSectionAsync("cssLib", required: false)
+    <link rel="stylesheet" href="~/assets/css/coffeeroom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/assets/css/theme.min.css"/>
+    @await RenderSectionAsync("cssStyles", required: false)
+    <!-- overrides -->
+    <link rel="stylesheet" href="~/Coffeeroom.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="page-loading active">
+        <div class="page-loading-inner">
+            <div class="page-spinner"></div><span>Loading...</span>
+        </div>
+    </div>
+    <main class="page-wrapper">
+        @RenderBody()
+        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+            <div style="position: absolute; top: 0; right: 0;">
+                <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true" id="toastBox" data-bs-autohide="false">
+                    <div class="toast-header">
+                        <i class="ai-bell fs-lg me-2"></i>
+                        <h6 class="mb-0 me-auto" id="toastTitle">title</h6>
+                        @*<small class="fw-medium text-muted" id="toastTime">11 mins ago</small>*@
+                        <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" id="toastBody">Hello, world! This is a toast message.</div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <!-- Vendor scripts: js libraries and plugins-->
+    <script src="~/assets/vendor/axios/axios.min.js"></script>
+    @await RenderSectionAsync("jsScripts", required: false)
+    <script src="~/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+    <script src="~/assets/vendor/aos/dist/aos.js"></script>
+    @await RenderSectionAsync("jsLib", required: false)
+    <script src="~/assets/js/theme.min.js"></script>
+    <script src="~/assets/js/coffeeroom.js" asp-append-version="true"></script>
+</body>
+</html>

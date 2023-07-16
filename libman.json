@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "axios@1.4.0",
+      "destination": "wwwroot/assets/vendor/axios/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "preact@10.16.0",
+      "destination": "wwwroot/assets/vendor/preact"
+    }
+  ]
+}

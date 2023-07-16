@@ -1,0 +1,107 @@
+﻿@page "/gallery"
+@model Coffeeroom.Pages.Gallery.IndexModel
+@{
+    ViewData["NavBarProps"] = "navbar navbar-expand-lg fixed-top bg-light";
+}
+<section class="ignore-dark-mode bg-secondary position-relative mb-2 pb-2 min-vh-100 py-5">
+    <div class="swiper swiper-scale-effect position-absolute top-0 start-0 w-100 h-100 swiper-fade swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress swiper-backface-hidden" data-swiper-options="{
+      &quot;effect&quot;: &quot;fade&quot;,
+      &quot;speed&quot;: 800,
+      &quot;autoplay&quot;: {
+        &quot;delay&quot;: 7000,
+        &quot;disableOnInteraction&quot;: false
+      },
+      &quot;pagination&quot;: {
+        &quot;el&quot;: &quot;.swiper-pagination&quot;,
+        &quot;clickable&quot;: true
+      }
+    }">
+        <div class="swiper-wrapper" id="swiper-wrapper-dbd8e2a1b4e5ecfc" aria-live="off" style="transition-duration: 0ms;">
+            <div class="swiper-slide swiper-slide-visible swiper-slide-active" role="group" aria-label="1 / 3" style="width: 1519px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                <div class="swiper-slide-cover bg-position-top-center" style="background-image: url(assets/img/landing/yoga-studio/hero/01.jpg);"></div>
+            </div>
+            <div class="swiper-slide swiper-slide-next" role="group" aria-label="2/3" style="width: 1519px; opacity: 0; transform: translate3d(-1519px, 0px, 0px); transition-duration: 0ms;">
+                <div class="swiper-slide-cover bg-position-top-center" style="background-image: url(assets/img/landing/yoga-studio/hero/02.jpg);"></div>
+            </div>
+            <div class="swiper-slide" role="group" aria-label="3/3" style="width: 1519px; opacity: 0; transform: translate3d(-3038px, 0px, 0px); transition-duration: 0ms;">
+                <div class="swiper-slide-cover bg-position-top-center" style="background-image: url(assets/img/landing/yoga-studio/hero/03.jpg);"></div>
+            </div>
+        </div>
+        <div class="swiper-pagination mb-4 swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1" aria-current="true"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span></div>
+        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+    </div>
+    <!-- Content-->
+    <div class="container position-relative zindex-2 pb-2 mb-2">
+        <div class="row pt-md-3 py-xxl-5 my-5">
+            <div class="col py-5 mb-md-4 mb-lg-5">
+                <h1 class="display-1 text-uppercase mb-4">Our Gallery</h1>
+                <p class="d-block fs-xl pb-2 mb-4 mb-md-5" style="max-width: 500px;">Snaps from my Camera Roll.Selected ones</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="container overflow-hidden pt-5 mt-5 pb-5 mb-2 mb-lg-3 mb-xl-4 mb-xxl-5">
+    <div class="masonry-filterable">
+        <div class="row pb-lg-4 mb-2 mb-sm-3">
+            <!-- Page title-->
+            <div class="col-xxl-3 col-lg-4 text-center text-lg-start">
+                <h1>Our Projects</h1>
+                <p class="mb-4 mb-lg-0">We will put our industry expertise for creativity to work for your project</p>
+            </div>
+            <!-- Filters-->
+            <div class="col-xxl-9 col-lg-8 d-flex">
+                <ul class="masonry-filters nav nav-pills fs-sm flex-nowrap overflow-auto text-nowrap w-100 mx-auto me-lg-0 pb-3" style="max-width: 510px;">
+                    <li class="nav-item mb-0"><a class="nav-link border active" href="#" data-group="all">All</a></li>
+                    <li class="nav-item mb-0"><a class="nav-link border" href="#" data-group="nature">Nature</a></li>
+                    <li class="nav-item mb-0"><a class="nav-link border" href="#" data-group="travel">Travel</a></li>
+                    <li class="nav-item mb-0"><a class="nav-link border" href="#" data-group="urbex">Urbex</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Grid of portfolio items-->
+        <div class="masonry-grid shuffle" data-columns="4" style="position: relative; height: 1946.12px; transition: height 250ms cubic-bezier(0.4, 0, 0.2, 1) 0s;">
+            <!-- Item-->
+            <article class="masonry-grid-item pb-5 mb-md-2 mb-lg-4 mb-xl-5 shuffle-item shuffle-item--visible" data-groups="[&quot;nature&quot;]" style="position: absolute; top: 0px; visibility: visible; will-change: transform; left: 0px; opacity: 1; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-property: transform, opacity;">
+                <div class="zoom-effect position-relative border-bottom pb-3" style="max-width: 300px;">
+                    <div class="zoom-effect-wrapper">
+                        <div class="zoom-effect-img"><img src="/content/gallerycontent/garden-state/cover.jpeg" alt="Image"></div>
+                    </div>
+                    <div class="pt-4 mt-lg-2">
+                        <h2 class="h4 mb-2"><a class="stretched-link" href="/gallery/garden-state">Garden State</a></h2>
+                        <div class="d-flex justify-content-between fs-lg text-muted"><span>Flora from my backyard</span><span>2021</span></div>
+                    </div>
+                </div>
+            </article>
+            <article class="masonry-grid-item pb-5 mb-md-2 mb-lg-4 mb-xl-5 shuffle-item shuffle-item--visible" data-groups="[&quot;nature&quot;]" style="position: absolute; top: 0px; visibility: visible; will-change: transform; left: 0px; opacity: 1; transition-duration: 250ms; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-property: transform, opacity;">
+                <div class="zoom-effect position-relative border-bottom pb-3" style="max-width: 300px;">
+                    <div class="zoom-effect-wrapper">
+                        <div class="zoom-effect-img"><img src="/content/gallerycontent/the-birdies/cover.jpeg" alt="Image"></div>
+                    </div>
+                    <div class="pt-4 mt-lg-2">
+                        <h2 class="h4 mb-2"><a class="stretched-link" href="/gallery/garden-state">OPM Colony</a></h2>
+                        <div class="d-flex justify-content-between fs-lg text-muted"><span>urbex</span><span>2022</span></div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+        <!-- Button-->
+        <div class="text-center pb-sm-2 pb-md-4 mt-n1 mt-lg-n2"><a class="btn btn-lg btn-outline-dark rounded-0" href="#">Let's work together</a></div>
+    </div>
+</section>
+
+
+@section cssLib{
+    <link rel="stylesheet" media="screen" href="~/assets/vendor/lightgallery/css/lightgallery-bundle.min.css" />
+    <link rel="stylesheet" media="screen" href="/assets/vendor/swiper/swiper-bundle.min.css" />    
+}
+@section jsLib{
+    <script src="~/assets/vendor/lightgallery/lightgallery.min.js"></script>
+    <script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="/assets/vendor/shufflejs/dist/shuffle.min.js"></script>
+    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/vendor/lightgallery/plugins/video/lg-video.min.js"></script>
+    <script src="~/assets/vendor/lightgallery/plugins/fullscreen/lg-fullscreen.min.js"></script>
+    <script src="~/assets/vendor/lightgallery/plugins/zoom/lg-zoom.min.js"></script>
+    <script src="~/assets/vendor/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script>
+}
