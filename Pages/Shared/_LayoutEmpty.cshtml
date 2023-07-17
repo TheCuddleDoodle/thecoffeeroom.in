@@ -100,7 +100,7 @@
     </div>
     <main class="page-wrapper">
         @RenderBody()
-        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+        
             <div style="position: absolute; top: 0; right: 0;">
                 <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true" id="toastBox" data-bs-autohide="false">
                     <div class="toast-header">
@@ -111,12 +111,10 @@
                     </div>
                     <div class="toast-body" id="toastBody">Hello, world! This is a toast message.</div>
                 </div>
-
             </div>
-        </div>
     </main>
     <!-- Vendor scripts: js libraries and plugins-->
-    <script src="~/assets/vendor/axios/axios.min.js"></script>
+    <script src="~/libraries/axios/axios.min.js"></script>
     @await RenderSectionAsync("jsScripts", required: false)
     <script src="~/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>

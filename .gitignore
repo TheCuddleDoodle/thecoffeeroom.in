@@ -8,6 +8,7 @@
 
 
 #coffeeroom custom entries
+/wwwroot/libraries
 /wwwroot/assets/vendor
 /wwwroot/assets/img
 /wwwroot/assets/favicon

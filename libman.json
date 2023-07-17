@@ -4,7 +4,17 @@
   "libraries": [
     {
       "library": "axios@1.4.0",
-      "destination": "wwwroot/assets/vendor/axios/"
+      "destination": "wwwroot/libraries/axios/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "alpinejs@3.12.3",
+      "destination": "wwwroot/libraries/alpinejs/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "aos@2.3.4",
+      "destination": "wwwroot/libraries/aos/"
     }
   ]
 }

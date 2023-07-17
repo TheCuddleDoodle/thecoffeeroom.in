@@ -83,13 +83,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" id="google-font">
     
     <!-- Vendor styles-->
-    <link rel="stylesheet" media="screen" href="assets/vendor/aos/dist/aos.css"/>
+    <link href="~/libraries/aos/aos.css" rel="stylesheet" />
     
     <!-- Main Theme Styles + Bootstrap-->
     <link rel="stylesheet" media="screen" href="assets/css/theme.min.css">
     @await RenderSectionAsync("cssLib", required: false)
     <link rel="stylesheet" href="~/assets/css/coffeeroom.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/assets/css/theme.min.css"/>
+     
     @await RenderSectionAsync("cssStyles", required: false)
     <!-- overrides -->
     <link rel="stylesheet" href="~/Coffeeroom.styles.css" asp-append-version="true" />
@@ -102,32 +103,32 @@
     </div>
     <main class="page-wrapper">
         @await Html.PartialAsync("NavBars/Default")
+        <environment include="production">
+            <div>
+                falana production
+            </div>
+        </environment>
+        <environment include="development">
+            <div>
+                falana development
+            </div>
+        </environment>
+        
         @RenderBody()
         @await Html.PartialAsync("Modals/_Modals")
     </main>
-        
         @await Html.PartialAsync("Footers/Default")
-    <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-        <div style="position: absolute; top: 0; right: 0;">
-            <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true" id="toastBox" data-bs-autohide="false">
-                <div class="toast-header">
-                    <i class="ai-bell fs-lg me-2"></i>
-                    <h6 class="mb-0 me-auto" id="toastTitle">title</h6>
-                    @*<small class="fw-medium text-muted" id="toastTime">11 mins ago</small>*@
-                    <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body" id="toastBody">Hello, world! This is a toast message.</div>
-            </div>
 
-        </div>
-    </div>
     <!-- Back to top button-->
     <a class="btn-scroll-top" href="#top" data-scroll>
         <svg viewBox="0 0 40 40" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"></circle>
         </svg><i class="ai-arrow-up"></i>
     </a>
+
+
     <!-- Vendor scripts: js libraries and plugins-->
+    <script src="~/libraries/axios/axios.min.js"></script>
     <script>
         function livesearch() {
             document.getElementById("search_stat").innerHTML = `Search <i class="ai-clock mb-1"></i>`;
@@ -160,11 +161,13 @@
             }
         }
     </script>
-    <script src="~/assets/vendor/axios/axios.min.js"></script>
+    
+
+   
     @await RenderSectionAsync("jsScripts", required: false)
     <script src="~/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-    <script src="~/assets/vendor/aos/dist/aos.js"></script>
+    <script src="~/libraries/aos/aos.js"></script>
     @await RenderSectionAsync("jsLib", required: false)
     <script src="~/assets/js/theme.min.js"></script>
     <script src="~/assets/js/coffeeroom.js" asp-append-version="true"></script>
