@@ -1,2 +1,11 @@
-# thecoffeeroom.in
-The Coffeeroom Project
+# loading....
+The Coffeeroom Project Prototype(razor pages + api)
+
+Tech stack:
+ - umbrella.js
+ - axios
+ - core-js
+
+Behind:
+  c#
+ ..
