@@ -1,32 +1,250 @@
-﻿@page "/blogs/{cattype?}/{catkey?}"
+﻿@page "/blogs/{classify?}/{key?}"
 @model Coffeeroom.Pages.Blogs.IndexModel
 @{
-}
-@section jsLib{
+    ViewData["ActiveCategory"] = "";
+    ViewData["ActiveYear"] = "";
+    ViewData["ActiveTag"] = "";
+    try
+    {
+        if (Model.Classify != null && @Model.Key != null)
+        {
+            if (Model.Classify == "category")
+            {
+                ViewData["ActiveCategory"] = Model.Key;
+                ViewData["ActiveYear"] = "all";
+                ViewData["ActiveTag"] = "tag_all";
+            }
+            else if (Model.Classify == "year")
+            {
+                ViewData["ActiveYear"] = Model.Key;
+                ViewData["ActiveCategory"] = "cat_all";
+                ViewData["ActiveTag"] = "tag_all";
+            }
+            else if (Model.Classify == "tag")
+            {
+                ViewData["ActiveYear"] = "all";
+                ViewData["ActiveCategory"] = "cat_all";
+                ViewData["ActiveTag"] = Model.Key;
 
-<script src="~/lib/react/umd/react.production.min.js"></script>
-    <script src="~/lib/react-dom/cjs/react-dom.production.min.js"></script> 
+            }
 
+        }
+        else if (Model.Classify == null || Model.Classify == "" || Model.Key == "" || Model.Key == null)
+        {
+            ViewData["ActiveYear"] = "";
+            ViewData["ActiveCategory"] = "";
+            ViewData["ActiveTag"] = "";
+        }
+    }
+    catch
+    {
+        ViewData["ActiveYear"] = "";
+        ViewData["ActiveCategory"] = "";
+        ViewData["ActiveTag"] = "";
+    }
 }
-<section class="container pt-5 mt-5">
-    <div class="mt-4" id="dddd">
-        something
+
+@Html.AntiForgeryToken();
+<div class="container py-5 mb-lg-4">
+    <!-- Breadcrumb-->
+    <nav aria-label="breadcrumb" class="pt-1">
+        <ol class="pb-lg-2 pb-2 pt-4 breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+        </ol>
+    </nav>
+
+    <div class="row mb-md-2 pt-3 mb-xl-4">
+        <!-- Blog posts-->
+        <div class="col-lg-9 pe-lg-4 pe-xl-5">
+
+            @if (Model.Key != null && Model.Key != "" && Model.Key != "na")
+            {
+                <h1 class="pb-3 pb-lg-4">Blogs <small>'@Model.Key'</small></h1>
+            }
+            else
+            {
+                <h1 class="pb-3 pb-lg-4">Blogs</h1>
+            }
+
+            <!-- Post-->
+            <div id="blogcontainer">
+                <div id="placeholdertarget">
+                    <article class="row g-0 border-0 mb-4">
+                        <a class="col-sm-5 rounded-5 placeholder placeholder-wave" style="min-height: 14rem"></a>
+                        <div class="col-sm-7">
+                            <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
+                                <p class="card-text placeholder-glow">
+                                    <span class="placeholder placeholder-sm col-7 me-2"></span>
+                                    <span class="placeholder placeholder-sm col-4"></span>
+                                    <span class="placeholder placeholder-sm col-4 me-2"></span>
+                                    <span class="placeholder placeholder-sm col-6"></span>
+                                    <span class="placeholder placeholder-sm col-8"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+
+            <!-- Pagination-->
+            <div class="row gy-3 align-items-center mt-lg-5 pt-2 pt-md-4 pt-lg-0">
+                
+                <div class="col col-md-12 col-12 order-md-2 order-3 text-center">
+                    <button class="btn btn-primary ripple w-md-auto w-100" id="load_more" onclick="loaddefault()" data-id="0" type="button">Load more posts</button>
+                </div>
+               
+            </div>
+        </div>
+        <!-- Sidebar (offcanvas on sreens < 992px)-->
+        <aside class="col-lg-3">
+            <div class="offcanvas-lg offcanvas-end" id="sidebarBlog">
+                <div class="offcanvas-header">
+                    <h4 class="offcanvas-title">Sidebar</h4>
+                    <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" data-bs-target="#sidebarBlog"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <!-- Search box-->
+                    <div class="position-relative mb-4 mb-lg-5">
+                        <i class="ai-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                        <input class="form-control ps-5" type="search" placeholder="Enter keyword">
+                    </div>
+                    <!-- Category links-->
+                    <h4 class="pt-1 pt-lg-0 mt-lg-n2">Categories:</h4>
+                    <ul class="nav flex-column mb-lg-5 mb-4">
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 @(ViewData["ActiveCategory"].ToString() == ""? "active" : "")" href="/blogs">All categories</a></li>
+                        @if (Model.Cats != null)
+                        {
+                            @foreach (var cat in Model.Cats)
+                            {
+                                <li class="mb-2"><a id="@cat.Locator" class="nav-link d-flex p-0 @(ViewData["ActiveCategory"].ToString() == cat.Locator ? "active" : "") " href="/blogs/category/@cat.Locator"> @cat.Title <span class="fs-sm text-muted ms-2">(@cat.Counter)</span></a></li>
+                            }
+                        }
+
+
+                    </ul>
+
+                    <h4 class="pt-1 pt-lg-0 mt-lg-n2">Year:</h4>
+                    <ul class="nav flex-column mb-lg-5 mb-4">
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 @(ViewData["ActiveYear"].ToString() == ""? "active" : "")" href="/blogs">All</a></li>
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 @(ViewData["ActiveYear"].ToString() == "2023"? "active" : "")" href="/blogs/year/2023">2023</a></li>
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 @(ViewData["ActiveYear"].ToString() == "2022"? "active" : "")" href="/blogs/year/2022">2022</a></li>
+                    </ul>
+
+                    <h4 class="pt-1 pt-lg-0 mt-lg-n2">Tags:</h4>
+                    <ul class="nav flex-column mb-lg-5 mb-4">
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 @(ViewData["ActiveTag"].ToString() == ""? "active" : "")" href="/blogs">All</a></li>
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 @(ViewData["ActiveTag"].ToString() == "kdrama"? "active" : "")" href="/blogs/tag/kdrama">kdrama</a></li>
+
+                    </ul>
+
+                    <!-- Featured posts widget-->
+                    <h4 class="pt-3 pt-lg-0 pb-1">Latest posts:</h4>
+                    <div class="mb-lg-5 mb-4" id="latestPosts">
+
+                    </div>
+                    <!-- Social buttons-->
+                    @*<h4 class="pt-3 pt-lg-0 pb-1">Join us:</h4>
+                    <div class="mt-n3 ms-n3 mb-lg-5 mb-4 pb-3 pb-lg-0"><a class="btn btn-secondary btn-icon btn-sm btn-instagram rounded-circle mt-3 ms-3" href="#"><i class="ai-instagram"></i></a><a class="btn btn-secondary btn-icon btn-sm btn-facebook rounded-circle mt-3 ms-3" href="#"><i class="ai-facebook"></i></a><a class="btn btn-secondary btn-icon btn-sm btn-telegram rounded-circle mt-3 ms-3" href="#"><i class="ai-telegram"></i></a><a class="btn btn-secondary btn-icon btn-sm btn-twitter rounded-circle mt-3 ms-3" href="#"><i class="ai-twitter"></i></a></div>*@
+
+                </div>
+            </div>
+        </aside>
     </div>
-</section>
-<script>
-    //import React from 'react';
-    //import ReactDOM from 'react-dom';
+</div>
 
-    //// Your data
-    //const data = 'Hello, World!';
+<button class="d-lg-none btn btn-sm fs-sm btn-primary w-100 rounded-0 fixed-bottom" data-bs-toggle="offcanvas" data-bs-target="#sidebarBlog"><i class="ai-layout-column me-2"></i>Sidebar</button>
 
-    //// Your component
-    //const MyComponent = () => {
-    //    return (
-    //        <div>{ data } < /div>
-    //    );
-    //};
 
-    //ReactDOM.render(<MyComponent />, document.getElementById('dddd'));
-</script>
+@section jsScripts{
+    
+    <script>
+       
+        document.addEventListener('DOMContentLoaded', function () {
+        loaddefault();
+        loadLatestPosts();
+        });
 
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+        function loaddefault() {
+            let currid = parseInt(u("#load_more").attr("data-id"));
+            //let currid = parseInt(document.getElementById("load_more").getAttribute('data-id'));
+            if (currid != "n") {
+                let next = currid + 2;
+                //document.getElementById("load_more").setAttribute('data-id', next);
+                u("#load_more").attr("data-id", next);
+                $.ajax({
+                    type:"POST", url:"/blogs?handler=FetchBlogs", contentType: 'application/json',
+                    data:JSON.stringify({
+                        Mode: currid.toString(),
+                        Classifypost: "@Model.Classify",
+                        Keypost: "@Model.Key"
+                    }),
+                    success: function (data) {
+                        var textdt = "";
+                        if (data.length != 0) {
+                            u("#blogcontainer").empty();
+                            for (var i = 0; i < data.length; i++) {
+                                textdt += '<article class="row g-0 border-0 mb-4">' +
+                                    '<a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="/blog/' + data[i].datePosted.substring(0, 4) + '/' + data[i].urlHandle + '" style="background-image: url(/content/blogcontent/' + data[i].datePosted.substring(0, 4) + '/' + data[i].urlHandle + '/cover.jpg); min-height: 14rem"></a>' +
+                                    '<div class="col-sm-7">' +
+                                    '<div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">' +
+                                    '<h3><a href="/blog/' + data[i].datePosted.substring(0, 4) + '/' + data[i].urlHandle + '">' + data[i].title + '</a></h3>' +
+                                    '<p class="d-sm-none d-md-block">' + data[i].description + '</p>' +
+                                    '<div class="d-flex flex-wrap align-items-center mt-n2">' +
+                                    '<a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">' + data[i].comments + '<i class="ai-message fs-lg ms-1"></i></a>' +
+                                    '<span class="fs-xs opacity-20 mt-2 mx-3">|</span>' +
+                                    '<span class="fs-sm text-muted mt-2">' + data[i].datePosted.substring(0, 7) + '</span>' +
+                                    '<span class="fs-xs opacity-20 mt-2 mx-3">|</span>' +
+                                    '<a class="badge text-nav fs-xs border mt-2" href="/blogs/category/' + data[i].locator + '">' + data[i].category + '</a>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</article>';
+                            }
+                            u('#blogcontainer').append(textdt);
+                        }
+                        else {
+                            u("#load_more").text("no more posts");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Error:", errorThrown);
+                    }
+                });
+            }
+            else {
+                u("#load_more").attr("data-id", "n").text("something went wrong");
+            }
+
+        }
+    
+        
+        async function loadLatestPosts() {
+          axios.defaults.headers.common['RequestVerificationToken'] = token;
+          await axios.get('@Url.Page("/blogs")?handler=latestposts')
+                .then(function (response) {
+                    console.log(response.data);
+                    var customerList = '';
+                    var sideblogs = response.data;
+                    for (var i = 0; i < sideblogs.length; i++) {
+                        customerList += '<article class="position-relative d-flex align-items-center mb-4">'
+                        customerList += '<img class="rounded" src="assets/img/blog/sidebar/01.jpg" width="92" alt="Post image">'
+                        customerList += '<div class="ps-3">'
+                        customerList += '<h4 class="h6 mb-2"><a class="stretched-link" href="'+ sideblogs[i].urlHandle+'">' + sideblogs[i].title + '</a></h4><span class="fs-sm text-muted">13 hours ago</span>'
+                        customerList += '</div></article>'
+                    }
+                    u("latestPosts").html(customerList);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    </script>
+}
+
+@section jsLib{
+    <script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="/assets/vendor/shufflejs/dist/shuffle.min.js"></script>
+}

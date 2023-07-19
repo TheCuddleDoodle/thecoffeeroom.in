@@ -1,161 +1,591 @@
-﻿@page "/blog/{blogurl?}"
+﻿@page "/blog/{year}/{url}"
 @model Coffeeroom.Pages.Blogs.BlogModel
 @{
 }
-<div class="container pt-5 pb-lg-5 pb-md-4 pb-2 my-5">
-    <!-- Breadcrumb-->
-    <nav aria-label="breadcrumb">
-        <ol class="pt-lg-3 pb-lg-4 pb-2 breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Blog list with sidebar</li>
+
+<section class="container py-5 mb-lg-4 mt-1" id="blog_intro">
+
+    <nav aria-label="breadcrumb" class="pt-4">
+        <ol class=" pb-lg-4 pb-2 pt-4 breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/blogs">Blogs</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.BlogTitle</li>
         </ol>
     </nav>
-    <div class="row mb-md-2 mb-xl-4">
-        <!-- Blog posts-->
-        <div class="col-lg-9 pe-lg-4 pe-xl-5">
-            <h1 class="pb-3 pb-lg-4">Blog list with sidebar</h1>
-            <!-- Post-->
-            <article class="row g-0 border-0 mb-4">
-                <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="blog-single-v1.html" style="background-image: url(assets/img/blog/list/01.jpg); min-height: 14rem"></a>
-                <div class="col-sm-7">
-                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                        <h3><a href="blog-single-v1.html">Business strategy for a brand of vintage bags</a></h3>
-                        <p class="d-sm-none d-md-block">Morbi et massa fames ac scelerisque sit commodo dignissim faucibus vel quisque proin lectus et massa fames ac scelerisque fames velit diam sit...</p>
-                        <div class="d-flex flex-wrap align-items-center mt-n2"><a class="nav-link text-muted fs-sm fw-normal p-0 mt-2 me-3" href="#">6<i class="ai-share fs-lg ms-1"></i></a><a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">12<i class="ai-message fs-lg ms-1"></i></a><span class="fs-xs opacity-20 mt-2 mx-3">|</span><span class="fs-sm text-muted mt-2">8 hours ago</span><span class="fs-xs opacity-20 mt-2 mx-3">|</span><a class="badge text-nav fs-xs border mt-2" href="#">Business</a></div>
+
+    @if (ViewData.TemplateInfo.HtmlFieldPrefix != null && ViewData.ModelState.IsValid)
+    {
+        try
+        {
+            <div class="row">
+                <div class="col-lg-9 col-xl-8 pe-lg-4 pe-xl-0">
+                    <h1 class="pb-2 pb-lg-3">Top 5 K-dramas to binge this summer</h1>
+                    <div class="d-flex flex-wrap align-items-center justify-content-between border-bottom mb-4">
+                        <div class="d-flex align-items-center mb-4 me-4"><span class="fs-sm me-2">By:</span><span class=" position-relative fw-semibold p-0"><span id="authorsPlaceholder2"></span></span></div>
+                        <div class="d-flex align-items-center mb-4">
+                            <button type="button" id="shareButton" class="fs-sm me-2 btn btn-sm btn-outline-secondary rounded-pill"><i class="ai-share"></i></button>
+                        </div>
                     </div>
+                    @await Html.PartialAsync("ContentViews/Blogs/" + @Model.YearPosted + "/" + @Model.UrlHandle + "/blog_content")
                 </div>
-            </article>
-            <!-- Post-->
-            <article class="row g-0 border-0 pt-3 pt-sm-0 mb-4">
-                <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="blog-single-v2.html" style="background-image: url(assets/img/blog/list/02.jpg); min-height: 14rem"></a>
-                <div class="col-sm-7">
-                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                        <h3><a href="blog-single-v2.html">Top books for inspiration</a></h3>
-                        <p class="d-sm-none d-md-block">Sapien ultrices egestas at faucibus eu diam velit diam id amet nibh quam rutrum fermentum diam natoque scelerisque viverra viverra molestie fames...</p>
-                        <div class="d-flex flex-wrap align-items-center mt-n2"><a class="nav-link text-muted fs-sm fw-normal p-0 mt-2 me-3" href="#">10<i class="ai-share fs-lg ms-1"></i></a><a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">4<i class="ai-message fs-lg ms-1"></i></a><span class="fs-xs opacity-20 mt-2 mx-3">|</span><span class="fs-sm text-muted mt-2">12 hours ago</span><span class="fs-xs opacity-20 mt-2 mx-3">|</span><a class="badge text-nav fs-xs border mt-2" href="#">Books</a></div>
-                    </div>
+                @await Html.PartialAsync("ContentViews/Blogs/" + @Model.YearPosted + "/" + @Model.UrlHandle + "/SideBar")
+            </div>
+
+        }
+        catch
+        {
+            // Response.Redirect("/site/404");
+            @await Html.PartialAsync("_404")
+        }
+        ViewData["blogurl"] = @Model.UrlHandle;
+    }
+    else
+    {
+        ViewData["blogurl"] = "";
+        @await Html.PartialAsync("_404")
+    }
+
+    @Html.AntiForgeryToken();
+    <div class="modal fade" id="mdlDelete" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </article>
-            <!-- Post-->
-            <article class="row g-0 border-0 pt-3 pt-sm-0 mb-4">
-                <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="blog-single-v3.html" style="background-image: url(assets/img/blog/list/03.jpg); min-height: 14rem"></a>
-                <div class="col-sm-7">
-                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                        <h3><a href="blog-single-v3.html">Destinations to inspire and restore resources</a></h3>
-                        <p class="d-sm-none d-md-block">Sapien ultrices egestas at faucibus eu diam velit diam id amet nibh quam rutrum diam fermentum diam natoque scelerisque viverra molestie fames...</p>
-                        <div class="d-flex flex-wrap align-items-center mt-n2"><a class="nav-link text-muted fs-sm fw-normal p-0 mt-2 me-3" href="#">8<i class="ai-share fs-lg ms-1"></i></a><a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">5<i class="ai-message fs-lg ms-1"></i></a><span class="fs-xs opacity-20 mt-2 mx-3">|</span><span class="fs-sm text-muted mt-2">April 25, 2022</span><span class="fs-xs opacity-20 mt-2 mx-3">|</span><a class="badge text-nav fs-xs border mt-2" href="#">Travel</a></div>
-                    </div>
+                <div class="modal-body">
+                    <p>Do you want to delete your comment?</p>
                 </div>
-            </article>
-            <!-- Post-->
-            <article class="row g-0 border-0 pt-3 pt-sm-0 mb-4">
-                <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="blog-single-v1.html" style="background-image: url(assets/img/blog/list/04.jpg); min-height: 14rem"></a>
-                <div class="col-sm-7">
-                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                        <h3><a href="blog-single-v1.html">Promotion of an online store from scratch, first sales</a></h3>
-                        <p class="d-sm-none d-md-block">Pharetra in morbi quis is massa maecenas arcu vulputate pulvinar elit non nullage a, duis tortor mi massa ipsum in eu eu eget libero pulvinar elit...</p>
-                        <div class="d-flex flex-wrap align-items-center mt-n2"><a class="nav-link text-muted fs-sm fw-normal p-0 mt-2 me-3" href="#">11<i class="ai-share fs-lg ms-1"></i></a><a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">3<i class="ai-message fs-lg ms-1"></i></a><span class="fs-xs opacity-20 mt-2 mx-3">|</span><span class="fs-sm text-muted mt-2">May 12, 2022</span><span class="fs-xs opacity-20 mt-2 mx-3">|</span><a class="badge text-nav fs-xs border mt-2" href="#">Marketing</a></div>
-                    </div>
-                </div>
-            </article>
-            <!-- Post-->
-            <article class="row g-0 border-0 pt-3 pt-sm-0 mb-4">
-                <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="blog-single-v2.html" style="background-image: url(assets/img/blog/list/05.jpg); min-height: 14rem"></a>
-                <div class="col-sm-7">
-                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                        <h3><a href="blog-single-v2.html">New series from Netflix</a></h3>
-                        <p class="d-sm-none d-md-block">Egestas in neque scelerisque semper sit at eu cursus faucibus velit cras at aliquam sed dictum at at orci curabitur dictumst viverra non pharetra etiam non, vitae tristique eu in morbi felis morbi nulla fermentum diam natoque...</p>
-                        <div class="d-flex flex-wrap align-items-center mt-n2"><a class="nav-link text-muted fs-sm fw-normal p-0 mt-2 me-3" href="#">19<i class="ai-share fs-lg ms-1"></i></a><a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">7<i class="ai-message fs-lg ms-1"></i></a><span class="fs-xs opacity-20 mt-2 mx-3">|</span><span class="fs-sm text-muted mt-2">December 15, 2022</span><span class="fs-xs opacity-20 mt-2 mx-3">|</span><a class="badge text-nav fs-xs border mt-2" href="#">TV shows</a></div>
-                    </div>
-                </div>
-            </article>
-            <!-- Pagination-->
-            <div class="row gy-3 align-items-center mt-lg-5 pt-2 pt-md-4 pt-lg-0">
-                <div class="col col-md-4 col-6 order-md-1 order-1">
-                    <div class="d-flex align-items-center">
-                        <span class="text-muted fs-sm">Show</span>
-                        <select class="form-select form-select-flush w-auto">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="25">25</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col col-md-4 col-12 order-md-2 order-3 text-center">
-                    <button class="btn btn-primary w-md-auto w-100" type="button">Load more posts</button>
-                </div>
-                <div class="col col-md-4 col-6 order-md-3 order-2">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-sm justify-content-end">
-                            <li class="page-item active" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        </ul>
-                    </nav>
+                <div class="modal-footer flex-column flex-sm-row">
+                    <button type="button" class="btn ripple btn-secondary w-100 w-sm-auto mb-sm-0"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="cmntDeleteConfirm()"
+                            class="btn btn-danger ripple w-100 w-sm-auto ms-sm-3">
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>
-        <!-- Sidebar (offcanvas on sreens < 992px)-->
-        <aside class="col-lg-3">
-            <div class="offcanvas-lg offcanvas-end" id="sidebarBlog">
-                <div class="offcanvas-header">
-                    <h4 class="offcanvas-title">Sidebar</h4>
-                    <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" data-bs-target="#sidebarBlog"></button>
+    </div>
+    <div class="modal fade" id="mdlreplyDelete" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
-                    <!-- Search box-->
-                    <div class="position-relative mb-4 mb-lg-5">
-                        <i class="ai-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                        <input class="form-control ps-5" type="search" placeholder="Enter keyword">
-                    </div>
-                    <!-- Category links-->
-                    <h4 class="pt-1 pt-lg-0 mt-lg-n2">Categories:</h4>
-                    <ul class="nav flex-column mb-lg-5 mb-4">
-                        <li class="mb-2"><a class="nav-link d-flex p-0 active" href="#">All categories<span class="fs-sm text-muted ms-2">(110)</span></a></li>
-                        <li class="mb-2"><a class="nav-link d-flex p-0" href="#">Inspiration<span class="fs-sm text-muted ms-2">(34)</span></a></li>
-                        <li class="mb-2"><a class="nav-link d-flex p-0" href="#">Brand strategy<span class="fs-sm text-muted ms-2">(8)</span></a></li>
-                        <li class="mb-2"><a class="nav-link d-flex p-0" href="#">Advertisement<span class="fs-sm text-muted ms-2">(45)</span></a></li>
-                        <li class="mb-2"><a class="nav-link d-flex p-0" href="#">Ecommerce<span class="fs-sm text-muted ms-2">(17)</span></a></li>
-                        <li><a class="nav-link d-flex p-0" href="#">Travel &amp; Vacation<span class="fs-sm text-muted ms-2">(6)</span></a></li>
-                    </ul>
-                    <!-- Featured posts widget-->
-                    <h4 class="pt-3 pt-lg-0 pb-1">Trending posts:</h4>
-                    <div class="mb-lg-5 mb-4">
-                        <article class="position-relative d-flex align-items-center mb-4">
-                            <img class="rounded" src="assets/img/blog/sidebar/01.jpg" width="92" alt="Post image">
-                            <div class="ps-3">
-                                <h4 class="h6 mb-2"><a class="stretched-link" href="blog-single-v1.html">Instagram trends that will definitely work</a></h4><span class="fs-sm text-muted">13 hours ago</span>
-                            </div>
-                        </article>
-                        <article class="position-relative d-flex align-items-center mb-4">
-                            <img class="rounded" src="assets/img/blog/sidebar/02.jpg" width="92" alt="Post image">
-                            <div class="ps-3">
-                                <h4 class="h6 mb-2"><a class="stretched-link" href="blog-single-v2.html">A session with a psychologist</a></h4><span class="fs-sm text-muted">May 12, 2022</span>
-                            </div>
-                        </article>
-                        <article class="position-relative d-flex align-items-center">
-                            <img class="rounded" src="assets/img/blog/sidebar/03.jpg" width="92" alt="Post image">
-                            <div class="ps-3">
-                                <h4 class="h6 mb-2"><a class="stretched-link" href="blog-single-v3.html">How to look for inspiration for new goals</a></h4><span class="fs-sm text-muted">June 10, 2022</span>
-                            </div>
-                        </article>
-                    </div>
-                    <!-- Social buttons-->
-                    <h4 class="pt-3 pt-lg-0 pb-1">Join us:</h4>
-                    <div class="mt-n3 ms-n3 mb-lg-5 mb-4 pb-3 pb-lg-0"><a class="btn btn-secondary btn-icon btn-sm btn-instagram rounded-circle mt-3 ms-3" href="#"><i class="ai-instagram"></i></a><a class="btn btn-secondary btn-icon btn-sm btn-facebook rounded-circle mt-3 ms-3" href="#"><i class="ai-facebook"></i></a><a class="btn btn-secondary btn-icon btn-sm btn-telegram rounded-circle mt-3 ms-3" href="#"><i class="ai-telegram"></i></a><a class="btn btn-secondary btn-icon btn-sm btn-twitter rounded-circle mt-3 ms-3" href="#"><i class="ai-twitter"></i></a></div>
-                    <!-- Banner-->
-                    <div class="position-relative mb-3">
-                        <div class="ignore-dark-mode position-absolute w-100 text-center top-0 start-50 translate-middle-x pt-4" style="max-width: 15rem;">
-                            <h3 class="h2 pt-3 mb-0">Your banner here!</h3>
-                        </div><img class="rounded-5" src="assets/img/blog/sidebar/banner.jpg" alt="Banner">
-                    </div>
+                <div class="modal-body">
+                    <p>Do you want to delete your reply?</p>
+                </div>
+                <div class="modal-footer flex-column flex-sm-row">
+                    <button type="button" class="btn ripple btn-secondary w-100 w-sm-auto mb-sm-0"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="replyDeleteConfirm()"
+                            class="btn btn-danger ripple w-100 w-sm-auto ms-sm-3">
+                        Delete
+                    </button>
                 </div>
             </div>
-        </aside>
+        </div>
     </div>
-</div>
-<!-- Sidebar toggle button-->
-<button class="d-lg-none btn btn-sm fs-sm btn-primary w-100 rounded-0 fixed-bottom" data-bs-toggle="offcanvas" data-bs-target="#sidebarBlog"><i class="ai-layout-column me-2"></i>Sidebar</button>
+
+    <div class="modal fade" id="mdlEdit" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <textarea class="form-control" rows="4" id="blog_commentEdit"
+                                  placeholder="Type your comment here...(markups can be used and will be rendered as it is)"
+                                  required=""></textarea>
+                    </p>
+                </div>
+                <div class="modal-footer flex-column flex-sm-row">
+                    <button type="button" class="btn ripple btn-secondary w-100 w-sm-auto mb-sm-0"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="cmntEditSave()"
+                            class="btn btn-primary ripple w-100 w-sm-auto ms-sm-3">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mdlReply" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <textarea class="form-control" rows="4" id="blog_replyEdit"
+                                  placeholder="Type your reply here..."></textarea>
+                    </p>
+                </div>
+                <div class="modal-footer flex-column flex-sm-row">
+                    <button type="button" class="btn btn-secondary ripple w-100 w-sm-auto mb-sm-0"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="replyEditSave()"
+                            class="btn btn-primary ripple w-100 w-sm-auto ms-sm-3">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="mdladdReply" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Reply</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <textarea class="form-control" rows="4" id="addReplybox"
+                                  placeholder="Type your reply here..."></textarea>
+                        <input id="addReplyboxid" style="display:none" value="" />
+                    </p>
+                </div>
+                <div class="modal-footer flex-column flex-sm-row">
+                    <button type="button" class="btn btn-secondary ripple w-100 w-sm-auto mb-sm-0" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" onclick="replAdd()" class="btn ripple btn-primary w-100 w-sm-auto ms-sm-3">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments-->
+
+    <div class="pt-4 pt-xl-5 mt-4" id="blog_comments">
+
+        <div class="border-top border-bottom">
+            <!-- Comments collapse-->
+            <hr />
+            <div class="collapse" id="commentsCollapse">
+                <div id="comments"></div>
+            </div>
+            <div class="nav">
+                <button class="btn-more nav-link collapsed w-100 justify-content-center p-3" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#commentsCollapse" aria-expanded="false"
+                        aria-controls="commentsCollapse" data-show-label="Show all comments"
+                        data-hide-label="Hide all comments">
+                    <span class="fw-normal opacity-70 ms-1">
+                        (<span id="blogcount">@Model.commentscounter</span>)
+                    </span>
+                </button>
+            </div>
+
+            <!-- Comment form-->
+
+        </div>
+    </div>
+</section>
+
+<section class="container pt-5 mt-5">
+    <div class="card border-0 bg-secondary pt-2 pb-2 mt-2 p-md-2 p-xl-3 p-xxl-4 mt-n3 mt-md-0">
+        <div class="card-body">
+            @{
+                string role;
+                try
+                {
+
+                    role = HttpContext.Session.GetString("role");
+                }
+                catch
+                {
+                    role = "guest";
+                }
+
+            }
+            @if (role != null)
+            {
+                if (role != null && (role == "user" || role == "admin"))
+                {
+                    <h2 class="pb-2 pb-lg-3 pb-xl-4">Leave a comment</h2>
+                    <div class="row needs-validation g-4" novalidate>
+                        <div class="col-12">
+                            <label class="form-label" for="c-comment">Comment</label>
+                            <textarea class="form-control" rows="4" id="blog_comment" placeholder="Type your comment here..."
+                                      required></textarea>
+                            <div class="invalid-feedback">Please enter a comment message!</div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" id="commentbutton" type="button" onclick="addcomment()">
+                                Post
+                                Comment
+                            </button>
+                        </div>
+                    </div>
+                    <span id="commentstat"></span>
+                }
+                else
+                {
+                    <span><a style="text-decoration:none" href="/account/login">login</a> to comment</span>
+                }
+            }
+            else
+            {
+                <span><a style="text-decoration:none" href="/account/login">login</a> to comment</span>
+            }
+        </div>
+    </div>
+</section>
+
+<button class="d-lg-none btn btn-sm fs-sm btn-primary w-100 rounded-0 fixed-bottom" data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar">
+    <i class="ai-layout-column me-2"></i>Sidebar @ViewData["username"]
+</button>
+
+@section jsScripts
+    {
+    @*@await Html.PartialAsync("Scripts/Development/_Blog")*@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadImages();
+            loadComments();
+            loadAuthors();
+            loadTags();
+            //setTimeout(load_images, 20);
+            //setTimeout(load_comments, 1000);
+        });
+        async function loadComments() {
+        @{
+            if (HttpContext.Session.GetString("role") != null && HttpContext.Session.GetString("role") != "" && HttpContext.Session.GetString("role") != "guest")
+            {
+                ViewData["BlogRole"] = HttpContext.Session.GetString("role").ToString();
+            }
+            else
+            {
+                ViewData["BlogRole"] = "guest";
+            }
+        }
+
+                            var roleData = "@ViewData["BlogRole"]";
+            $.ajax({
+                type: 'POST',
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=LdComments',
+                success: function (response) {
+                    const data = JSON.parse(response);
+                    data.sort((a, b) => a.id - b.id);
+                    let commentsHTML = "";
+                    for (let i = 0; i < data.length; i++) {
+                        const comment = data[i];
+                        var c = i + 1;
+                        commentsHTML += '<div class="border-bottom py-4 mt-2 mb-4">' +
+                            '<div class="d-flex align-items-center pb-1 mb-3"> <img class="rounded-circle" src="/assets/images/avatars/default/' + comment.avatar + '.png" width="48" alt="Comment author">' +
+                            '<div class="ps-3">' +
+                            '<h6 class="mb-0">' + comment.fullname + ' </h6><span class="fs-sm text-muted">' + comment.date + '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="btn-group-sm me-2 ml-2 mx-2" style="float:right;" role="group" aria-label="Settings group">' +
+                            (roleData !== 'guest' ? '<button type="button" id="repl_' + comment.id + '" onclick="cmntReply(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-redo"></i></button>&nbsp;' : '') +
+                            (comment.edit ? '<button type="button" id="edt_' + comment.id + '" onclick="cmntEdit(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;' : '') +
+                            (comment.edit ? '<button type="button" id="dlt_' + comment.id + '" onclick="cmntDelete(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;' : '') +
+                            '</div>' +
+                            '<span class="pb-2 mb-0" id="cm_' + comment.id + '">' + comment.comment + '</span>';
+
+                        if (comment.replies && comment.replies.length > 0) {
+                            comment.replies.sort((a, b) => a.replyId - b.replyId);
+                            for (let j = 0; j < comment.replies.length; j++) {
+                                const reply = comment.replies[j];
+                                //commentsHTML +=
+                                //    `<div class="card card-body border-0 bg-secondary mt-4">`+
+                                //                `<div class="d-flex align-items-center pb-1 mb-3">`+
+                                //                    `<img class="rounded-circle" src="/assets/images/avatars/default/${reply.replyAvatar}.png" width="48" alt="Comment author">`+
+                                //    `<div class="ps-3" > `+
+                                //    `<h6 class="mb-0">${reply.replyFullName}</h6><span class="fs-sm text-muted">${reply.replyDate}</span>` +
+                                //       `</div></div>`+
+                                //        `<div class="d-flex align-items-center justify-content-between mb-3" role = "group" aria - label="Settings group" > `+
+                                //        `<p class="mb-0"><a class="fw-bold text-decoration-none" href="#">@@${comment.fullname}</a>&nbsp;&nbsp;<span id="reply_${reply.replyId}">${reply.replyComment}</span></p>` +
+                                //            `<div>`+
+                                //             `${reply.replyEdit ? `<button type="button" id="edt${reply.replyId}" onclick="replyEdit(${reply.replyId})" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;` : ''}` +
+                                //                         `${reply.replyEdit ? `<button type="button" id="repldlt_${reply.replyId}" onclick="replyDelete(${reply.replyId})" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;` : ''}`+
+                                //            `</div>`+
+                                //        `</div>`+
+                                //        `</div> `;
+                                commentsHTML +=
+                                    '<div class="card card-body border-0 bg-secondary mt-4">' +
+                                    '    <div class="d-flex align-items-center pb-1 mb-3">' +
+                                    '        <img class="rounded-circle" src="/assets/images/avatars/default/' + reply.replyAvatar + '.png" width="48" alt="Comment author">' +
+                                    '        <div class="ps-3">' +
+                                    '            <h6 class="mb-0">' + reply.replyFullName + '</h6><span class="fs-sm text-muted">' + reply.replyDate + '</span>' +
+                                    '        </div>' +
+                                    '    </div>' +
+                                    '    <div class="d-flex align-items-center justify-content-between mb-3" role="group" aria-label="Settings group">' +
+                                    '        <p class="mb-0"><a class="fw-bold text-decoration-none" href="#">@@' + comment.fullname + '</a>&nbsp;&nbsp;<span id="reply_' + reply.replyId + '">' + reply.replyComment + '</span></p>' +
+                                    '        <div>' +
+                                    (reply.replyEdit ? '            <button type="button" id="edt' + reply.replyId + '" onclick="replyEdit(' + reply.replyId + ')" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;' : '') +
+                                    (reply.replyEdit ? '            <button type="button" id="repldlt_' + reply.replyId + '" onclick="replyDelete(' + reply.replyId + ')" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;' : '') +
+                                    '        </div>' +
+                                    '    </div>' +
+                                    '</div>';
+
+                            }
+                        }
+                        commentsHTML += `</div>`;
+                    }
+
+                    document.getElementById("comments").innerHTML = commentsHTML;
+                    document.getElementById("blogcount").innerHTML = c;
+
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                }
+            });
+
+
+
+        }
+
+        async function loadImages() {
+            const elements = document.querySelectorAll('.img_placeholder');
+            elements.forEach(element => {
+                const originalString = element.getAttribute("src");
+                const modifiedString = originalString.replace(new RegExp("_placeholder", 'g'), '');
+                element.setAttribute("src", modifiedString);
+            });
+        }
+
+        function addcomment() {
+            $("#commentbutton").html(' <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>posting.. ');
+            $("#commentbutton").attr("class", "btn btn-primary pe-none");
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                type: "POST",
+                url: "/blog/@Model.YearPosted/@Model.UrlHandle?handler=AddComment", contentType: 'application/json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    BlogUrl: "@ViewData["blogurl"]",
+                    Comment: $("#blog_comment").val()
+                }),
+                success: function (data) {
+                    $("#commentbutton").html('Post Comment');
+                    $("#commentbutton").attr("class", "btn btn-primary");
+                    $("#commentstat").html("<div class=\"subscription-status mx-auto status-" + data.type + "\">" + data.message + "</div>");
+                    if (data.type == "success") {
+                        loadComments();
+                        document.getElementById("blog_comment").value = "";
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("Error:", errorThrown.e);
+                    $("#commentbutton").html('Post Comment');
+                    $("#commentbutton").attr("class", "btn btn-primary");
+                    $("#commentstat").html("<div class=\"subscription-status mx-auto status-error\">connection issue..</div>");
+                }
+            });
+            startTimeout();
+        }
+
+        let timeoutmail;
+        function startTimeout() {
+            clearTimeout(timeoutmail);
+            timeoutmail = setTimeout(() => {
+                document.getElementById("commentstat").innerHTML = "";
+            }, 5000);
+        }
+
+        async function loadAuthors() {
+            axios.get('/blog/@Model.YearPosted/@Model.UrlHandle?handler=LoadAuthors&blogId=' + @Model.BlogId)
+                .then(response => {
+                    const data = JSON.parse(response.data);
+                    var authorsdat = "";
+                    var authorsdat2 = "";
+                    if (data.length != 0) {
+                        for (var i = 0; i < data.length; i++) {
+
+                            authorsdat2 = authorsdat2 + data[i].firstName + ' , ';
+                        }
+                        document.getElementById('authorsPlaceholder2').innerHTML = authorsdat2.slice(0, authorsdat2.lastIndexOf(',')) + authorsdat2.slice(authorsdat2.lastIndexOf(',') + 1);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('authorsPlaceholder2').innerHTML = "unable to fetch authors' data";
+                });
+
+        }
+
+        function cmntEdit(id) {
+            localStorage.removeItem("editid");
+            localStorage.setItem('editid', id);
+            const v = localStorage.getItem('editid');
+            $('#mdlEdit').modal('show');
+            var cmntid = "cm_" + id;
+            var p = document.getElementById(cmntid).innerHTML;
+            document.getElementById("blog_commentEdit").value = p;
+            if (p == "" || p == null) {
+                document.getElementById("blog_commentEdit").value = p;
+                alert("entity");
+            }
+        }
+
+        function replyEdit(id) {
+            localStorage.removeItem("replyid");
+            localStorage.setItem('replyid', id);
+            const v = localStorage.getItem('replyid');
+            $('#mdlReply').modal('show');
+            var replid = "reply_" + id;
+            var p = document.getElementById(replid).innerHTML;
+            document.getElementById("blog_replyEdit").value = p;
+            if (p == "" || p == null) {
+                document.getElementById("blog_replyEdit").value = p;
+                alert("entity");
+            }
+        }
+
+        function cmntEditSave() {
+            $.ajax({
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=CommentsEdit',
+                type: 'POST',
+                data: {
+                    id: localStorage.getItem('editid'),
+                    comment: $("#blog_commentEdit").val()
+                },
+                success: function (data) {
+                    loadComments();
+                    $('#mdlEdit').modal('hide');
+                    $("#blog_commentEdit").val() == "";
+                    localStorage.removeItem("editid");
+                },
+                error: function () {
+                    alert("something went wrong");
+                }
+            });
+
+        }
+
+        function replyEditSave() {
+            $.ajax({
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=ReplyEdit',
+                type: 'POST',
+                data: {
+                    id: localStorage.getItem('replyid'),
+                    reply: $("#blog_replyEdit").val()
+                },
+                success: function (data) {
+                    loadComments();
+                    $('#mdlReply').modal('hide');
+                    $("#blog_replyEdit").val() == "";
+                    localStorage.removeItem("replyid");
+                },
+                error: function () {
+                    alert("something went wrong");
+                }
+            });
+
+        }
+
+        function cmntDelete(id) {
+            localStorage.setItem('delid', id);
+            const v = localStorage.getItem('delid');
+            $('#mdlDelete').modal('show');
+        }
+
+        function cmntDeleteConfirm() {
+            $.ajax({
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=OnDelete&id=' + localStorage.getItem('delid') + '&type=comment',
+                type: 'DELETE',
+                success: function (data) {
+                    loadComments();
+                },
+                error: function () {
+                    alert("something went wrong");
+                }
+            });
+            $('#mdlDelete').modal('hide');
+            localStorage.removeItem('delid');
+        }
+
+
+
+        function cmntReply(id) {
+            localStorage.setItem('replyto', id);
+            const v = localStorage.getItem('replyto');
+            document.getElementById("addReplybox").value = "";
+            $('#mdladdReply').modal('show');
+        }
+
+        function replAdd() {
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                type: "POST",
+                url: "/blog/@Model.YearPosted/@Model.UrlHandle?handler=AddReply", contentType: 'application/json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    BlogUrl: "@ViewData["blogurl"]",
+                    ReplyText: $("#addReplybox").val(),
+                    CommentId: localStorage.getItem('replyto')
+                }),
+                success: function (data) {
+                    if (data.type == "success") {
+                        loadComments();
+                        $('#mdladdReply').modal('hide');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("Error:", errorThrown.e);
+                }
+            });
+
+        }
+
+        function replyDelete(id) {
+            localStorage.setItem('delid', id);
+            const v = localStorage.getItem('delid');
+            $('#mdlreplyDelete').modal('show');
+        }
+        function replyDeleteConfirm() {
+            $.ajax({
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=OnDelete&id=' + localStorage.getItem('delid') + '&type=reply',
+                type: 'DELETE',
+                success: function (data) {
+                    loadComments();
+                },
+                error: function () {
+                    alert("something went wrong");
+                }
+            });
+            $('#mdlreplyDelete').modal('hide');
+            localStorage.removeItem('delid');
+        }
+
+        function loadTags() {
+            var input = '@Model.BlogTags';
+            var parts = input.split(',');
+            var tags = "";
+            parts.forEach(function (part) {
+                var words = part.split(' ');
+                for (var i = 0; i < words.length; i++) {
+                    tags = tags + `<a class="btn btn-outline-secondary rounded-pill mt-3 ms-3" href="/blogs/tag/${words[i]}">${words[i]}</a>`;
+                }
+            });
+            document.getElementById('tagsPlaceholder').innerHTML = tags;
+
+        }
+
+
+    </script>
+
+}

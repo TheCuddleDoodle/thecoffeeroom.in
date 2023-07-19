@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Coffeeroom.Pages.Account
+namespace Coffeeroom.Pages.Test
 {
-    public class PasswordRecoveryModel : PageModel
+    public class AlpineModel : PageModel
     {
         public void OnGet()
         {

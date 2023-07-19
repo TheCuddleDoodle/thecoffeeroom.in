@@ -17,7 +17,7 @@
                 <label class="form-check-label" for="theme-mode"><i class="ai-sun fs-lg"></i></label>
                 <label class="form-check-label" for="theme-mode"><i class="ai-moon fs-lg"></i></label>
             </div>
-            <div class="nav align-items-center order-lg-3 ms-n1 me-3 me-sm-2" hidden>
+            <div class="nav align-items-center order-lg-3 ms-n1 me-3 me-sm-2">
                 <a class="nav-link fs-4 p-2 mx-sm-1" id="search_trigger_a" href="#searchModal" data-bs-toggle="modal"><i class="ai-search"></i></a>
             </div>
             <!-- User signed in state. Account dropdown on screens > 576px-->
@@ -38,17 +38,17 @@
                     </div>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-end my-1">
+                <div class="dropdown-menu dropdown-menu-end my-1" >
                     <h6 class="dropdown-header fs-xs fw-medium text-muted text-uppercase pb-1">@ViewData["role"]</h6>
                     @if (ViewData["role"].ToString() == "guest")
                     {
-                        <a class="dropdown-item disabled" href="/account/login"><i class="ai-user-check fs-lg opacity-70 me-2"></i>Log In</a>
+                        <a class="dropdown-item" href="/account/login"><i class="ai-user-check fs-lg opacity-70 me-2"></i>Log In</a>
                     }
                     @if (ViewData["role"].ToString() == "admin")
                     {
-                        <a class="dropdown-item " href="/admin"><i class="ai-settings fs-lg opacity-70 me-2"></i>Admin Panel</a>
+                        <a class="dropdown-item" href="/admin"><i class="ai-settings fs-lg opacity-70 me-2"></i>Admin Panel</a>
                     }
-                    <a class="dropdown-item disabled" href="/account/personalize"><i class="ai-paint-roll fs-lg opacity-70 me-2"></i>Personalize</a>
+                    <a class="dropdown-item" href="/account/personalize"><i class="ai-paint-roll fs-lg opacity-70 me-2"></i>Personalize</a>
 
                     @if (ViewData["role"].ToString() == "admin" || ViewData["role"].ToString() == "user")
                     {
@@ -58,7 +58,6 @@
                         <a class="dropdown-item" href="#"><i class="ai-heart fs-lg opacity-70 me-2"></i>Favourites</a>
                         <a class="dropdown-item" href="javascriptVoid(0)" data-bs-toggle="modal" data-bs-target="#modalLogout"><i class="ai-logout fs-lg opacity-70 me-2"></i>Log Out</a>
                     }
-
                 </div>
             </div>
             <button class="navbar-toggler ms-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
@@ -71,9 +70,9 @@
                                 <div class="mega-dropdown-column pt-1 pt-lg-3 pb-lg-4">
                                     <ul class="list-unstyled mb-0">
                                         <li><a class="dropdown-item @(ViewData["ActivePage"].ToString() == "Home" ? "active" : "") " href="/">Home</a><span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 rounded-3 rounded-start-0" style="background-image: url(/assets/images/megamenu/music.jpg);"></span></li>
-                                        <li><a class="dropdown-item disabled @(ViewData["ActivePage"].ToString() == "Music" ? "active" : "")" href="/music">Music</a><span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 zindex-2 opacity-0" style="background-image: url(/assets/images/megamenu/music.jpg);"></span></li>
-                                        <li><a class="dropdown-item disabled @(ViewData["ActivePage"].ToString() == "Gallery" ? "active" : "")" href="/gallery">Gallery</a> <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 zindex-2 opacity-0" style="background-image: url(/assets/images/megamenu/music.jpg);"></span></li>
-                                        <li><a class="dropdown-item disabled @(ViewData["ActivePage"].ToString() == "Blogs" ? "active" : "") " href="/blogs">Blogs</a> <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 zindex-2 opacity-0" style="background-image: url(/assets/images/megamenu/archive.jpg);"></span></li>
+                                        <li><a class="dropdown-item @(ViewData["ActivePage"].ToString() == "Music" ? "active" : "")" href="/music">Music</a><span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 zindex-2 opacity-0" style="background-image: url(/assets/images/megamenu/music.jpg);"></span></li>
+                                        <li><a class="dropdown-item @(ViewData["ActivePage"].ToString() == "Gallery" ? "active" : "")" href="/gallery">Gallery</a> <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 zindex-2 opacity-0" style="background-image: url(/assets/images/megamenu/music.jpg);"></span></li>
+                                        <li><a class="dropdown-item @(ViewData["ActivePage"].ToString() == "Blogs" ? "active" : "") " href="/blogs">Blogs</a> <span class="mega-dropdown-column position-absolute top-0 end-0 h-100 bg-size-cover bg-repeat-0 zindex-2 opacity-0" style="background-image: url(/assets/images/megamenu/archive.jpg);"></span></li>
                                     </ul>
                                 </div>
                                 <div class="mega-dropdown-column position-relative border-start zindex-3"></div>
@@ -85,35 +84,35 @@
                            data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Pages</a>
                         <ul class="dropdown-menu">
                             <li class="dropdown">
-                                <a class="dropdown-item dropdown-toggle disabled" id="nav_music_pages" href="#" data-bs-toggle="dropdown" aria-expanded="false">Music</a>
+                                <a class="dropdown-item dropdown-toggle " id="nav_music_pages" href="#" data-bs-toggle="dropdown" aria-expanded="false">Music</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item disabled" href="/music">Home</a></li>
-                                    <li><a class="dropdown-item disabled" href="#">Singles</a></li>
-                                    <li><a class="dropdown-item disabled" href="#">Albums</a></li>
-                                    <li><a class="dropdown-item disabled" href="#">Discography</a></li>
+                                    <li><a class="dropdown-item" href="/music">Home</a></li>
+                                    <li><a class="dropdown-item" href="#">Singles</a></li>
+                                    <li><a class="dropdown-item" href="#">Albums</a></li>
+                                    <li><a class="dropdown-item" href="#">Discography</a></li>
                                 </ul>
                             </li>
 
 
                             <li class="dropdown">
-                                <a class="dropdown-item disabled @(ViewData["ActivePage"].ToString() == "Gallery" ? "active" : "")" href="/gallery">Gallery</a>
+                                <a class="dropdown-item @(ViewData["ActivePage"].ToString() == "Gallery" ? "active" : "")" href="/gallery">Gallery</a>
                             </li>
                             <li class="dropdown">
-                                <a class="dropdown-item disabled @(ViewData["ActivePage"].ToString() == "Apps" ? "active" : "")" href="/apps">Apps</a>
+                                <a class="dropdown-item @(ViewData["ActivePage"].ToString() == "Apps" ? "active" : "")" href="/apps">Apps</a>
                             </li>
                             <li class="dropdown">
                                 <a class="dropdown-item @(ViewData["ActivePage"].ToString() == "Blogs" ? "active" : "")" href="/blogs">Blogs</a>
                             </li>
                             <li class="dropdown">
-                                <a class="dropdown-item disabled" href="/archives">Archives</a>
+                                <a class="dropdown-item" href="/archives">Archives</a>
                             </li>
                             <li class="dropdown">
-                                <a class="dropdown-item disabled" href="/shop">Shop</a>
+                                <a class="dropdown-item"  href="/shop">Shop</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="nav-item"><a class="nav-link disabled" href="/me">Me</a></li>
+                    <li class="nav-item"><a class="nav-link " href="/me">Me</a></li>
 
                     <li class="nav-item dropdown d-sm-none border-top mt-2 pt-2">
                         <a class="nav-link" href="#"
@@ -146,7 +145,7 @@
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header fs-xs fw-medium text-muted text-uppercase pb-1">Account</h6>
                                 <a class="dropdown-item" href="/account"><i class="ai-user-check fs-lg opacity-70 me-2"></i>Profile</a>
-                                <a class="dropdown-item disabled" id="mobile_nav_favourites" href="#"><i class="ai-heart fs-lg opacity-70 me-2"></i>Favourites</a>
+                                <a class="dropdown-item" id="mobile_nav_favourites" href="#"><i class="ai-heart fs-lg opacity-70 me-2"></i>Favourites</a>
                                 <a class="dropdown-item" href="javascriptVoid(0)" data-bs-toggle="modal" data-bs-target="#modalLogout"><i class="ai-logout fs-lg opacity-70 me-2"></i>Log Out</a>
                             }
 

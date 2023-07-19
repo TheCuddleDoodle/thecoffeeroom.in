@@ -48,14 +48,14 @@
     <!-- Viewport-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="assets/favicon/site.webmanifest">
-    <link rel="mask-icon" color="#6366f1" href="assets/favicon/safari-pinned-tab.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/site.webmanifest">
+    <link rel="mask-icon" color="#6366f1" href="/assets/favicon/safari-pinned-tab.svg">
     <meta name="msapplication-TileColor" content="#080032">
-    <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
-    <meta name="theme-color" content="white">
+    <meta name="msapplication-config" content="/assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="white">    
      <script>
       let mode = window.localStorage.getItem('mode'),
           root = document.getElementsByTagName('html')[0];
@@ -72,7 +72,7 @@
           preloader.classList.remove('active');
           setTimeout(function () {
             preloader.remove();
-          }, 1500);
+          },800);
         };
       })();
       
@@ -81,19 +81,59 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" id="google-font">
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://umbrellajs.com/umbrella.min.js"></script>
+
     <!-- Vendor styles-->
     <link href="~/libraries/aos/aos.css" rel="stylesheet" />
     
     <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="assets/css/theme.min.css">
-    @await RenderSectionAsync("cssLib", required: false)
-    <link rel="stylesheet" href="~/assets/css/coffeeroom.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/assets/css/theme.min.css"/>
-     
-    @await RenderSectionAsync("cssStyles", required: false)
-    <!-- overrides -->
+    <link rel="stylesheet" media="screen" href="/assets/css/theme.min.css">
+    @await RenderSectionAsync("cssLib", required: false) 
+    
+
     <link rel="stylesheet" href="~/Coffeeroom.styles.css" asp-append-version="true" />
+
+    <environment include="development">
+        <link rel="stylesheet" href="~/assets/css/coffeeroom.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/css/theme.css" />
+    </environment>
+    <environment include="production">
+        <link rel="stylesheet" href="~/assets/css/coffeeroom.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/css/theme.min.css" />
+    </environment>
+    <style>
+        :root {
+            --ar-primary: #8d7aa8;
+            --ar-primary-rgb: 141,122,168;
+            --ar-border-radius: 0.1rem;
+            --ar-link-color: #8d7aa8;
+            --ar-link-hover-color: #74618f;
+        }
+
+        .btn-primary {
+            --ar-btn-bg: #8d7aa8;
+            --ar-btn-border-color: #8d7aa8;
+            --ar-btn-hover-bg: #74618f;
+            --ar-btn-hover-border-color: #74618f;
+            --ar-btn-active-bg: #74618f;
+            --ar-btn-active-border-color: #74618f;
+            --ar-btn-disabled-bg: #8d7aa8;
+            --ar-btn-disabled-border-color: #8d7aa8;
+        }
+
+        .btn-outline-primary {
+            --ar-btn-color: #8d7aa8;
+            --ar-btn-border-color: #8d7aa8;
+            --ar-btn-hover-bg: #8d7aa8;
+            --ar-btn-hover-border-color: #8d7aa8;
+            --ar-btn-active-bg: #8d7aa8;
+            --ar-btn-active-border-color: #8d7aa8;
+            --ar-btn-disabled-color: #8d7aa8;
+            --ar-btn-disabled-border-color: #8d7aa8;
+        }
+    </style>
+    @await RenderSectionAsync("cssStyles", required: false)
 </head>
 <body class="@ViewData["BodyBg"]">
     <div class="page-loading active">
@@ -102,36 +142,24 @@
         </div>
     </div>
     <main class="page-wrapper">
-        @await Html.PartialAsync("NavBars/Default")
-        <environment include="production">
-            <div>
-                falana production
-            </div>
-        </environment>
-        <environment include="development">
-            <div>
-                falana development
-            </div>
-        </environment>
-        
+       @*@await Html.PartialAsync("NavBars/Default")*@
         @RenderBody()
         @await Html.PartialAsync("Modals/_Modals")
     </main>
-        @await Html.PartialAsync("Footers/Default")
+    @await Html.PartialAsync("Footers/Default")
 
-    <!-- Back to top button-->
     <a class="btn-scroll-top" href="#top" data-scroll>
         <svg viewBox="0 0 40 40" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"></circle>
         </svg><i class="ai-arrow-up"></i>
     </a>
 
-
-    <!-- Vendor scripts: js libraries and plugins-->
     <script src="~/libraries/axios/axios.min.js"></script>
     <script>
+        
         function livesearch() {
-            document.getElementById("search_stat").innerHTML = `Search <i class="ai-clock mb-1"></i>`;
+            u('#search_stat').html('Search <i class="ai-clock mb-1"></i>');
+            //document.getElementById("search_stat").innerHTML = `Search <i class="ai-clock mb-1"></i>`;
             let ddr = document.getElementById("global_search").value;
             if (ddr.length >= 2) {
                 axios.get('/api/livesearch/all/' + ddr)
@@ -146,30 +174,36 @@
                             sb.append(' <span class="fs-sm text-muted ms-auto">' + response.data[i].description + '</span>');
                             sb.append('</div></div>');
                         }
-                        document.getElementById("search_results").innerHTML = sb.toString();
-                        document.getElementById("search_stat").innerHTML = `Search`;
+                        u('#search_results').html(sb.toString());
+                        u('#search_stat').html('Search');
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        document.getElementById("search_stat").innerHTML = `Search`;
-                        document.getElementById("search_results").innerHTML = '';
+                        u('#search_stat').html('Search');
+                        u('#search_results').html('');
                     });
             }
             else {
-                document.getElementById("search_results").innerHTML = '';
-                document.getElementById("search_stat").innerHTML = `Search`;
+                    u('#search_results').html('');
+                    u('#search_stat').html('Search');
             }
         }
     </script>
-    
-
-   
+       
     @await RenderSectionAsync("jsScripts", required: false)
     <script src="~/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
     <script src="~/libraries/aos/aos.js"></script>
     @await RenderSectionAsync("jsLib", required: false)
-    <script src="~/assets/js/theme.min.js"></script>
-    <script src="~/assets/js/coffeeroom.js" asp-append-version="true"></script>
+    
+    
+    <environment include="development">
+        <script src="~/assets/js/coffeeroom.min.js" asp-append-version="true"></script>
+        <script src="~/assets/js/theme.min.js"></script>
+    </environment>
+    <environment include="production">
+        <script src="~/assets/js/coffeeroom.js" asp-append-version="true"></script>
+        <script src="~/assets/js/theme.js"></script>
+    </environment>
 </body>
 </html>
