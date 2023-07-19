@@ -1,4 +1,4 @@
-﻿namespace Coffeeroom.Models
+﻿namespace Coffeeroom.Models.Domain
 {
     public class Mail
     {

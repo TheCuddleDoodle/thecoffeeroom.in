@@ -1,4 +1,4 @@
-﻿namespace Coffeeroom.Models
+﻿namespace Coffeeroom.Models.View
 {
     public class EventModel
     {
