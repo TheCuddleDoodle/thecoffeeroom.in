@@ -6,7 +6,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-
 #coffeeroom custom entries
 /wwwroot/libraries
 /wwwroot/assets/vendor
@@ -20,8 +19,8 @@
 /wwwroot/assets/js/theme.js
 /wwwroot/assets/js/theme.min.js
 /appsettings.json
+/wwwroot/assets/css/theme.min.css.map
 /appsettings.Development.json
-
 
 # User-specific files
 *.suo
@@ -309,5 +308,4 @@ __pycache__/
 
 # dependencies
 node_modules/
-/wwwroot/assets/css/theme.min.css.map
-/appsettings.Development.json
+
