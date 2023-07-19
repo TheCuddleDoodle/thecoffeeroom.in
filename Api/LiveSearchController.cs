@@ -1,5 +1,6 @@
 ﻿using Coffeeroom.Core.Helpers;
 using Coffeeroom.Models.Domain;
+using Coffeeroom.Models.View;
 using Coffeeroom.Pages;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
@@ -20,6 +21,7 @@ namespace Coffeeroom.Api
         [IgnoreAntiforgeryToken]
         public async Task<JsonResult> OnGetEngineOilList(string Type,string SearchKey)
         {
+            EventModel evnt = new EventModel();
             try
             {
                 List<LiveSearch> entries = new();
@@ -53,13 +55,12 @@ namespace Coffeeroom.Api
             }
             catch (Exception ex)
             {
-                var errorResponse = new
-                {
-                    messageType = "error",
-                    messageValue = ex.Message
-                };
-                _logger.LogInformation("error from catch block of live search : " + ex.Message.ToString());
-                return new JsonResult(errorResponse);
+                
+                evnt.Message = "Something went wrong";
+                evnt.Type = "Error";
+
+                _logger.LogInformation("error in mailing list submission: " + ex.Message.ToString());
+                return new JsonResult(evnt);
             }
         }
     }
