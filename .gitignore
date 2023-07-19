@@ -310,3 +310,4 @@ __pycache__/
 # dependencies
 node_modules/
 /wwwroot/assets/css/theme.min.css.map
+/appsettings.Development.json
