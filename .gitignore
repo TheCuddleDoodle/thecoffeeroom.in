@@ -310,3 +310,6 @@ __pycache__/
 # dependencies
 node_modules/
 
+/Pages/Account/Security.cshtml.cs
+/Pages/Account/Login.cshtml.cs
+/Pages/Account/Signup.cshtml.cs
