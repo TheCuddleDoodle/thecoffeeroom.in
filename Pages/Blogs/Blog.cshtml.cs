@@ -300,6 +300,55 @@ namespace Coffeeroom.Pages.Blogs
             return new JsonResult(keys);
         }
 
+        public async Task<JsonResult> OnPostDelAsync(int id, string type)
+        {
+
+            using var connection = new SqlConnection(connectionString);
+            await connection.OpenAsync();
+            if (type == "comment")
+            {
+
+                using var transaction = connection.BeginTransaction();
+                try
+                {
+                    // Perform multiple database operations within the transaction
+                    using var command1 = connection.CreateCommand();
+                    command1.Transaction = transaction;
+                    command1.CommandText = "DELETE FROM TblBlogComment WHERE Id = @id and UserId = @user_id";
+                    command1.Parameters.AddWithValue("@id", id);
+                    command1.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
+
+                    await command1.ExecuteNonQueryAsync();
+
+                    using var command2 = connection.CreateCommand();
+                    command2.Transaction = transaction;
+                    command2.CommandText = "DELETE FROM TblBlogReply WHERE CommentId = @id";
+                    command2.Parameters.AddWithValue("@id", id);
+                    command2.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
+                    await command2.ExecuteNonQueryAsync();
+                    transaction.Commit();
+                    message = "deleted";
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+            else if (type == "reply")
+            {
+                var command = new SqlCommand("DELETE FROM TblBlogReply WHERE Id = @id and UserId = @user_id", connection);
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
+                await command.ExecuteNonQueryAsync();
+
+            }
+            await connection.CloseAsync();
+
+            var keys = new { message, type };
+            return new JsonResult(keys);
+        }
+
         public async Task<JsonResult> OnDelete(int id, string type)
         {
 

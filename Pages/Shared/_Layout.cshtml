@@ -26,6 +26,7 @@
         ViewData["role"] = Context.Session.GetString("role").ToString();
         ViewData["avatar"] = Context.Session.GetString("avatar").ToString();
         ViewData["user_id"] = Context.Session.GetString("user_id").ToString();
+        ViewData["fullname"] = Context.Session.GetString("fullname").ToString();
     }
     else
     {
@@ -130,10 +131,8 @@
     <!-- Import Google Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link id="custom_font" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-    
+    <link id="custom_font" href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&display=swap" rel="stylesheet">
     <script src="https://umbrellajs.com/umbrella.min.js"></script>
-
     <!-- Vendor styles-->
     <link href="~/libraries/aos/aos.css" rel="stylesheet" />
     <!-- Main Theme Styles + Bootstrap-->
@@ -152,7 +151,10 @@
         :root {
             --ar-primary: #8d7aa8;
             --ar-primary-rgb: 141,122,168;
-            --ar-border-radius: 0.1rem;
+            --ar-body-font-family: 'Raleway',sans-serif;
+            --ar-root-font-size: 1rem;
+            --ar-body-font-size: 1rem;
+            --ar-border-radius: 0.2rem;
             --ar-link-color: #8d7aa8;
             --ar-link-hover-color: #74618f;
         }

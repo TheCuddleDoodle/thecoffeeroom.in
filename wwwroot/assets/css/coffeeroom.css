@@ -1,6 +1,8 @@
 ﻿/*default styles override init*/
 
-
+option {
+    color: #434a57;
+}
 /*default styles override end*/
 
 .page-loading {

@@ -557,10 +557,11 @@
             const v = localStorage.getItem('delid');
             $('#mdlreplyDelete').modal('show');
         }
+
         function replyDeleteConfirm() {
             $.ajax({
                 url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=OnDelete&id=' + localStorage.getItem('delid') + '&type=reply',
-                type: 'DELETE',
+                type: 'z',
                 success: function (data) {
                     loadComments();
                 },
