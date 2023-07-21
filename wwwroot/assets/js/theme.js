@@ -203,79 +203,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     }
   }();
 
-  /**
-   * Interactive map
-   * @requires https://github.com/Leaflet/Leaflet
-  */
-
-  var interactiveMap = function () {
-    var mapList = document.querySelectorAll('.interactive-map');
-    if (mapList.length === 0) return;
-    for (var i = 0; i < mapList.length; i++) {
-      var mapOptions = mapList[i].dataset.mapOptions,
-        mapOptionsExternal = mapList[i].dataset.mapOptionsJson,
-        map = void 0;
-
-      // Map options: Inline JSON data
-      if (mapOptions && mapOptions !== '') {
-        var mapOptionsObj = JSON.parse(mapOptions),
-          mapLayer = mapOptionsObj.mapLayer || 'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=BO4zZpr0fIIoydRTOLSx',
-          mapCenter = mapOptionsObj.center ? mapOptionsObj.center : [0, 0],
-          mapZoom = mapOptionsObj.zoom || 1,
-          scrollWheelZoom = mapOptionsObj.scrollWheelZoom === false ? false : true,
-          markers = mapOptionsObj.markers;
-
-        // Map setup
-        map = L.map(mapList[i], {
-          scrollWheelZoom: scrollWheelZoom
-        }).setView(mapCenter, mapZoom);
-
-        // Tile layer
-        L.tileLayer(mapLayer, {
-          tileSize: 512,
-          zoomOffset: -1,
-          minZoom: 1,
-          attribution: "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">&copy; MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>",
-          crossOrigin: true
-        }).addTo(map);
-
-        // Markers
-        if (markers) {
-          for (var n = 0; n < markers.length; n++) {
-            var iconUrl = markers[n].iconUrl,
-              shadowUrl = markers[n].shadowUrl,
-              markerIcon = L.icon({
-                iconUrl: iconUrl || 'assets/img/map/marker-icon.png',
-                iconSize: [30, 43],
-                iconAnchor: [14, 43],
-                shadowUrl: shadowUrl || 'assets/img/map/marker-shadow.png',
-                shadowSize: [41, 41],
-                shadowAnchor: [13, 41],
-                popupAnchor: [1, -40]
-              }),
-              popup = markers[n].popup;
-            var marker = L.marker(markers[n].position, {
-              icon: markerIcon
-            }).addTo(map);
-            if (popup) {
-              marker.bindPopup(popup);
-            }
-          }
-        }
-
-        // Map option: No options provided
-      } else {
-        map = L.map(mapList[i]).setView([0, 0], 1);
-        L.tileLayer('https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=BO4zZpr0fIIoydRTOLSx', {
-          tileSize: 512,
-          zoomOffset: -1,
-          minZoom: 1,
-          attribution: "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">&copy; MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>",
-          crossOrigin: true
-        }).addTo(map);
-      }
-    }
-  }();
 
   /**
    * Mouse move parallax effect
@@ -356,7 +283,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       for (var i = 0; i < gallery.length; i++) {
         var thumbnails = gallery[i].dataset.thumbnails ? true : false,
           video = gallery[i].dataset.video ? true : false,
-          defaultPlugins = [lgZoom, lgFullscreen],
+          defaultPlugins = [lgZoom, lgAutoplay, lgComment, lgFullscreen, lgHash, lgPager, lgRotate, lgShare, lgThumbnail, lgVideo],
+          //edited default plugins
           videoPlugin = video ? [lgVideo] : [],
           thumbnailPlugin = thumbnails ? [lgThumbnail] : [],
           plugins = [].concat(defaultPlugins, videoPlugin, thumbnailPlugin);
@@ -364,9 +292,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           selector: '.gallery-item',
           plugins: plugins,
           licenseKey: 'D4194FDD-48924833-A54AECA3-D6F8E646',
-          download: false,
-          autoplayVideoOnSlide: true,
-          zoomFromOrigin: false,
           youtubePlayerParams: {
             modestbranding: 1,
             showinfo: 0,
@@ -542,34 +467,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     }, false);
   }();
 
-  /**
-   * Input fields formatter
-   * @requires https://github.com/nosir/cleave.js
-  */
-
-  var inputFormatter = function () {
-    var input = document.querySelectorAll('[data-format]');
-    if (input.length === 0) return;
-    var _loop4 = function _loop4(i) {
-      var targetInput = input[i],
-        cardIcon = targetInput.parentNode.querySelector('.credit-card-icon'),
-        options = void 0,
-        formatter = void 0;
-      if (targetInput.dataset.format != undefined) options = JSON.parse(targetInput.dataset.format);
-      if (cardIcon) {
-        formatter = new Cleave(targetInput, _objectSpread(_objectSpread({}, options), {}, {
-          onCreditCardTypeChanged: function onCreditCardTypeChanged(type) {
-            cardIcon.className = 'credit-card-icon ' + type;
-          }
-        }));
-      } else {
-        formatter = new Cleave(targetInput, options);
-      }
-    };
-    for (var i = 0; i < input.length; i++) {
-      _loop4(i);
-    }
-  }();
 
   /**
    * Update the text of the label when radio button / checkbox changes
@@ -732,10 +629,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           selector: 'this',
           plugins: [lgVideo],
           licenseKey: 'D4194FDD-48924833-A54AECA3-D6F8E646',
-          download: false,
+          download: true,
           youtubePlayerParams: {
             modestbranding: 1,
-            showinfo: 0,
+            showinfo: 1,
             rel: 0
           },
           vimeoPlayerParams: {
