@@ -15,8 +15,9 @@ builder.Services.AddSession(options =>
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
-    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day,outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.Async(writeTo => writeTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day,outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"))
     .CreateLogger();
+
 builder.Services.AddWebMarkupMin(options =>
 {
     options.AllowMinificationInDevelopmentEnvironment = false;
