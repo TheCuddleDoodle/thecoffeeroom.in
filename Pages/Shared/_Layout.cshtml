@@ -64,6 +64,9 @@
       } else {
         root.classList.remove('dark-mode');
       }
+
+      
+
     </script>
     <script>
       (function () {
@@ -72,7 +75,54 @@
           preloader.classList.remove('active');
           setTimeout(function () {
             preloader.remove();
-          },800);
+          },600);
+
+                let elem_theme = window.localStorage.getItem("cust_theme");
+                if (elem_theme !== undefined && elem_theme !== "" && elem_theme !== null) {
+                    document.getElementById("custom_theme").innerHTML = elem_theme;
+                }
+                let elem_font = window.localStorage.getItem("cust_font");
+                if (elem_font !== undefined && elem_font !== "" && elem_font !== null) {
+                    var a = document.getElementById('custom_font');
+                    a.href = elem_font;
+                }
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.ctrlKey && event.key === 'f') {
+                        event.preventDefault();
+                        document.getElementById('search_trigger_a').click();
+                    }
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.ctrlKey && event.key === 'd') {
+                        event.preventDefault();
+                        var themeMode = document.getElementById("theme-mode");
+                        var persMode = document.getElementById("dmode-trigger");
+
+                        if (themeMode.checked) {
+                            themeMode.checked = false;
+                            if (persMode) { persMode.checked = false; }
+                            root.classList.remove('dark-mode');
+                            localStorage.removeItem("mode");
+                        }
+                        else {
+                            themeMode.checked = true;
+                            if (persMode) { persMode.checked = true; }
+                            root.classList.add('dark-mode');
+                            localStorage.setItem("mode", "dark")
+                        }
+                    }
+                });
+                if (localStorage.getItem("curr_link") == null) {
+                    localStorage.setItem("curr_link", window.location.pathname);
+                }
+                else {
+                    localStorage.setItem("prev_link", localStorage.getItem("curr_link"));
+                    localStorage.setItem("curr_link", window.location.pathname);
+                }
+
+
         };
       })();
       
@@ -80,19 +130,15 @@
     <!-- Import Google Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" id="google-font">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link id="custom_font" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    
     <script src="https://umbrellajs.com/umbrella.min.js"></script>
 
     <!-- Vendor styles-->
     <link href="~/libraries/aos/aos.css" rel="stylesheet" />
-    
     <!-- Main Theme Styles + Bootstrap-->
     <link rel="stylesheet" media="screen" href="/assets/css/theme.min.css">
     @await RenderSectionAsync("cssLib", required: false) 
-    
-
-    <link rel="stylesheet" href="~/Coffeeroom.styles.css" asp-append-version="true" />
 
     <environment include="development">
         <link rel="stylesheet" href="~/assets/css/coffeeroom.css" asp-append-version="true" />
@@ -102,7 +148,7 @@
         <link rel="stylesheet" href="~/assets/css/coffeeroom.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/assets/css/theme.min.css" />
     </environment>
-    <style>
+    <style id="custom_theme">
         :root {
             --ar-primary: #8d7aa8;
             --ar-primary-rgb: 141,122,168;
@@ -142,7 +188,7 @@
         </div>
     </div>
     <main class="page-wrapper">
-       @*@await Html.PartialAsync("NavBars/Default")*@
+       @await Html.PartialAsync("NavBars/Default")
         @RenderBody()
         @await Html.PartialAsync("Modals/_Modals")
     </main>
@@ -197,11 +243,11 @@
     @await RenderSectionAsync("jsLib", required: false)
     
     
-    <environment include="development">
+    <environment include="production">
         <script src="~/assets/js/coffeeroom.min.js" asp-append-version="true"></script>
         <script src="~/assets/js/theme.min.js"></script>
     </environment>
-    <environment include="production">
+    <environment include="development">
         <script src="~/assets/js/coffeeroom.js" asp-append-version="true"></script>
         <script src="~/assets/js/theme.js"></script>
     </environment>

@@ -1,0 +1,118 @@
+﻿@page "/account/signup"
+@model Coffeeroom.Pages.Account.SignupModel
+@{
+    Layout = "_LayoutEmpty";
+}
+
+<div class="d-lg-flex position-relative h-100">
+    <a class="text-nav btn btn-icon bg-light border rounded-circle position-absolute top-0 end-0 p-0 mt-3 me-3 mt-sm-4 me-sm-4" href="/" data-bs-toggle="tooltip" data-bs-placement="left" title="Back to home"><i class="ai-home"></i></a>
+
+    <div class="d-flex flex-column align-items-center w-lg-50 h-100 px-3 px-lg-5 pt-5">
+        <div class="w-100 mt-auto" style="max-width: 526px;">
+            <h1>Sign Up!</h1>
+            <p class="pb-3 mb-3 mb-lg-4">Already have an account yet?&nbsp;&nbsp;<a href='/account/login'>LogIn!</a></p>
+            <form id="signUpForm" novalidate="novalidate">
+                @Html.AntiForgeryToken()
+                <div class="row row-cols-1 row-cols-sm-2">
+                    <div class="col mb-4">
+                        <input class="form-control form-control-lg" name="firstname" id="firstname" type="text" placeholder="First Name" required maxlength="20">
+                    </div>
+                    <div class="col mb-4">
+                        <input class="form-control form-control-lg" name="lastname" id="lastname" type="text" placeholder="Last Name" required maxlength="20">
+                    </div>
+                    <div class="col mb-4">
+                        <input class="form-control form-control-lg" type="text" name="username" id="username" placeholder="Preferred UserName" required maxlength="20">
+                    </div>
+                </div>
+                <div class="pb-3 mb-3">
+                    <div class="position-relative">
+                        <i class="ai-mail fs-lg position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                        <input name="email" type="email" id="email" class="form-control form-control-lg ps-5 bindenter" placeholder="Email" maxlength="50" />
+                    </div>
+                </div>
+
+
+                <div class="row row-cols-1 row-cols-sm-2 pb-2 mb-2">
+                    <div class="position-relative">
+
+                        <div class="password-toggle">
+                            <i class="ai-lock-closed fs-lg position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                            <input name="password" type="password" id="password" class="bindentersignup form-control form-control-lg ps-5 bindenter" placeholder="Password" maxlength="20" />
+                            <label class="password-toggle-btn" aria-label="Show/hide password">
+                                <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="position-relative">
+                        <div class="password-toggle">
+                            <i class="ai-lock-closed fs-lg position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                            <input name="password" type="password" id="passwordconfirm" class="bindentersignup form-control form-control-lg ps-5 bindenter" placeholder="Confirm Pass" maxlength="20" />
+                            <label class="password-toggle-btn" aria-label="Show/hide password">
+                                <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" id="signupbutton" class="btn btn-lg btn-primary w-100 mb-4">Sign Up</button>
+              
+            </form>
+        </div>
+        <p class="w-100 fs-sm pt-5 mt-auto mb-5" style="max-width: 526px;"><span class="text-muted">thecoffeeroom.in</span></p>
+    </div>
+    <div class="w-50 bg-size-cover bg-repeat-0 bg-position-center" style="background-image: url(/assets/images/covers/login.jpg);"></div>
+</div>
+<script>
+    document.getElementById("signUpForm").addEventListener("submit", handleSubmit);
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const formData = new FormData(event.target);
+        const formObject = Object.fromEntries(formData);
+        console.log("Form Data:", formObject);
+        axios({
+            method: "post",
+            url: "/account/signup?handler=Signup",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(formObject)
+        })
+            .then(function (response) {
+                toaster(response.data.type, response.data.message);
+            })
+            .catch(function (error) {
+                console.log("Error:", error);
+            });
+    }
+
+
+    function signup() {
+        u('#signupbutton').html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging In..');
+        u("#signupbutton").attr("class", "btn btn-lg btn-primary w-100 mb-4 pe-none");
+        var token = document.getElementById('input[name="__RequestVerificationToken"]').value;
+        const signupData = {
+            FirstName: document.getElementById("firstname").value,
+            LastName: document.getElementById("lastname").value,
+            EMail: document.getElementById("email").value,
+            UserName: document.getElementById("username").value,
+            PassWord: document.getElementById("password").value
+        };
+
+        axios.defaults.headers.common['RequestVerificationToken'] = token;
+        axios.get('@Url.Page("/account/signup")?handler=signup', signupData)
+            .then(function (response) {
+                // On success
+                u("#signupbutton").html("Sign Up");
+                u("#signupbutton").attr("class", "btn btn-lg btn-primary w-100 mb-4");
+                console.log(response.data);
+                toaster("Error", response.data.message);
+            })
+            .catch(function (error) {
+                // On error
+                console.log("Error:", error);
+                u("#signupbutton").html("Sign Up");
+                u("#signupbutton").attr("class", "btn btn-lg btn-primary w-100 mb-4");
+                toaster("Error", "connection issue..");
+            });
+    }
+</script>

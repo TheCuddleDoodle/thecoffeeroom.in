@@ -81,7 +81,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" id="google-font">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://umbrellajs.com/umbrella.min.js"></script>
 
     <!-- Vendor styles-->
@@ -91,8 +90,6 @@
     <link rel="stylesheet" media="screen" href="/assets/css/theme.min.css">
     @await RenderSectionAsync("cssLib", required: false)
 
-
-    <link rel="stylesheet" href="~/Coffeeroom.styles.css" asp-append-version="true" />
 
     <environment include="development">
         <link rel="stylesheet" href="~/assets/css/coffeeroom.css" asp-append-version="true" />
@@ -142,7 +139,9 @@
         </div>
     </div>
     <main class="page-wrapper">
+
         @RenderBody()
+        @await Html.PartialAsync("Modals/_Modals")
     </main>
 
     <a class="btn-scroll-top" href="#top" data-scroll>
@@ -194,11 +193,11 @@
     @await RenderSectionAsync("jsLib", required: false)
 
 
-    <environment include="development">
+    <environment include="production">
         <script src="~/assets/js/coffeeroom.min.js" asp-append-version="true"></script>
         <script src="~/assets/js/theme.min.js"></script>
     </environment>
-    <environment include="production">
+    <environment include="development">
         <script src="~/assets/js/coffeeroom.js" asp-append-version="true"></script>
         <script src="~/assets/js/theme.js"></script>
     </environment>

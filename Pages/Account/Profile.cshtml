@@ -1,0 +1,346 @@
+﻿@page "/account/profile"
+@model Coffeeroom.Pages.Account.ProfileModel
+@{
+    ViewData["BodyBg"] = "bg-secondary";
+    var avtrid = @HttpContext.Session.GetString("avatar") + ".png";
+    var fname = @HttpContext.Session.GetString("first_name");
+}
+
+<div class="container py-5 mt-4 mt-lg-5 mb-lg-4 my-xl-5">
+    <div class="row pt-sm-2 pt-lg-0">
+        <!-- Sidebar (offcanvas on sreens < 992px)-->
+        <aside class="col-lg-3 pe-lg-4 pe-xl-5 mt-n3">
+            <div class="position-lg-sticky top-0">
+                <div class="d-none d-lg-block" style="padding-top: 105px;"></div>
+                <div class="offcanvas-lg offcanvas-start" id="sidebarAccount">
+                    <button class="btn-close position-absolute top-0 end-0 mt-3 me-3 d-lg-none" type="button" data-bs-dismiss="offcanvas" data-bs-target="#sidebarAccount"></button>
+                    <div class="offcanvas-body">
+                        <div class="pb-2 pb-lg-0 mb-4 mb-lg-5">
+                            <img class="d-block rounded-circle mb-2" src="/assets/images/avatars/default/@avtrid" width="80" alt="none">
+                            <h3 class="h5 mb-1">@fname</h3>
+                            <p class="fs-sm text-muted mb-0">@@@HttpContext.Session.GetString("username")</p>
+                        </div>
+                        <nav class="nav flex-column pb-2 pb-lg-4 mb-3">
+                            <h4 class="fs-xs fw-medium text-muted text-uppercase pb-1 mb-2">Account</h4><a class="nav-link fw-semibold py-2 px-0 active" href="account-overview.html"><i class="ai-user-check fs-5 opacity-60 me-2"></i>Overview</a><a class="nav-link fw-semibold py-2 px-0" href="account-settings.html"><i class="ai-settings fs-5 opacity-60 me-2"></i>Settings</a><a class="nav-link fw-semibold py-2 px-0" href="account-billing.html"><i class="ai-wallet fs-5 opacity-60 me-2"></i>Billing</a>
+                        </nav>
+                        <nav class="nav flex-column pb-2 pb-lg-4 mb-1">
+                            <h4 class="fs-xs fw-medium text-muted text-uppercase pb-1 mb-2">Dashboard</h4><a class="nav-link fw-semibold py-2 px-0" href="account-orders.html"><i class="ai-cart fs-5 opacity-60 me-2"></i>Orders</a><a class="nav-link fw-semibold py-2 px-0" href="account-earnings.html"><i class="ai-activity fs-5 opacity-60 me-2"></i>Earnings</a><a class="nav-link fw-semibold py-2 px-0" href="account-chat.html"><i class="ai-messages fs-5 opacity-60 me-2"></i>Chat<span class="badge bg-danger ms-auto">4</span></a><a class="nav-link fw-semibold py-2 px-0" href="account-favorites.html"><i class="ai-heart fs-5 opacity-60 me-2"></i>Favorites</a>
+                        </nav>
+                        <nav class="nav flex-column"><a class="nav-link fw-semibold py-2 px-0" href="account-signin.html"><i class="ai-logout fs-5 opacity-60 me-2"></i>Sign out</a></nav>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- Page content-->
+        <div class="col-lg-9 pt-4 pb-2 pb-sm-4">
+            <h1 class="h2 mb-4">Profile</h1>
+            <!-- Basic info-->
+            <section class="card border-0 py-1 p-md-2 p-xl-3 p-xxl-4 mb-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mt-sm-n1 pb-4 mb-0 mb-lg-1 mb-xl-3">
+                        <i class="ai-user text-primary lead pe-1 me-2"></i>
+                        <h2 class="h4 mb-0">Basic info</h2>
+                    </div>
+                    <div id="profilepanel">
+                        <div class="d-md-flex align-items-center">
+                            <div class="d-sm-flex align-items-center">
+                               
+                                <div id="avatar_placeholder" class="rounded-circle bg-size-cover bg-position-center flex-shrink-0" style="width: 80px; height: 80px; background-image: url(/assets/images/avatars/default/@avtrid);"></div>
+                                <div class="pt-3 pt-sm-0 ps-sm-3">
+                                    <h3 class="h5 mb-2">
+                                        <span id="profilename">
+                                            @ViewData["fullname"]
+                                        </span>
+                                    </h3>
+                                    <div class="text-muted fw-medium d-flex flex-wrap flex-sm-nowrap align-iteems-center">
+                                        <div class="d-flex align-items-center me-3">
+                                            <i class="ai-user me-1"></i>
+                                            @ViewData["role"]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-100 pt-3 pt-md-0 ms-md-auto col-sm-12" style="max-width: 212px;">
+                                <div class="d-flex justify-content-between fs-sm pb-1 mb-2">Select your avatar</div>
+                                <select name="avatar" id="avatars" class="form-select" onchange="updateavatar()">
+                                    @if (Model.AvatarDD != null)
+                                    {
+                                        @foreach (var avatar in Model.AvatarDD)
+                                        {
+                                            if (avatar.Image == @HttpContext.Session.GetString("avatar"))
+                                            {
+                                                <option image-link="@avatar.Image" value="@avatar.Id" selected>@avatar.Title</option>
+                                            }
+                                            else
+                                            {
+                                                <option image-link="@avatar.Image" value="@avatar.Id">@avatar.Title</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <form>
+                        @Html.AntiForgeryToken()
+                    </form>
+
+                    @if (Model.UserDetailsDisplay != null)
+                    {
+
+                        <div class="row g-3 g-sm-4 mt-0 mt-lg-2">
+                            <div class="col-sm-6">
+                                <label class="form-label" for="fn">First name</label>
+                                <input name="fname" type="text" id="firstname" class="form-control bindenter1" aria-autocomplete="none" value="@Model.UserDetailsDisplay.FirstName" maxlength="20" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="ln">Last name</label>
+                                <input name="lname" type="text" id="lastname" class="form-control bindenter1" aria-autocomplete="none" value="@Model.UserDetailsDisplay.LastName" maxlength="20" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="email">Email address</label>
+                                <input name="email" type="text" id="email" class="form-control bindenter1" placeholder="Enter your email" value="@Model.UserDetailsDisplay.EMail" aria-autocomplete="none" maxlength="40" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="phone">Phone <span class='text-muted'>(optional)</span></label>
+                                <input name="phone" type="text" id="phone" class="form-control bindenter1" value="@Model.UserDetailsDisplay.Phone" placeholder="" maxlength="15" />
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="phone">Bio <span class='text-muted'>(optional)</span></label>
+                                <textarea name="phone" type="text" id="phone" class="form-control bindenter1" value="@Model.UserDetailsDisplay.Phone" placeholder="" maxlength="15"></textarea>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="form-label" for="ln">Link(Primary)</label>
+                                <input name="link_primary" type="text" id="link_primary" class="form-control bindenter1" aria-autocomplete="none" value="@Model.UserDetailsDisplay.LastName" maxlength="20" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="ln">Link(Secondary)</label>
+                                <input name="linksecondary" type="text" id="linksecondary" class="form-control bindenter1" aria-autocomplete="none" value="@Model.UserDetailsDisplay.LastName" maxlength="20" />
+                            </div>
+
+                            <div class="col-sm-12 col-md-6  d-sm-flex align-items-center pt-sm-2 pt-md-3">
+                                <div class="form-label text-muted mb-2 mb-sm-0 me-sm-4">Gender:</div>
+                                <div class="form-check form-check-inline mb-0">
+                                    <input value="m" name="gender" type="radio" id="male" class="form-check-input" @(@Model.UserDetailsDisplay.Gender == "m" ? "checked" : "false") />
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline mb-0">
+                                    <input value="f" name="gender" type="radio" id="female" class="form-check-input" @(@Model.UserDetailsDisplay.Gender == "f" ? "checked" : "false") />
+                                    <label class="form-check-label" for="female">Female</label>
+                                </div>
+                                <div class="form-check form-check-inline mb-0">
+                                    <input value="o" name="gender" type="radio" id="other" class="form-check-input" @(@Model.UserDetailsDisplay.Gender == "o" ? "checked" : "false") />
+                                    <label class="form-check-label" for="other">Other</label>
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-end pt-3">
+                                <button class="btn btn-primary ms-3" type="button" id="saveprof" onclick="save_prof()">Save Profile</button>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <span> Something went wrong</span>
+                    }
+
+                    <div id="profstat" class="tempstat"></div>
+                </div>
+            </section>
+            <section class="card border-0 py-1 p-md-2 p-xl-3 p-xxl-4 mb-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center pb-4 mt-sm-n1 mb-0 mb-lg-1 mb-xl-3">
+                        <i class="ai-lock-closed text-primary lead pe-1 me-2"></i>
+                        <h2 class="h4 mb-0">Password</h2>
+                    </div>
+                    <div class="row align-items-center g-3 g-sm-4 pb-3">
+                        <div class="col-sm-6">
+                            <label class="form-label" for="new-pass">New password</label>
+                            <div class="password-toggle">
+                                <input name="new_pass" type="password" id="new_pass" class="form-control bindenter2" />
+                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                    <input class="password-toggle-check bindenter2" type="checkbox"><span class="password-toggle-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label" for="confirm-pass">Confirm new password</label>
+                            <div class="password-toggle">
+                                <input name="confirm_pass" type="password" id="confirm_pass" class="form-control bindenter2" />
+                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                    <input class="password-toggle-check bindenter2" type="checkbox"><span class="password-toggle-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="db_stat"></span>
+                    <div class="d-flex justify-content-end pt-3">
+                        <button class="btn btn-primary ms-3" type="button" id="savepass" onclick="save_pass()">Save Changes</button>
+
+                    </div>
+                    <div id="passstat" class="temp_stat"></div>
+                </div>
+            </section>
+        
+            
+        </div>
+    </div>
+</div>
+<!-- Divider for dark mode only-->
+<hr class="d-none d-dark-mode-block">
+<!-- Sidebar toggle button-->
+<button class="d-lg-none btn btn-sm fs-sm btn-primary w-100 rounded-0 fixed-bottom" data-bs-toggle="offcanvas" data-bs-target="#sidebarAccount"><i class="ai-menu me-2"></i>Account menu</button>
+
+
+
+
+
+<div class="container py-5 mb-lg-4">
+    <div class="row pt-sm-2 pt-lg-0">
+        <nav aria-label="breadcrumb">
+            <ol class="pb-lg-2 pb-2 breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Profile</li>
+            </ol>
+        </nav>
+        <div class="col-lg-12 pt-4 pb-2 pb-sm-4">
+            <h1 class="h2 mb-4">Profile</h1>
+           
+        </div>
+    </div>
+</div>
+<hr class="d-none d-dark-mode-block">
+
+@section jsScripts
+    {
+    <script>
+        const inputBoxesProf = document.getElementsByClassName("bindenter1");
+        Array.from(inputBoxesProf).forEach((inputBox) => {
+            inputBox.addEventListener("keydown", function (event) {
+                if (event.keyCode === 10 || event.keyCode === 13) {
+                    event.preventDefault();
+                    save_prof();
+                }
+            });
+        });
+
+        const inputBoxesPass = document.getElementsByClassName("bindenter2");
+        Array.from(inputBoxesPass).forEach((inputBox) => {
+            inputBox.addEventListener("keydown", function (event) {
+                if (event.keyCode === 10 || event.keyCode === 13) {
+                    event.preventDefault();
+                    save_pass();
+                }
+            });
+        });
+
+        function updateavatar() {
+            const selectElement = document.getElementById("avatars");
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const dataId = selectedOption.getAttribute("image-link");
+            document.getElementById("avatar_placeholder").style = "width: 80px; height: 80px; background-image: url(/assets/images/avatars/default/" + dataId + ".png);"
+        }
+        function save_prof() {
+            var selectedOption = document.querySelector('input[name="gender"]:checked');
+            var gndrval = selectedOption ? selectedOption.value : "n";
+
+            var saveProfButton = document.getElementById("saveprof");
+            saveProfButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving';
+            saveProfButton.className = "btn btn-primary pe-none";
+
+            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            var config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": token
+                }
+            };
+
+            var postData = {
+                FirstName: document.getElementById("firstname").value,
+                LastName: document.getElementById("lastname").value,
+                Phone: document.getElementById("phone").value,
+                EMail: document.getElementById("email").value,
+                Gender: gndrval,
+                AvatarId: document.getElementById("avatars").value
+            };
+
+            axios.post("/account/profile?handler=SubmitDeets", postData, config)
+                .then(function (response) {
+                    var data = response.data;
+                    saveProfButton.innerHTML = "Save Profile";
+                    saveProfButton.className = "btn btn-primary";
+                    document.getElementById("profstat").innerHTML = "<div class=\"subscription-status mx-auto status-" + data.type + "\">" + data.message + "</div>";
+                    document.getElementById("profilename").innerHTML = document.getElementById("firstname").value + " " + document.getElementById("lastname").value;
+                    document.getElementById("title_master").innerHTML = document.getElementById("firstname").value + " ";
+
+                    var titleMasterMobile = document.getElementById("title_master_mobile");
+                    titleMasterMobile.innerHTML = document.getElementById("firstname").value;
+
+                    var dropdown = document.getElementById("avatars");
+                    var selectedOption = dropdown.options[dropdown.selectedIndex];
+                    var selectedOptionDataId = selectedOption.getAttribute("image-link");
+
+                    document.getElementById("layout_pfp").setAttribute("src", "/assets/images/avatars/default/" + selectedOptionDataId + ".png");
+                    document.getElementById("layout_pfp_mobile").setAttribute("src", "/assets/images/avatars/default/" + selectedOptionDataId + ".png");
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                    saveProfButton.innerHTML = "Save Profile";
+                    saveProfButton.className = "btn btn-primary";
+                    var profStat = document.getElementById("profstat");
+                    profStat.innerHTML = "<div class=\"subscription-status mx-auto status-error\">something went wrong</div>";
+                });
+
+        }
+
+
+        function save_pass() {
+            var savePassButton = document.getElementById("savepass");
+            savePassButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving';
+            savePassButton.className = "btn btn-primary pe-none";
+
+            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            var config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": token
+                }
+            };
+
+            var postData = {
+                NewPass: document.getElementById("new_pass").value,
+                ConfirmPass: document.getElementById("confirm_pass").value
+            };
+
+            axios.post("/account/profile?handler=SubmitPass", postData, config)
+                .then(function (response) {
+                    var data = response.data;
+                    savePassButton.innerHTML = "Save Changes";
+                    savePassButton.className = "btn btn-primary";
+                    document.getElementById("passstat").innerHTML = "<div class=\"subscription-status mx-auto status-" + data.type + "\">" + data.message + "</div>";
+
+                    document.getElementById("new_pass").value = "";
+                    document.getElementById("confirm_pass").value = "";
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                    savePassButton.innerHTML = "Save Changes";
+                    savePassButton.className = "btn btn-primary";
+                    document.getElementById("passstat").innerHTML = "<div class=\"subscription-status mx-auto status-error\">something went wrong ajax</div>";
+                });
+        }
+
+    </script>
+}
+
+@section cssStyles
+    {
+    <style>
+        option {
+            color: #434a57;
+        }
+    </style>
+}

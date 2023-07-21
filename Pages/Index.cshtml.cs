@@ -17,7 +17,7 @@ namespace Coffeeroom.Pages
 
         public void OnGet()
         {
-            
+            Log.Information("ok done");
         }
 
         public JsonResult OnPostSubscribe()

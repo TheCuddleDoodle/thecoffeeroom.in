@@ -4,6 +4,7 @@ using Coffeeroom.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text.Json;
@@ -13,13 +14,6 @@ namespace Coffeeroom.Pages.Account
     [ValidateAntiForgeryToken]
     public class LoginModel : PageModel
     {
-        private readonly ILogger<LoginModel> _logger;
-
-        public LoginModel(ILogger<LoginModel> logger)
-        {
-            _logger = logger;
-        }
-
         public void OnGet()
         {
 
@@ -89,7 +83,7 @@ namespace Coffeeroom.Pages.Account
                 catch (Exception ex)
                 {
                     message = "something went wrong " + ex.Message.ToString();
-                    _logger.LogError(ex.Message.ToString() + " : in login form,user : " + UserName);
+                   Log.Error(ex.Message.ToString() + " : in login form,user : " + UserName);
                 }
             }
 
@@ -98,7 +92,6 @@ namespace Coffeeroom.Pages.Account
                 message,
                 type
             };
-            Thread.Sleep(2000);
             return new JsonResult(keys);
 
 

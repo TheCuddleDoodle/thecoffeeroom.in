@@ -43,9 +43,9 @@
             </form>
         </div>
         <!-- Copyright-->
-        <p class="w-100 fs-sm pt-5 mt-auto mb-5" style="max-width: 526px;"><span class="text-muted">&copy; All rights reserved. Made by</span><a class="nav-link d-inline-block p-0 ms-1" href="https://createx.studio/" target="_blank" rel="noopener">Createx Studio</a></p>
+        <p class="w-100 fs-sm pt-5 mt-auto mb-5" style="max-width: 526px;"><span class="text-muted">thecoffeeroom.in</span></p>
     </div>
-    <div class="w-50 bg-size-cover bg-repeat-0 bg-position-center" style="background-image: url(/assets/img/account/cover.jpg);"></div>
+    <div class="w-50 bg-size-cover bg-repeat-0 bg-position-center" style="background-image: url(/assets/images/covers/login.jpg);"></div>
 
 
     
@@ -105,11 +105,9 @@
                 userName: document.getElementById("userName").value,
                 passWord: document.getElementById("passCode").value,
             };
-            console.log(data);
             axios.defaults.headers.common['RequestVerificationToken'] = token;
             axios.post('@Url.Page("/account/login")?handler=loginsubmit', data)
                 .then(function (response) {
-                    console.log(response.data)
                     var typeResp = response.data;
                     if (typeResp.type == "success") {
                         toaster("Success", typeResp.message);
