@@ -1,5 +1,9 @@
 ﻿/*default styles override init*/
 
+.toast {
+    border:1px solid var(--ar-primary) !important;
+}
+
 option {
     color: #434a57;
 }

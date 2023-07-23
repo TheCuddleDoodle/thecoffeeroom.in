@@ -124,6 +124,22 @@
 @section jsScripts
     {
     <script>
+
+       
+
+
+
+        var checkbox = document.getElementById("dmode-trigger");
+        var checkbox2 = document.getElementById("theme-mode");
+         
+        document.addEventListener("DOMContentLoaded", function () {
+            if (checkbox2.checked == true) {
+                checkbox.checked = true;
+            } else {
+                checkbox.checked = false;
+            }
+        });
+
         var activeThemeId = localStorage.getItem("badge");
         if (activeThemeId === undefined || activeThemeId === null) {
             document.getElementById("badge_1").innerText = "Active";
@@ -147,11 +163,36 @@
                     }
                     let badgeid = "badge_" + localStorage.getItem("badge");
                     document.getElementById(badgeid).innerText = "Active";
+                    toaster("success","applied")
                 })
                 .catch(function (error) {
                     console.error(error);
                 });
         }
+
+     
+
+        checkbox.addEventListener("change", function () {
+            if (checkbox.checked) {
+                root.classList.add('dark-mode');
+                localStorage.setItem('mode','dark');
+                checkbox2.checked = true;
+            } else {
+                root.classList.remove('dark-mode');
+                localStorage.removeItem('mode');
+                checkbox2.checked = false;
+            }
+        });
+        checkbox2.addEventListener("change", function () {
+            if (checkbox2.checked) {
+                checkbox.checked = true;
+            } else {
+               checkbox.checked = false;
+            }
+        });
+
+
+
     </script>
    }
 

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Text.Json;
 using System.Web;
+using Serilog;
 
 namespace Coffeeroom.Pages.Blogs
 {
@@ -238,7 +239,7 @@ namespace Coffeeroom.Pages.Blogs
                 }
                 catch (Exception ex)
                 {
-
+                    Log.Information("error in adding comment by" + HttpContext.Session.GetString("username") + "on a blog :" + ex.Message.ToString());
                     message = "something went wrong";
                 }
             }
@@ -288,7 +289,7 @@ namespace Coffeeroom.Pages.Blogs
                 }
                 catch (Exception ex)
                 {
-
+                    Log.Information("error in adding reply by" + HttpContext.Session.GetString("username") + "on a blog :" + ex.Message.ToString());
                     message = "something went wrong";
                 }
             }
@@ -300,7 +301,7 @@ namespace Coffeeroom.Pages.Blogs
             return new JsonResult(keys);
         }
 
-        public async Task<JsonResult> OnPostDelAsync(int id, string type)
+        public async Task<JsonResult> OnDeleteDelAsync(int id, string type)
         {
 
             using var connection = new SqlConnection(connectionString);
@@ -349,12 +350,12 @@ namespace Coffeeroom.Pages.Blogs
             return new JsonResult(keys);
         }
 
-        public async Task<JsonResult> OnDelete(int id, string type)
+        public async Task<JsonResult> OnDelete(int id, string typ)
         {
 
             using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
-            if (type == "comment")
+            if (typ == "comment")
             {
 
                 using var transaction = connection.BeginTransaction();
@@ -377,6 +378,7 @@ namespace Coffeeroom.Pages.Blogs
                     await command2.ExecuteNonQueryAsync();
                     transaction.Commit();
                     message = "deleted";
+                    type = "success";
                 }
                 catch (Exception)
                 {
@@ -384,7 +386,7 @@ namespace Coffeeroom.Pages.Blogs
                     throw;
                 }
             }
-            else if (type == "reply")
+            else if (typ == "reply")
             {
                 var command = new SqlCommand("DELETE FROM TblBlogReply WHERE Id = @id and UserId = @user_id", connection);
                 command.Parameters.AddWithValue("@id", id);

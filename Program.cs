@@ -25,10 +25,10 @@ builder.Services.AddWebMarkupMin(options =>
 })
 .AddHtmlMinification(options =>
 {
-    options.MinificationSettings.PreserveNewLines = true;
+    options.MinificationSettings.PreserveNewLines = false;
     options.MinificationSettings.MinifyEmbeddedCssCode = true;
     options.MinificationSettings.RemoveHtmlComments = true;
-    options.MinificationSettings.WhitespaceMinificationMode = WhitespaceMinificationMode.Medium;
+    options.MinificationSettings.WhitespaceMinificationMode = WhitespaceMinificationMode.Safe;
     options.MinificationSettings.RemoveHtmlCommentsFromScriptsAndStyles = true;
     options.MinificationSettings.MinifyEmbeddedCssCode = true;
     options.MinificationSettings.MinifyEmbeddedJsCode = true;
@@ -45,7 +45,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
 app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();

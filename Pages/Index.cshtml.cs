@@ -8,21 +8,14 @@ namespace Coffeeroom.Pages
 {
     public class IndexModel : PageModel
     {
-        //private readonly ILogger<IndexModel> _logger;
-
-        //public IndexModel(ILogger<IndexModel> logger)
-        //{
-        //    _logger = logger;
-        //}
 
         public void OnGet()
         {
-            Log.Information("ok done");
         }
 
         public JsonResult OnPostSubscribe()
         {
-            
+         //add mail to mailing list code   
             var response = new
             {
                 Message = "GETTED data successfully",

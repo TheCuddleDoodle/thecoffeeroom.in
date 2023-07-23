@@ -8,8 +8,9 @@
                     @{
                         var avtrimg = Context.Session.GetString("avatar").ToString() + ".png";
                     }
-                    <img class="d-block rounded-circle mb-2" src="/assets/images/avatars/default/@avtrimg" width="80" alt="full name">
-                    <h3 class="h5 mb-1">@Context.Session.GetString("fullname").ToString()</h3>
+
+                     <img id="avatar_container" class="d-block rounded-circle mb-2" src="/assets/images/avatars/default/@avtrimg" width="80" alt="full name">
+                    <h3 class="h5 mb-1" id="name_container">@Context.Session.GetString("fullname").ToString()</h3>
                     <p class="fs-sm text-muted mb-0">@@@Context.Session.GetString("username").ToString() </p>
                 </div>
                 <nav class="nav flex-column pb-2 pb-lg-2">

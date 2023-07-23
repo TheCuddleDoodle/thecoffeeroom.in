@@ -87,16 +87,7 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label" for="phone">Bio <span class='text-muted'>(optional)</span></label>
-                                <textarea name="phone" type="text" id="phone" class="form-control bindenter1" value="@Model.UserDetailsDisplay.Phone" placeholder="" maxlength="15"></textarea>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label class="form-label" for="ln">Link(Primary)</label>
-                                <input name="link_primary" type="text" id="link_primary" class="form-control bindenter1" aria-autocomplete="none" value="@Model.UserDetailsDisplay.LastName" maxlength="20" />
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="form-label" for="ln">Link(Secondary)</label>
-                                <input name="linksecondary" type="text" id="linksecondary" class="form-control bindenter1" aria-autocomplete="none" value="@Model.UserDetailsDisplay.LastName" maxlength="20" />
+                                <textarea name="bio" type="text" id="bio" class="form-control bindenter1" placeholder="enter a bio" maxlength="100">@Model.UserDetailsDisplay.Bio</textarea>
                             </div>
 
                             <div class="col-sm-12 col-md-6  d-sm-flex align-items-center pt-sm-2 pt-md-3">
@@ -151,21 +142,13 @@
             });
         });
 
-        const inputBoxesPass = document.getElementsByClassName("bindenter2");
-        Array.from(inputBoxesPass).forEach((inputBox) => {
-            inputBox.addEventListener("keydown", function (event) {
-                if (event.keyCode === 10 || event.keyCode === 13) {
-                    event.preventDefault();
-                    save_pass();
-                }
-            });
-        });
 
         function updateavatar() {
             const selectElement = document.getElementById("avatars");
             const selectedOption = selectElement.options[selectElement.selectedIndex];
             const dataId = selectedOption.getAttribute("image-link");
             document.getElementById("avatar_placeholder").style = "width: 80px; height: 80px; background-image: url(/assets/images/avatars/default/" + dataId + ".png);"
+            
         }
         function save_prof() {
             var selectedOption = document.querySelector('input[name="gender"]:checked');
@@ -190,7 +173,8 @@
                 Phone: document.getElementById("phone").value,
                 EMail: document.getElementById("email").value,
                 Gender: gndrval,
-                AvatarId: document.getElementById("avatars").value
+                AvatarId: document.getElementById("avatars").value,
+                Bio: document.getElementById("bio").value
             };
 
             axios.post("/account/profile?handler=SubmitDeets", postData, config)
@@ -198,76 +182,38 @@
                     var data = response.data;
                     saveProfButton.innerHTML = "Save Profile";
                     saveProfButton.className = "btn btn-primary";
-                    document.getElementById("profstat").innerHTML = "<div class=\"subscription-status mx-auto status-" + data.type + "\">" + data.message + "</div>";
-                    document.getElementById("profilename").innerHTML = document.getElementById("firstname").value + " " + document.getElementById("lastname").value;
-                    document.getElementById("title_master").innerHTML = document.getElementById("firstname").value + " ";
-
-                    var titleMasterMobile = document.getElementById("title_master_mobile");
-                    titleMasterMobile.innerHTML = document.getElementById("firstname").value;
+                 
 
                     var dropdown = document.getElementById("avatars");
                     var selectedOption = dropdown.options[dropdown.selectedIndex];
                     var selectedOptionDataId = selectedOption.getAttribute("image-link");
 
-                    document.getElementById("layout_pfp").setAttribute("src", "/assets/images/avatars/default/" + selectedOptionDataId + ".png");
-                    document.getElementById("layout_pfp_mobile").setAttribute("src", "/assets/images/avatars/default/" + selectedOptionDataId + ".png");
+
+                    if(data.type == "success")
+                    {
+
+                        document.getElementById("profilename").innerHTML = document.getElementById("firstname").value + " " + document.getElementById("lastname").value;
+                        document.getElementById("title_master").innerHTML = document.getElementById("firstname").value + " ";
+                        document.getElementById("title_master_mobile").innerHTML = document.getElementById("firstname").value;
+                        document.getElementById("layout_pfp").setAttribute("src", "/assets/images/avatars/default/" + selectedOptionDataId + ".png");
+                        document.getElementById("layout_pfp_mobile").setAttribute("src", "/assets/images/avatars/default/" + selectedOptionDataId + ".png");
+                        document.getElementById("avatar_container").src = "/assets/images/avatars/default/" + selectedOptionDataId + ".png";
+                        document.getElementById("name_container").innerHTML = document.getElementById("firstname").value + " " + document.getElementById("lastname").value;
+
+                    }
+                 
+                    toaster(data.type, data.message);
                 })
                 .catch(function (error) {
                     console.error("Error:", error);
                     saveProfButton.innerHTML = "Save Profile";
                     saveProfButton.className = "btn btn-primary";
                     var profStat = document.getElementById("profstat");
-                    profStat.innerHTML = "<div class=\"subscription-status mx-auto status-error\">something went wrong</div>";
+                    toaster("error","something went wrong");
                 });
 
-        }
-
-
-        function save_pass() {
-            var savePassButton = document.getElementById("savepass");
-            savePassButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving';
-            savePassButton.className = "btn btn-primary pe-none";
-
-            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-
-            var config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "RequestVerificationToken": token
-                }
-            };
-
-            var postData = {
-                NewPass: document.getElementById("new_pass").value,
-                ConfirmPass: document.getElementById("confirm_pass").value
-            };
-
-            axios.post("/account/profile?handler=SubmitPass", postData, config)
-                .then(function (response) {
-                    var data = response.data;
-                    savePassButton.innerHTML = "Save Changes";
-                    savePassButton.className = "btn btn-primary";
-                    document.getElementById("passstat").innerHTML = "<div class=\"subscription-status mx-auto status-" + data.type + "\">" + data.message + "</div>";
-
-                    document.getElementById("new_pass").value = "";
-                    document.getElementById("confirm_pass").value = "";
-                })
-                .catch(function (error) {
-                    console.error("Error:", error);
-                    savePassButton.innerHTML = "Save Changes";
-                    savePassButton.className = "btn btn-primary";
-                    document.getElementById("passstat").innerHTML = "<div class=\"subscription-status mx-auto status-error\">something went wrong ajax</div>";
-                });
         }
 
     </script>
 }
 
-@section cssStyles
-    {
-    <style>
-        option {
-            color: #434a57;
-        }
-    </style>
-}

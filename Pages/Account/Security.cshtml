@@ -109,16 +109,15 @@
                     var data = response.data;
                     savePassButton.innerHTML = "Save Changes";
                     savePassButton.className = "btn btn-primary";
-                    document.getElementById("passstat").innerHTML = "<div class=\"subscription-status mx-auto status-" + data.type + "\">" + data.message + "</div>";
-
                     document.getElementById("new_pass").value = "";
                     document.getElementById("confirm_pass").value = "";
+                    toaster(data.type, data.message);
                 })
                 .catch(function (error) {
                     console.error("Error:", error);
                     savePassButton.innerHTML = "Save Changes";
                     savePassButton.className = "btn btn-primary";
-                    document.getElementById("passstat").innerHTML = "<div class=\"subscription-status mx-auto status-error\">something went wrong ajax</div>";
+                    toaster("error","something went wrong");
                 });
         }
 

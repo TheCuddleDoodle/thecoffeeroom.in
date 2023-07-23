@@ -8,7 +8,6 @@ using Coffeeroom.Models.Domain;
 namespace Coffeeroom.Pages.Account
 {
    
-
     [ValidateAntiForgeryToken]
     public class ProfileModel : PageModel
     {
@@ -135,7 +134,7 @@ namespace Coffeeroom.Pages.Account
                         using SqlConnection connection = new(connectionString);
 
                         await connection.OpenAsync();
-                        SqlCommand insertCommand = new("UPDATE TblUserProfile SET FirstName = @FirstName,LastName = @LastName,EMail = @EMail,Phone = @Phone,AvatarId= @AvatarId,Gender = @Gender where UserName = @UserName", connection);
+                        SqlCommand insertCommand = new("UPDATE TblUserProfile SET FirstName = @FirstName,LastName = @LastName,EMail = @EMail,Phone = @Phone,AvatarId= @AvatarId,Gender = @Gender,Bio = @Bio where UserName = @UserName", connection);
                         insertCommand.Parameters.AddWithValue("@FirstName", EditProfile.FirstName.Trim());
                         insertCommand.Parameters.AddWithValue("@LastName", EditProfile.LastName.Trim());
                         insertCommand.Parameters.AddWithValue("@EMail", EditProfile.EMail.Trim());
@@ -144,6 +143,7 @@ namespace Coffeeroom.Pages.Account
                         insertCommand.Parameters.AddWithValue("@AvatarId", EditProfile.AvatarId);
                         insertCommand.Parameters.Add("@datejoined", SqlDbType.DateTime).Value = DateTime.Now;
                         insertCommand.Parameters.AddWithValue("@UserName", HttpContext.Session.GetString("username"));
+                        insertCommand.Parameters.AddWithValue("@Bio", EditProfile.Bio.Trim());
                         await insertCommand.ExecuteNonQueryAsync();
                         message = "Changes Saved!!";
                         type = "success";
@@ -160,6 +160,7 @@ namespace Coffeeroom.Pages.Account
                                 HttpContext.Session.SetString("avatar", session_avtr);
                             }
                             HttpContext.Session.SetString("first_name", EditProfile.FirstName.Trim());
+                            HttpContext.Session.SetString("fullname", EditProfile.FirstName.Trim() + " " + EditProfile.LastName.Trim());
 
 
                             // HttpContext.Session.SetString("role", role);

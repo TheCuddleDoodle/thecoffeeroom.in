@@ -283,7 +283,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       for (var i = 0; i < gallery.length; i++) {
         var thumbnails = gallery[i].dataset.thumbnails ? true : false,
           video = gallery[i].dataset.video ? true : false,
-          defaultPlugins = [lgZoom, lgAutoplay, lgComment, lgFullscreen, lgHash, lgPager, lgRotate, lgShare, lgThumbnail, lgVideo],
+          defaultPlugins = [lgZoom, lgFullscreen, lgRotate, lgThumbnail, lgVideo],
           //edited default plugins
           videoPlugin = video ? [lgVideo] : [],
           thumbnailPlugin = thumbnails ? [lgThumbnail] : [],

@@ -16,6 +16,7 @@
     <Folder Include="Data\DataAccess\" />
     <Folder Include="logs\" />
     <Folder Include="Pages\Shared\ContentViews\Magazines\2023\" />
+    <Folder Include="Pages\Shared\ContentViews\Apps\" />
     <Folder Include="Pages\Users\" />
     <Folder Include="Repositories\" />
     <Folder Include="Pages\Music\" />
@@ -25,8 +26,6 @@
     <Folder Include="wwwroot\content\appcontent\" />
     <Folder Include="wwwroot\content\archivecontent\" />
     <Folder Include="wwwroot\content\blogcontent\global\" />
-    <Folder Include="wwwroot\content\gallerycontent\garden-state\lossless\" />
-    <Folder Include="wwwroot\content\gallerycontent\garden-state\thumbs\" />
     <Folder Include="wwwroot\content\gallerycontent\the-birdies\lossless\" />
     <Folder Include="wwwroot\content\gallerycontent\the-birdies\thumbs\" />
     <Folder Include="wwwroot\content\musiccontent\albums\" />

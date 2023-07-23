@@ -235,7 +235,7 @@
                             </button>
                         </div>
                     </div>
-                    <span id="commentstat"></span>
+                    <span id="commentstat" hidden></span>
                 }
                 else
                 {
@@ -383,29 +383,22 @@
                 success: function (data) {
                     $("#commentbutton").html('Post Comment');
                     $("#commentbutton").attr("class", "btn btn-primary");
-                    $("#commentstat").html("<div class=\"subscription-status mx-auto status-" + data.type + "\">" + data.message + "</div>");
                     if (data.type == "success") {
                         loadComments();
                         document.getElementById("blog_comment").value = "";
+                        toaster(data.type, data.message);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log("Error:", errorThrown.e);
                     $("#commentbutton").html('Post Comment');
                     $("#commentbutton").attr("class", "btn btn-primary");
-                    $("#commentstat").html("<div class=\"subscription-status mx-auto status-error\">connection issue..</div>");
+                    toaster("error","something went wrong");
                 }
             });
-            startTimeout();
         }
 
-        let timeoutmail;
-        function startTimeout() {
-            clearTimeout(timeoutmail);
-            timeoutmail = setTimeout(() => {
-                document.getElementById("commentstat").innerHTML = "";
-            }, 5000);
-        }
+      
 
         async function loadAuthors() {
             axios.get('/blog/@Model.YearPosted/@Model.UrlHandle?handler=LoadAuthors&blogId=' + @Model.BlogId)
@@ -469,6 +462,7 @@
                     $('#mdlEdit').modal('hide');
                     $("#blog_commentEdit").val() == "";
                     localStorage.removeItem("editid");
+                    toaster(data.type, data.message);
                 },
                 error: function () {
                     alert("something went wrong");
@@ -489,6 +483,7 @@
                     loadComments();
                     $('#mdlReply').modal('hide');
                     $("#blog_replyEdit").val() == "";
+                    toaster(data.type, data.message);
                     localStorage.removeItem("replyid");
                 },
                 error: function () {
@@ -506,9 +501,11 @@
 
         function cmntDeleteConfirm() {
             $.ajax({
-                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=OnDelete&id=' + localStorage.getItem('delid') + '&type=comment',
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=del&id=' + localStorage.getItem('delid') + '&typeof=comment',
                 type: 'DELETE',
+                __method: 'delete',
                 success: function (data) {
+                    toaster(data.type, data.message);
                     loadComments();
                 },
                 error: function () {
@@ -543,6 +540,7 @@
                     if (data.type == "success") {
                         loadComments();
                         $('#mdladdReply').modal('hide');
+                        toaster(data.type, data.message);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -560,13 +558,15 @@
 
         function replyDeleteConfirm() {
             $.ajax({
-                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=OnDelete&id=' + localStorage.getItem('delid') + '&type=reply',
-                type: 'z',
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=del&id=' + localStorage.getItem('delid') + '&typeof=reply',
+                type: 'DELETE',
+                __method: 'delete',
                 success: function (data) {
                     loadComments();
+                    toaster(data.type,data.message);
                 },
                 error: function () {
-                    alert("something went wrong");
+                    toaster("error","something went wrong");
                 }
             });
             $('#mdlreplyDelete').modal('hide');

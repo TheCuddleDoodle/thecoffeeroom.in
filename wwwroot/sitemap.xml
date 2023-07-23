@@ -4,4 +4,16 @@
       <loc>https://coffeeroom.in/</loc>
       <lastmod>2023-07-10</lastmod>
    </url>
+	<url>
+		<loc>https://coffeeroom.in/gallery</loc>
+		<lastmod>2023-07-22</lastmod>
+	</url>
+	<url>
+		<loc>https://coffeeroom.in/blogs</loc>
+		<lastmod>2023-07-22</lastmod>
+	</url>
+	<url>
+		<loc>https://coffeeroom.in/account/login</loc>
+		<lastmod>2023-07-22</lastmod>
+	</url>
 </urlset>

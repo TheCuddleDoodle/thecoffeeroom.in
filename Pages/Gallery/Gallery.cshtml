@@ -1,4 +1,25 @@
-﻿@page "/gallery/{year}/{urlhandle}"
+﻿@page "/gallery/album/{year}/{urlhandle}"
 @model Coffeeroom.Pages.Gallery.GalleryModel
-@{
+
+@section cssLib{
+    <link rel="stylesheet" media="screen" href="/assets/vendor/lightgallery/css/lightgallery-bundle.min.css" />
 }
+@section jsLib{
+    <script src="/assets/vendor/lightgallery/lightgallery.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/video/lg-video.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/fullscreen/lg-fullscreen.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/zoom/lg-zoom.min.js"></script>
+    <script src="/assets/vendor/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script>
+    <script src="~/assets/vendor/lightgallery/plugins/rotate/lg-rotate.min.js"></script>
+    <script src="/assets/vendor/jarallax/dist/jarallax.min.js"></script>
+    <script src="~/assets/vendor/lightgallery/plugins/share/lg-share.min.js"></script>
+}
+
+
+
+@await Html.PartialAsync("ContentViews/Gallery/" + @Model.Year  + "/" + @Model.Urlhandle)
+
+
+
+
+

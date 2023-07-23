@@ -7,6 +7,10 @@ namespace Coffeeroom.Pages.Admin
     {
         public void OnGet()
         {
+            if (HttpContext.Session.GetString("role") != "admin")
+            {
+                Response.Redirect("/account");
+            }
         }
     }
 }
