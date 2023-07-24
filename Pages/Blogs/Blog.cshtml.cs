@@ -56,7 +56,7 @@ namespace Coffeeroom.Pages.Blogs
                 YearPosted = year;
                 using var connection = new SqlConnection(connectionString);
                 connection.Open();
-                var command = new SqlCommand("SELECT Id, Tags,Title FROM TblBlogMaster WHERE UrlHandle = @urlhandle", connection);
+                var command = new SqlCommand("SELECT Id, Tags,Title,UrlHandle FROM TblBlogMaster WHERE UrlHandle = @urlhandle", connection);
                 command.Parameters.AddWithValue("@urlhandle", UrlHandle);
                 var reader = command.ExecuteReader();
                 string tags = string.Empty;
@@ -65,6 +65,7 @@ namespace Coffeeroom.Pages.Blogs
                     BlogId = (int)reader["Id"];
                     BlogTags = reader["Tags"].ToString();
                     BlogTitle = reader["Title"].ToString();
+                    UrlHandle = reader["UrlHandle"].ToString();
                 }
                 reader.Close();
             }
@@ -73,8 +74,9 @@ namespace Coffeeroom.Pages.Blogs
                 Response.Redirect("/blogs");
             }
         }
-        public async Task<JsonResult> OnPostLdCommentsAsync([FromBody] BlogComment blogComment)
+        public async Task<JsonResult> OnPostLdCommentsAsync(string url)
         {
+
             Dictionary<int, dynamic> comments = new Dictionary<int, dynamic>();
             using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();
@@ -101,11 +103,14 @@ namespace Coffeeroom.Pages.Blogs
 						  JOIN TblUserProfile u ON c.UserId = u.Id
 						  JOIN TblAvatarMaster a ON u.AvatarId = a.Id
 						  LEFT JOIN TblBlogReply r ON c.Id = r.CommentId
+                          LEFT JOIN TblBlogMaster bm ON bm.Id = c.PostId
 						  LEFT JOIN TblUserProfile u2 ON r.UserId = u2.Id
 						  LEFT JOIN TblAvatarMaster a2 ON u2.AvatarId = a2.Id
+            where bm.UrlHandle = @posturl
 						ORDER BY
 						  c.DatePosted;
 						", connection);
+            command.Parameters.AddWithValue("@posturl", url);
             var reader = await command.ExecuteReaderAsync();
             string user = "";
             bool editable = false, replyeditable = false;
@@ -184,7 +189,7 @@ namespace Coffeeroom.Pages.Blogs
             await reader.CloseAsync();
             await connection.CloseAsync();
             string json = JsonSerializer.Serialize(comments.Values);
-            return new JsonResult(json);
+            return new JsonResult(comments.Values);
         }
 
         public async Task<JsonResult> OnPostAddCommentAsync([FromBody] BlogComment blogComment)

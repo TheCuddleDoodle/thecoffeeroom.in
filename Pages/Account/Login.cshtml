@@ -111,7 +111,8 @@
                     var typeResp = response.data;
                     if (typeResp.type == "success") {
                         toaster("Success", typeResp.message);
-                        window.location.replace('/');
+                        let fwrdLink = localStorage.getItem('curr_link');
+                        window.location.replace(fwrdLink);
                     }
                     else if (typeResp.type == "error")
                     {

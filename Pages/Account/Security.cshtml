@@ -109,8 +109,12 @@
                     var data = response.data;
                     savePassButton.innerHTML = "Save Changes";
                     savePassButton.className = "btn btn-primary";
-                    document.getElementById("new_pass").value = "";
-                    document.getElementById("confirm_pass").value = "";
+                    if(data.type == "success")
+                    {
+                        document.getElementById("new_pass").value = "";
+                        document.getElementById("confirm_pass").value = "";
+                    }
+                    
                     toaster(data.type, data.message);
                 })
                 .catch(function (error) {
