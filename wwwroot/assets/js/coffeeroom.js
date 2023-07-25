@@ -17,7 +17,7 @@ if (shareButton != null && shareButton != undefined) {
         try {
             if (navigator.share) {
                 await navigator.share({
-                    title: 'Check out this awesome post from jsm33t.com',
+                    title: 'Check out this amazing post @ thecoffeeroom.in',
                     url: window.location.href,
                 });
                 console.log('Successfully shared');

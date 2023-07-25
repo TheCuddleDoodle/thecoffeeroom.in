@@ -151,22 +151,31 @@ html {
     background-position: center;
     transition: background 0.8s;
 }
+/*.btn-primary {
+    --ar-btn-bg: #8d7aa8;
+    --ar-btn-border-color: #8d7aa8;
+    --ar-btn-hover-bg: #74618f;
+    --ar-btn-hover-border-color: #74618f;
+    --ar-btn-active-bg: #74618f;
+    --ar-btn-active-border-color: #74618f;
+    --ar-btn-disabled-bg: #8d7aa8;
+    --ar-btn-disabled-border-color: #8d7aa8;
+}*/
+
+.ripple:hover,
+.ripple:active,
+.ripple:focus {
+    background: var(--ar-btn-bg) radial-gradient(circle, transparent 1%, var(--ar-btn-bg) 1%) center/15000%;
+    transition: background 1s;
+}
 
 
-    .ripple:hover,
-    .ripple:active,
-    .ripple:focus {
-        background: var(--ar-primary) radial-gradient(circle, transparent 1%, var(--ar-primary) 1%) center/15000%;
-        transition: background 1s;
-    }
-
-
-    .ripple:active {
-        /* background-color: rgba(255,255,255,0.5);*/
-        background-color: var(--ar-primary);
-        background-size: 100%;
-        transition: background 0s;
-    }
+.ripple:active {
+    /* background-color: rgba(255,255,255,0.5);*/
+    background-color: var(--ar-btn-hover-bg);
+    background-size: 100%;
+    transition: background 0s;
+}
 
 
 

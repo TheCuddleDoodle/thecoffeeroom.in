@@ -7,6 +7,17 @@ using WebMarkupMin.Core;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder.WithOrigins("https://laymaann.in");
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+        });
+});
+
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".coffeebreak.Session";
@@ -48,8 +59,8 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseWebMarkupMin();
+//app.UseCors();
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
