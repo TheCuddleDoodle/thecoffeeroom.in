@@ -6,6 +6,7 @@ using System.Data;
 using System.Text.Json;
 using System.Web;
 using Serilog;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Coffeeroom.Pages.Blogs
 {
@@ -74,7 +75,7 @@ namespace Coffeeroom.Pages.Blogs
                 Response.Redirect("/blogs");
             }
         }
-        public async Task<JsonResult> OnPostLdCommentsAsync(string url)
+        public async Task<IActionResult> OnPostLdCommentsAsync(string url)
         {
 
             Dictionary<int, dynamic> comments = new Dictionary<int, dynamic>();
@@ -114,81 +115,91 @@ namespace Coffeeroom.Pages.Blogs
             var reader = await command.ExecuteReaderAsync();
             string user = "";
             bool editable = false, replyeditable = false;
-            while (reader.Read())
+            if (reader.HasRows)
             {
-                if (HttpContext.Session.GetString("username") != null)
+                while (reader.Read())
                 {
-                    user = "yes";
-                    if (reader.GetString(5) == HttpContext.Session.GetString("username").ToString())
+                    if (HttpContext.Session.GetString("username") != null)
                     {
-                        editable = true;
-                    }
-                    else
-                    {
-                        editable = false;
-                    }
-                    try
-                    {
-                        if (reader.GetString(16) == HttpContext.Session.GetString("username").ToString())
+                        user = "yes";
+                        if (reader.GetString(5) == HttpContext.Session.GetString("username").ToString())
                         {
-                            replyeditable = true;
+                            editable = true;
                         }
                         else
+                        {
+                            editable = false;
+                        }
+                        try
+                        {
+                            if (reader.GetString(16) == HttpContext.Session.GetString("username").ToString())
+                            {
+                                replyeditable = true;
+                            }
+                            else
+                            {
+                                replyeditable = false;
+                            }
+                        }
+                        catch
                         {
                             replyeditable = false;
                         }
                     }
-                    catch
+                    else
                     {
-                        replyeditable = false;
+                        user = "no";
+                    }
+                    var commentId = reader.GetInt32(0);
+                    if (!comments.ContainsKey(commentId))
+                    {
+                        var comment = new
+                        {
+                            id = commentId,
+                            edit = editable,
+                            user = user,
+                            fullname = reader.GetString(3) + " " + reader.GetString(4),
+                            userid = reader.GetInt32(2),
+                            username = reader.GetString(5),
+                            comment = HttpUtility.HtmlDecode(reader.GetString(1)),
+                            date = reader.GetString(7),
+                            avatar = reader.GetString(8),
+                            replies = new List<object>()
+                        };
+
+                        comments.Add(commentId, comment);
+                    }
+
+                    if (!reader.IsDBNull(9))
+                    {
+                        var reply = new
+                        {
+                            replyEdit = replyeditable,
+                            user = user,
+                            replyId = reader.GetInt32(9),
+                            replyComment = HttpUtility.HtmlDecode(reader.GetString(10)),
+                            replyUserId = reader.GetInt32(12),
+                            replyDate = reader.GetString(11),
+                            //replyFirstName = reader.GetString(13),
+                            //replyLastName = reader.GetString(14),
+                            replyFullName = reader.GetString(13) + " " + reader.GetString(14),
+                            replyAvatar = reader.GetString(15)
+                        };
+
+                        comments[commentId].replies.Add(reply);
                     }
                 }
-                else
-                {
-                    user = "no";
-                }
-                var commentId = reader.GetInt32(0);
-                if (!comments.ContainsKey(commentId))
-                {
-                    var comment = new
-                    {
-                        id = commentId,
-                        edit = editable,
-                        user = user,
-                        fullname = reader.GetString(3) + " " + reader.GetString(4),
-                        userid = reader.GetInt32(2),
-                        username = reader.GetString(5),
-                        comment = HttpUtility.HtmlDecode(reader.GetString(1)),
-                        date = reader.GetString(7),
-                        avatar = reader.GetString(8),
-                        replies = new List<object>()
-                    };
-
-                    comments.Add(commentId, comment);
-                }
-
-                if (!reader.IsDBNull(9))
-                {
-                    var reply = new
-                    {
-                        replyEdit = replyeditable,
-                        user = user,
-                        replyId = reader.GetInt32(9),
-                        replyComment = HttpUtility.HtmlDecode(reader.GetString(10)),
-                        replyUserId = reader.GetInt32(12),
-                        replyDate = reader.GetString(11),
-                        //replyFirstName = reader.GetString(13),
-                        //replyLastName = reader.GetString(14),
-                        replyFullName = reader.GetString(13) + " " + reader.GetString(14),
-                        replyAvatar = reader.GetString(15)
-                    };
-
-                    comments[commentId].replies.Add(reply);
-                }
             }
+            else
+            {
+                //return StatusCode(404);
+                string errorMessage = "error";
+                return BadRequest(new { error = errorMessage }); // HTTP 400 Bad Request
+            }
+           
             await reader.CloseAsync();
             await connection.CloseAsync();
-            string json = JsonSerializer.Serialize(comments.Values);
+          //  string json = JsonSerializer.Serialize(comments.Values);
             return new JsonResult(comments.Values);
         }
 
@@ -306,7 +317,7 @@ namespace Coffeeroom.Pages.Blogs
             return new JsonResult(keys);
         }
 
-        public async Task<JsonResult> OnDeleteDelAsync(int id, string type)
+        public async Task<JsonResult> OnPostDelAsync(int id, string type)
         {
 
             using var connection = new SqlConnection(connectionString);
@@ -333,7 +344,7 @@ namespace Coffeeroom.Pages.Blogs
                     command2.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
                     await command2.ExecuteNonQueryAsync();
                     transaction.Commit();
-                    message = "deleted";
+                    message = "comment deleted!";
                 }
                 catch (Exception)
                 {
@@ -347,6 +358,7 @@ namespace Coffeeroom.Pages.Blogs
                 command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
                 await command.ExecuteNonQueryAsync();
+                message = "reply deleted!";
 
             }
             await connection.CloseAsync();
@@ -355,55 +367,55 @@ namespace Coffeeroom.Pages.Blogs
             return new JsonResult(keys);
         }
 
-        public async Task<JsonResult> OnDelete(int id, string typ)
-        {
+        //public async Task<JsonResult> OnDelete(int id, string typ)
+        //{
 
-            using var connection = new SqlConnection(connectionString);
-            await connection.OpenAsync();
-            if (typ == "comment")
-            {
+        //    using var connection = new SqlConnection(connectionString);
+        //    await connection.OpenAsync();
+        //    if (typ == "comment")
+        //    {
 
-                using var transaction = connection.BeginTransaction();
-                try
-                {
-                    // Perform multiple database operations within the transaction
-                    using var command1 = connection.CreateCommand();
-                    command1.Transaction = transaction;
-                    command1.CommandText = "DELETE FROM TblBlogComment WHERE Id = @id and UserId = @user_id";
-                    command1.Parameters.AddWithValue("@id", id);
-                    command1.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
+        //        using var transaction = connection.BeginTransaction();
+        //        try
+        //        {
+        //            // Perform multiple database operations within the transaction
+        //            using var command1 = connection.CreateCommand();
+        //            command1.Transaction = transaction;
+        //            command1.CommandText = "DELETE FROM TblBlogComment WHERE Id = @id and UserId = @user_id";
+        //            command1.Parameters.AddWithValue("@id", id);
+        //            command1.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
 
-                    await command1.ExecuteNonQueryAsync();
+        //            await command1.ExecuteNonQueryAsync();
 
-                    using var command2 = connection.CreateCommand();
-                    command2.Transaction = transaction;
-                    command2.CommandText = "DELETE FROM TblBlogReply WHERE CommentId = @id";
-                    command2.Parameters.AddWithValue("@id", id);
-                    command2.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
-                    await command2.ExecuteNonQueryAsync();
-                    transaction.Commit();
-                    message = "deleted";
-                    type = "success";
-                }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                    throw;
-                }
-            }
-            else if (typ == "reply")
-            {
-                var command = new SqlCommand("DELETE FROM TblBlogReply WHERE Id = @id and UserId = @user_id", connection);
-                command.Parameters.AddWithValue("@id", id);
-                command.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
-                await command.ExecuteNonQueryAsync();
+        //            using var command2 = connection.CreateCommand();
+        //            command2.Transaction = transaction;
+        //            command2.CommandText = "DELETE FROM TblBlogReply WHERE CommentId = @id";
+        //            command2.Parameters.AddWithValue("@id", id);
+        //            command2.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
+        //            await command2.ExecuteNonQueryAsync();
+        //            transaction.Commit();
+        //            message = "deleted";
+        //            type = "success";
+        //        }
+        //        catch (Exception)
+        //        {
+        //            transaction.Rollback();
+        //            throw;
+        //        }
+        //    }
+        //    else if (typ == "reply")
+        //    {
+        //        var command = new SqlCommand("DELETE FROM TblBlogReply WHERE Id = @id and UserId = @user_id", connection);
+        //        command.Parameters.AddWithValue("@id", id);
+        //        command.Parameters.AddWithValue("@user_id", HttpContext.Session.GetString("user_id"));
+        //        await command.ExecuteNonQueryAsync();
 
-            }
-            await connection.CloseAsync();
+        //    }
+        //    await connection.CloseAsync();
 
-            var keys = new { message, type };
-            return new JsonResult(keys);
-        }
+        //    var keys = new { message, type };
+        //    return new JsonResult(keys);
+        //}
         //edit comments
         public async Task<JsonResult> OnPostCommentsEditAsync(int id, string comment)
         {

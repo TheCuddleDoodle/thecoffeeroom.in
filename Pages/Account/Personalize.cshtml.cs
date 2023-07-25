@@ -20,7 +20,7 @@ namespace Coffeeroom.Pages.Account
             ThemeDD = new List<Theme>();
             using var connection = new SqlConnection(connectionString);
             connection.Open();
-            var command = new SqlCommand("SELECT a.*,u.FirstName as CuratorName from TblThemeMaster a,TblUserProfile u where a.CuratorId = u.Id order by Id", connection);
+            var command = new SqlCommand("SELECT a.*,u.FirstName as CuratorName from TblThemeMaster a,TblUserProfile u where a.CuratorId = u.Id and a.IsActive = 1 order by Id", connection);
             var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {

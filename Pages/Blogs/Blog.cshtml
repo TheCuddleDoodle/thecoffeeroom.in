@@ -19,7 +19,7 @@
         {
             <div class="row">
                 <div class="col-lg-9 col-xl-8 pe-lg-4 pe-xl-0">
-                    <h1 class="pb-2 pb-lg-3">Top 5 K-dramas to binge this summer</h1>
+                    <h1 class="pb-2 pb-lg-3">@Model.BlogTitle</h1>
                     <div class="d-flex flex-wrap align-items-center justify-content-between border-bottom mb-4">
                         <div class="d-flex align-items-center mb-4 me-4"><span class="fs-sm me-2">By:</span><span class=" position-relative fw-semibold p-0"><span id="authorsPlaceholder2"></span></span></div>
                         <div class="d-flex align-items-center mb-4">
@@ -34,18 +34,17 @@
         }
         catch
         {
-            // Response.Redirect("/site/404");
-            @await Html.PartialAsync("_404")
+            await Html.PartialAsync("_404");
         }
         ViewData["blogurl"] = @Model.UrlHandle;
     }
     else
     {
         ViewData["blogurl"] = "";
-        @await Html.PartialAsync("_404")
+        await Html.PartialAsync("_404");
     }
 
-    @Html.AntiForgeryToken();
+    @Html.AntiForgeryToken()
     <div class="modal fade" id="mdlDelete" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -356,7 +355,17 @@
                     document.getElementById("blogcount").innerHTML = c;
                 })
                 .catch((error) => {
-                    console.error(error);
+                    if (error.response) {
+                        // Handle error response
+                        const errorMessage = error.response.data.error;
+                        console.error(errorMessage);
+                        // Further error handling or display the error message to the user
+                    } else if (error.request) {
+                        // Handle network errors
+                        console.error('Network error:', error.request);
+                    } else {
+                        console.error('Error:', error.message);
+                    }
                 });
 
            
@@ -491,7 +500,7 @@
                     if (data.length != 0) {
                         for (var i = 0; i < data.length; i++) {
 
-                            authorsdat2 = authorsdat2 + data[i].firstName + ' , ';
+                            authorsdat2 = authorsdat2 + data[i].firstName + ' ' + data[i].lastName + ' , ';
                         }
                         document.getElementById('authorsPlaceholder2').innerHTML = authorsdat2.slice(0, authorsdat2.lastIndexOf(',')) + authorsdat2.slice(authorsdat2.lastIndexOf(',') + 1);
                     }
@@ -583,9 +592,8 @@
 
         function cmntDeleteConfirm() {
             $.ajax({
-                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=del&id=' + localStorage.getItem('delid') + '&typeof=comment',
-                type: 'DELETE',
-                __method: 'delete',
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=del&id=' + localStorage.getItem('delid') + '&type=comment',
+                type: 'POST',
                 success: function (data) {
                     toaster(data.type, data.message);
                     loadComments();
@@ -640,18 +648,18 @@
 
         function replyDeleteConfirm() {
             $.ajax({
-                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=del&id=' + localStorage.getItem('delid') + '&typeof=reply',
-                type: 'DELETE',
-                __method: 'delete',
+                url: '/blog/@Model.YearPosted/@Model.UrlHandle?handler=del&id=' + localStorage.getItem('delid') + '&type=reply',
+                type: 'POST',
                 success: function (data) {
                     loadComments();
                     toaster(data.type,data.message);
+                    $('#mdlreplyDelete').modal('hide');
                 },
                 error: function () {
                     toaster("error","something went wrong");
                 }
             });
-            $('#mdlreplyDelete').modal('hide');
+            
             localStorage.removeItem('delid');
         }
 
