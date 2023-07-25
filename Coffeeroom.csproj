@@ -18,7 +18,6 @@
     <Folder Include="Pages\Shared\ContentViews\Magazines\2023\" />
     <Folder Include="Pages\Shared\ContentViews\Apps\" />
     <Folder Include="Pages\Users\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Pages\Music\" />
     <Folder Include="Pages\Shop\" />
     <Folder Include="wwwroot\assets\images\gallery\albums\" />
