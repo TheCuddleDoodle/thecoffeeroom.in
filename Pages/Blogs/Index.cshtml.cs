@@ -4,7 +4,7 @@ using Coffeeroom.Models.View;
 using Coffeeroom.Pages.Test;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Coffeeroom.Pages.Blogs
 {

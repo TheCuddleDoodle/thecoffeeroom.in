@@ -290,67 +290,57 @@
                 }
             }; axios.post("/blog/@Model.YearPosted/@Model.UrlHandle?handler=LdComments", data, config)
                 .then((response) => {
-                    // Handle the response
-                    console.log(response.data);
                    // data.sort((a, b) => a.id - b.id);
                     let commentsHTML = "";
-                    for (let i = 0; i < response.data.length; i++) {
-                        const comment = response.data[i];
-                        var c = i + 1;
-                        commentsHTML += '<div class="border-bottom py-4 mt-2 mb-4">' +
-                            '<div class="d-flex align-items-center pb-1 mb-3"> <img class="rounded-circle" src="/assets/images/avatars/default/' + comment.avatar + '.png" width="48" alt="Comment author">' +
-                            '<div class="ps-3">' +
-                            '<h6 class="mb-0">' + comment.fullname + ' </h6><span class="fs-sm text-muted">' + comment.date + '</span>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="btn-group-sm me-2 ml-2 mx-2" style="float:right;" role="group" aria-label="Settings group">' +
-                            (roleData !== 'guest' ? '<button type="button" id="repl_' + comment.id + '" onclick="cmntReply(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-redo"></i></button>&nbsp;' : '') +
-                            (comment.edit ? '<button type="button" id="edt_' + comment.id + '" onclick="cmntEdit(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;' : '') +
-                            (comment.edit ? '<button type="button" id="dlt_' + comment.id + '" onclick="cmntDelete(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;' : '') +
-                            '</div>' +
-                            '<span class="pb-2 mb-0" id="cm_' + comment.id + '">' + comment.comment + '</span>';
-
-                        if (comment.replies && comment.replies.length > 0) {
-                            //comment.replies.sort((a, b) => a.replyId - b.replyId);
-                            for (let j = 0; j < comment.replies.length; j++) {
-                                const reply = comment.replies[j];
-                                //commentsHTML +=
-                                //    `<div class="card card-body border-0 bg-secondary mt-4">`+
-                                //                `<div class="d-flex align-items-center pb-1 mb-3">`+
-                                //                    `<img class="rounded-circle" src="/assets/images/avatars/default/${reply.replyAvatar}.png" width="48" alt="Comment author">`+
-                                //    `<div class="ps-3" > `+
-                                //    `<h6 class="mb-0">${reply.replyFullName}</h6><span class="fs-sm text-muted">${reply.replyDate}</span>` +
-                                //       `</div></div>`+
-                                //        `<div class="d-flex align-items-center justify-content-between mb-3" role = "group" aria - label="Settings group" > `+
-                                //        `<p class="mb-0"><a class="fw-bold text-decoration-none" href="#">@@${comment.fullname}</a>&nbsp;&nbsp;<span id="reply_${reply.replyId}">${reply.replyComment}</span></p>` +
-                                //            `<div>`+
-                                //             `${reply.replyEdit ? `<button type="button" id="edt${reply.replyId}" onclick="replyEdit(${reply.replyId})" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;` : ''}` +
-                                //                         `${reply.replyEdit ? `<button type="button" id="repldlt_${reply.replyId}" onclick="replyDelete(${reply.replyId})" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;` : ''}`+
-                                //            `</div>`+
-                                //        `</div>`+
-                                //        `</div> `;
-                                commentsHTML +=
-                                    '<div class="card card-body border-0 bg-secondary mt-4">' +
-                                    '    <div class="d-flex align-items-center pb-1 mb-3">' +
-                                    '        <img class="rounded-circle" src="/assets/images/avatars/default/' + reply.replyAvatar + '.png" width="48" alt="Comment author">' +
-                                    '        <div class="ps-3">' +
-                                    '            <h6 class="mb-0">' + reply.replyFullName + '</h6><span class="fs-sm text-muted">' + reply.replyDate + '</span>' +
-                                    '        </div>' +
-                                    '    </div>' +
-                                    '    <div class="d-flex align-items-center justify-content-between mb-3" role="group" aria-label="Settings group">' +
-                                    '        <p class="mb-0"><a class="fw-bold text-decoration-none" href="#">@@' + comment.fullname + '</a>&nbsp;&nbsp;<span id="reply_' + reply.replyId + '">' + reply.replyComment + '</span></p>' +
-                                    '        <div>' +
-                                    (reply.replyEdit ? '            <button type="button" id="edt' + reply.replyId + '" onclick="replyEdit(' + reply.replyId + ')" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;' : '') +
-                                    (reply.replyEdit ? '            <button type="button" id="repldlt_' + reply.replyId + '" onclick="replyDelete(' + reply.replyId + ')" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;' : '') +
-                                    '        </div>' +
-                                    '    </div>' +
-                                    '</div>';
-
-                            }
-                        }
-                        commentsHTML += `</div>`;
+                    if(response.data.length == 0)
+                    {
+                        commentsHTML = "";
                     }
+                    else
+                    {
+                        for (let i = 0; i < response.data.length; i++) {
+                            const comment = response.data[i];
+                            var c = i + 1;
+                            commentsHTML += '<div class="border-bottom py-4 mt-2 mb-4">' +
+                                '<div class="d-flex align-items-center pb-1 mb-3"> <img class="rounded-circle" src="/assets/images/avatars/default/' + comment.avatar + '.png" width="48" alt="Comment author">' +
+                                '<div class="ps-3">' +
+                                '<h6 class="mb-0">' + comment.fullname + ' </h6><span class="fs-sm text-muted">' + comment.date + '</span>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="btn-group-sm me-2 ml-2 mx-2" style="float:right;" role="group" aria-label="Settings group">' +
+                                (roleData !== 'guest' ? '<button type="button" id="repl_' + comment.id + '" onclick="cmntReply(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-redo"></i></button>&nbsp;' : '') +
+                                (comment.edit ? '<button type="button" id="edt_' + comment.id + '" onclick="cmntEdit(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;' : '') +
+                                (comment.edit ? '<button type="button" id="dlt_' + comment.id + '" onclick="cmntDelete(' + comment.id + ')" class="btn btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;' : '') +
+                                '</div>' +
+                                '<span class="pb-2 mb-0" id="cm_' + comment.id + '">' + comment.comment + '</span>';
 
+                            if (comment.replies && comment.replies.length > 0) {
+                                // comment.replies.sort((a, b) => a.replyId - b.replyId);
+                                for (let j = 0; j < comment.replies.length; j++) {
+                                    const reply = comment.replies[j];
+                                    commentsHTML +=
+                                        '<div class="card card-body border-0 bg-secondary mt-4">' +
+                                        '    <div class="d-flex align-items-center pb-1 mb-3">' +
+                                        '        <img class="rounded-circle" src="/assets/images/avatars/default/' + reply.replyAvatar + '.png" width="48" alt="Comment author">' +
+                                        '        <div class="ps-3">' +
+                                        '            <h6 class="mb-0">' + reply.replyFullName + '</h6><span class="fs-sm text-muted">' + reply.replyDate + '</span>' +
+                                        '        </div>' +
+                                        '    </div>' +
+                                        '    <div class="d-flex align-items-center justify-content-between mb-3" role="group" aria-label="Settings group">' +
+                                        '        <p class="mb-0"><a class="fw-bold text-decoration-none" href="#">@@' + comment.fullname + '</a>&nbsp;&nbsp;<span id="reply_' + reply.replyId + '">' + reply.replyComment + '</span></p>' +
+                                        '        <div>' +
+                                        (reply.replyEdit ? '            <button type="button" id="edt' + reply.replyId + '" onclick="replyEdit(' + reply.replyId + ')" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-edit"></i></button>&nbsp;' : '') +
+                                        (reply.replyEdit ? '            <button type="button" id="repldlt_' + reply.replyId + '" onclick="replyDelete(' + reply.replyId + ')" class="btn btn-sm btn-secondary btn-icon px-2"><i class="ai-trash"></i></button>&nbsp;' : '') +
+                                        '        </div>' +
+                                        '    </div>' +
+                                        '</div>';
+
+                                }
+                            }
+                            commentsHTML += `</div>`;
+                        }
+                    }
+                   
                     document.getElementById("comments").innerHTML = commentsHTML;
                     document.getElementById("blogcount").innerHTML = c;
                 })
@@ -365,7 +355,11 @@
                         console.error('Network error:', error.request);
                     } else {
                         console.error('Error:', error.message);
+                        
                     }
+                    document.getElementById("comments").innerHTML = "";
+                    document.getElementById("blogcount").innerHTML = "0";
+
                 });
 
            

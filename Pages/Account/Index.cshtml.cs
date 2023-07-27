@@ -3,7 +3,7 @@ using Coffeeroom.Models.Domain;
 using Coffeeroom.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Coffeeroom.Pages.Account
 {

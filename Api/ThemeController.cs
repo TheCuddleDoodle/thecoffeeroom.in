@@ -2,7 +2,7 @@
 using Coffeeroom.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Coffeeroom.Api
 {
