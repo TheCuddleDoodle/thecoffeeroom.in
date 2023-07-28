@@ -88,11 +88,11 @@
                 <div class="row g-4">
                     <div class="col-sm-10 offset-sm-1">
                         <label class="form-label fs-base" for="name">Your email</label>
-                        <input class="form-control form-control-lg" type="email" name="user_email" placeholder="Your name" required="" id="user_email">
+                        <input class="form-control form-control-lg" type="email" name="user_email" placeholder="Your email" required="" id="user_email" autocomplete="off">
                     </div>
                     
                     <div class="col-sm-12 text-center pt-4">
-                        <button class="btn btn-lg btn-light ripple" id="submitMail" type="button">Send a request</button>
+                        <button class="btn btn-lg btn-light ripple" id="submitMail" type="submit">Subscribe</button>
                     </div>
                 </div>
             </form>
@@ -105,19 +105,20 @@
 @section jsScripts{
 <script>
       //  const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-    document.getElementById('submitMail').addEventListener(
-        'click',function(){
-           submitMail();
-        
-        }
-    )
+        document.getElementById('submitMail').addEventListener(
+            'click',
+            function (e) { // Add the event parameter 'e'
+                e.preventDefault(); // Use 'e.preventDefault()' to prevent the default behavior
+                submitMail();
+            }
+        );
     function submitMail()
     {
             var usermail = document.getElementById('user_email').value;
             var data = {
                 EMailId: usermail
             };
-            //axios.defaults.headers.common['RequestVerificationToken'] = token;
+            axios.defaults.headers.common['RequestVerificationToken'] = token;
             axios.post('/api/newsletter', data)
                 .then(function (response) {
                     var typeResp = response.data;

@@ -11,7 +11,7 @@ namespace Coffeeroom.Api
     {
         [HttpPost]
         [Route("api/newsletter")]
-        [IgnoreAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<JsonResult> AddMailToLetter([FromBody] Mail mail)
         {
             string sql, sqlcheck;

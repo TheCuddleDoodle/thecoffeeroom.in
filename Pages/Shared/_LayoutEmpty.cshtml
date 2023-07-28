@@ -34,7 +34,6 @@
         ViewData["role"] = "guest";
         ViewData["avatar"] = "default";
         ViewData["user_id"] = "0";
-        ViewData["fullname"] = "guest";
     }
 }
 <!DOCTYPE html>
@@ -77,7 +76,7 @@
                 preloader.classList.remove('active');
                 setTimeout(function () {
                     preloader.remove();
-                }, 600);
+                }, 500);
 
                 let elem_theme = window.localStorage.getItem("cust_theme");
                 if (elem_theme !== undefined && elem_theme !== "" && elem_theme !== null) {
@@ -116,13 +115,6 @@
                         }
                     }
                 });
-                //if (localStorage.getItem("curr_link") == null) {
-                //    localStorage.setItem("curr_link", window.location.pathname);
-                //}
-                //else {
-                //    localStorage.setItem("prev_link", localStorage.getItem("curr_link"));
-                //    localStorage.setItem("curr_link", window.location.pathname);
-                //}
 
 
             };
@@ -132,7 +124,7 @@
     <!-- Import Google Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link id="custom_font" href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&display=swap" rel="stylesheet">
+    <link id="custom_font" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300&display=swap" rel="stylesheet">
     <script src="https://umbrellajs.com/umbrella.min.js"></script>
     <!-- Vendor styles-->
     <link href="~/libraries/aos/aos.css" rel="stylesheet" />
@@ -150,36 +142,107 @@
     </environment>
     <style id="custom_theme">
         :root {
-            --ar-primary: #8d7aa8;
-            --ar-primary-rgb: 141,122,168;
-            --ar-body-font-family: 'Raleway',sans-serif;
-            --ar-root-font-size: 1rem;
+            --ar-primary: #66818f;
+            --ar-primary-rgb: 102,129,143;
+            --ar-link-color: #66818f;
+            --ar-link-hover-color: #4d6876;
+            --ar-warning: #8f7466;
+            --ar-warning-rgb: 143,116,102;
+            --ar-success: #68aca2;
+            --ar-success-rgb: 104,172,162;
+            --ar-danger: #b85656;
+            --ar-danger-rgb: 184,86,86;
+            --ar-border-radius: 0rem;
+            --ar-body-font-family: 'Poppins', sans-serif;
             --ar-body-font-size: 1rem;
-            --ar-border-radius: 0.2rem;
-            --ar-link-color: #8d7aa8;
-            --ar-link-hover-color: #74618f;
         }
 
         .btn-primary {
-            --ar-btn-bg: #8d7aa8;
-            --ar-btn-border-color: #8d7aa8;
-            --ar-btn-hover-bg: #74618f;
-            --ar-btn-hover-border-color: #74618f;
-            --ar-btn-active-bg: #74618f;
-            --ar-btn-active-border-color: #74618f;
-            --ar-btn-disabled-bg: #8d7aa8;
-            --ar-btn-disabled-border-color: #8d7aa8;
+            --ar-btn-bg: #66818f;
+            --ar-btn-border-color: #66818f;
+            --ar-btn-hover-bg: #4d6876;
+            --ar-btn-hover-border-color: #4d6876;
+            --ar-btn-active-bg: #4d6876;
+            --ar-btn-active-border-color: #4d6876;
+            --ar-btn-disabled-bg: #66818f;
+            --ar-btn-disabled-border-color: #66818f;
+        }
+
+        .btn-warning {
+            --ar-btn-bg: #8f7466;
+            --ar-btn-border-color: #8f7466;
+            --ar-btn-hover-bg: #765b4d;
+            --ar-btn-hover-border-color: #765b4d;
+            --ar-btn-active-bg: #765b4d;
+            --ar-btn-active-border-color: #765b4d;
+            --ar-btn-disabled-bg: #8f7466;
+            --ar-btn-disabled-border-color: #8f7466;
+        }
+
+        .btn-success {
+            --ar-btn-bg: #68aca2;
+            --ar-btn-border-color: #68aca2;
+            --ar-btn-hover-bg: #4f9389;
+            --ar-btn-hover-border-color: #4f9389;
+            --ar-btn-active-bg: #4f9389;
+            --ar-btn-active-border-color: #4f9389;
+            --ar-btn-disabled-bg: #68aca2;
+            --ar-btn-disabled-border-color: #68aca2;
+        }
+
+        .btn-danger {
+            --ar-btn-bg: #b85656;
+            --ar-btn-border-color: #b85656;
+            --ar-btn-hover-bg: #9f3d3d;
+            --ar-btn-hover-border-color: #9f3d3d;
+            --ar-btn-active-bg: #9f3d3d;
+            --ar-btn-active-border-color: #9f3d3d;
+            --ar-btn-disabled-bg: #b85656;
+            --ar-btn-disabled-border-color: #b85656;
         }
 
         .btn-outline-primary {
-            --ar-btn-color: #8d7aa8;
-            --ar-btn-border-color: #8d7aa8;
-            --ar-btn-hover-bg: #8d7aa8;
-            --ar-btn-hover-border-color: #8d7aa8;
-            --ar-btn-active-bg: #8d7aa8;
-            --ar-btn-active-border-color: #8d7aa8;
-            --ar-btn-disabled-color: #8d7aa8;
-            --ar-btn-disabled-border-color: #8d7aa8;
+            --ar-btn-color: #66818f;
+            --ar-btn-border-color: #66818f;
+            --ar-btn-hover-bg: #66818f;
+            --ar-btn-hover-border-color: #66818f;
+            --ar-btn-active-bg: #66818f;
+            --ar-btn-active-border-color: #66818f;
+            --ar-btn-disabled-color: #66818f;
+            --ar-btn-disabled-border-color: #66818f;
+        }
+
+        .btn-outline-warning {
+            --ar-btn-color: #8f7466;
+            --ar-btn-border-color: #8f7466;
+            --ar-btn-hover-bg: #8f7466;
+            --ar-btn-hover-border-color: #8f7466;
+            --ar-btn-active-bg: #8f7466;
+            --ar-btn-active-border-color: #8f7466;
+            --ar-btn-disabled-color: #8f7466;
+            --ar-btn-disabled-border-color: #8f7466;
+        }
+
+        .btn-outline-success {
+            --ar-btn-color: #68aca2;
+            --ar-btn-border-color: #68aca2;
+            --ar-btn-hover-bg: #68aca2;
+            --ar-btn-hover-border-color: #68aca2;
+            --ar-btn-active-bg: #68aca2;
+            --ar-btn-active-border-color: #68aca2;
+            --ar-btn-disabled-color: #68aca2;
+            --ar-btn-disabled-border-color: #68aca2;
+        }
+
+        .btn-outline-danger {
+            --ar-btn-color: #b85656;
+            --ar-btn-border-color: #b85656;
+            --ar-btn-hover-bg: #b85656;
+            --ar-btn-hover-border-color: #b85656;
+            --ar-btn-active-bg: #b85656;
+            --ar-btn-active-border-color: #b85656;
+            --ar-btn-disabled-color: #b85656;
+            --ar-btn-disabled-border-color: #b85656;
         }
     </style>
     @await RenderSectionAsync("cssStyles", required: false)
@@ -191,9 +254,11 @@
         </div>
     </div>
     <main class="page-wrapper">
+
         @RenderBody()
         @await Html.PartialAsync("Modals/_Modals")
     </main>
+ 
 
     <a class="btn-scroll-top" href="#top" data-scroll>
         <svg viewBox="0 0 40 40" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

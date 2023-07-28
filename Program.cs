@@ -1,5 +1,3 @@
-using Coffeeroom.Models.Domain;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using WebMarkupMin.AspNetCore7;
 using WebMarkupMin.Core;

@@ -4,18 +4,12 @@ using Coffeeroom.Models.View;
 using Coffeeroom.Pages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Serilog;
 
 namespace Coffeeroom.Api
 {
     public class LiveSearchController : ControllerBase
     {
-        private readonly ILogger<LiveSearchController> _logger;
-
-        public LiveSearchController(ILogger<LiveSearchController> logger)
-        {
-            _logger = logger;
-        }
-
         [HttpGet]
         [Route("/api/livesearch/{Type?}/{SearchKey?}")]
         [IgnoreAntiforgeryToken]
@@ -59,7 +53,7 @@ namespace Coffeeroom.Api
                 evnt.Message = "Something went wrong";
                 evnt.Type = "Error";
 
-                _logger.LogInformation("error in mailing list submission: " + ex.Message.ToString());
+                Log.Err("error in live search: " + ex.Message.ToString());
                 return new JsonResult(evnt);
             }
         }
