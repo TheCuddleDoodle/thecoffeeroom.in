@@ -8,11 +8,6 @@
     },
     {
       "provider": "cdnjs",
-      "library": "alpinejs@3.12.3",
-      "destination": "wwwroot/libraries/alpinejs/"
-    },
-    {
-      "provider": "cdnjs",
       "library": "aos@2.3.4",
       "destination": "wwwroot/libraries/aos/"
     }

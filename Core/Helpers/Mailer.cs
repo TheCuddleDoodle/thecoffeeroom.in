@@ -45,12 +45,13 @@ namespace Coffeeroom.Core.Helpers
                 };
 
                 smtpClient.Send(message);
+                Log.Information("signup mail send - successfull");
                 msg = 1;
             }
             catch (Exception ex)
             {
                 msg = 0;
-                Log.Error("error while mailing: " + ex.Message.ToString());
+                Log.Error("error while signup-mailing: " + ex.Message.ToString());
             }
 
             return msg;

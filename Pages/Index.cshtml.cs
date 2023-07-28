@@ -15,7 +15,7 @@ namespace Coffeeroom.Pages
 
         public JsonResult OnPostSubscribe()
         {
-         //add mail to mailing list code   
+        
             var response = new
             {
                 Message = "GETTED data successfully",

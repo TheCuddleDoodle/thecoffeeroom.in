@@ -13,7 +13,7 @@ namespace Coffeeroom.Api
         [HttpGet]
         [Route("/api/livesearch/{Type?}/{SearchKey?}")]
         [IgnoreAntiforgeryToken]
-        public async Task<JsonResult> OnGetEngineOilList(string Type,string SearchKey)
+        public async Task<IActionResult> OnGetEngineOilList(string Type,string SearchKey)
         {
             EventModel evnt = new EventModel();
             try
@@ -50,11 +50,8 @@ namespace Coffeeroom.Api
             catch (Exception ex)
             {
                 
-                evnt.Message = "Something went wrong";
-                evnt.Type = "Error";
-
-                Log.Err("error in live search: " + ex.Message.ToString());
-                return new JsonResult(evnt);
+                Log.Error("error in live search: " + ex.Message.ToString());
+                return BadRequest("something went wrong");
             }
         }
     }

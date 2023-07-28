@@ -9,22 +9,19 @@
 #coffeeroom custom entries
 /logs
 /Notes
-/wwwroot/libraries
-/wwwroot/assets/vendor
-/wwwroot/assets/img
+/wwwroot/libraries/
+/wwwroot/assets/img/
 /wwwroot/assets/favicon
-/wwwroot/assets/images
-/wwwroot/assets/fonts
-/wwwroot/assets/vendor
+/wwwroot/assets/images/
+/wwwroot/assets/fonts/
+/wwwroot/assets/vendor/
 /wwwroot/assets/css/theme.css
-/wwwroot/assets/css/theme.min.css
 /wwwroot/assets/js/theme.js
-/wwwroot/assets/js/theme.min.js
 /appsettings.json
-/wwwroot/assets/css/theme.min.css.map
 /appsettings.Development.json
 
 # User-specific files
+*.map
 *.suo
 *.user
 *.userosscache

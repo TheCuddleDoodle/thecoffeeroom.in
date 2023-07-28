@@ -5,6 +5,9 @@
 @section jsLib{
     <script src="~/assets/vendor/parallax-js/dist/parallax.min.js"></script>
     <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    
+    
 }
 @section cssLib{
     <link rel="stylesheet" media="screen" href="assets/vendor/swiper/swiper-bundle.min.css" />
@@ -71,6 +74,52 @@
         </div>
     </div>
 </section>
+
+<section class="bg-faded-primary py-5">
+    <div class="container py-sm-2 pt-md-3 py-lg-2 py-xl-4 py-xxl-5">
+        <h3 class="h1 text-center pt-2 pt-sm-3 pb-3 mb-3 mb-lg-4">Resources for you</h3>
+        <!-- Swiper-->
+        <div class="swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" data-swiper-options="
+        {
+          &quot;spaceBetween&quot;: 24,
+          &quot;pagination&quot;: {
+            &quot;el&quot;: &quot;.swiper-pagination&quot;,
+            &quot;clickable&quot;: true
+          },
+          &quot;breakpoints&quot;: {
+            &quot;576&quot;: { &quot;slidesPerView&quot;: 2 },
+            &quot;992&quot;: { &quot;slidesPerView&quot;: 3 }
+          }
+        }
+      ">
+            <div class="swiper-wrapper" id="articleHolder" aria-live="polite" style="transform: translate3d(0px, 0px, 0px);">
+                <!-- Item-->
+                <article class="swiper-slide h-auto swiper-slide-active" role="group" aria-label="1 / 3" style="width: 416px; margin-right: 24px;">
+                    <div class="card border-0 h-100">
+                        <div class="card-body pb-4">
+                            <div class="d-flex align-items-center mb-4 mt-n1"><span class="fs-sm text-muted">August 13, 2022</span><span class="fs-xs opacity-20 mx-3">|</span><a class="badge text-nav fs-xs border" href="#">Inspiration</a></div>
+                            <h3 class="h4 card-title"><a href="#">Promotion of an online store from scratch, first sales</a></h3>
+                            <p class="card-text">Sapien ultrices egestas at faucibus eu diam velit diam id amet nibh quam rutrum diam fermentum diam natoque scelerisque viverra molestie fames...</p>
+                        </div>
+                        <div class="card-footer pt-3">
+                            <a class="d-flex align-items-center text-decoration-none pb-2" href="#">
+                                <img class="rounded-circle" src="assets/img/avatar/10.jpg" width="48" alt="Post author">
+                                <h6 class="ps-3 mb-0">Guy Hawkins</h6>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <!-- Item-->
+     
+            </div>
+            <!-- Pagination (bullets)-->
+            <div class="swiper-pagination position-relative bottom-0 mt-2 pt-4 d-lg-none swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal swiper-pagination-lock"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1" aria-current="true"></span></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+        <!-- Read more button-->
+        <div class="text-center pt-4 pb-1 pb-sm-2 pb-md-4 py-lg-5 my-2 mt-lg-0"><a class="btn btn-outline-primary" id="readlAll" href="#">Read all articles</a></div>
+    </div>
+</section>
 <section class="container dark-mode pt-5 mt-5">
     <div class="card border-0 bg-primary position-relative py-lg-4 py-xl-5">
         <!-- Decorative shapes-->
@@ -84,13 +133,14 @@
         </svg>
         <div class="card-body position-relative zindex-2 py-5">
             <form class="mx-auto" style="max-width: 800px;">
+                @Html.AntiForgeryToken()
                 <h2 class="h1 card-title text-center pb-4">Join out mailing list!!</h2>
                 <div class="row g-4">
                     <div class="col-sm-10 offset-sm-1">
                         <label class="form-label fs-base" for="name">Your email</label>
                         <input class="form-control form-control-lg" type="email" name="user_email" placeholder="Your email" required="" id="user_email" autocomplete="off">
                     </div>
-                    
+
                     <div class="col-sm-12 text-center pt-4">
                         <button class="btn btn-lg btn-light ripple" id="submitMail" type="submit">Subscribe</button>
                     </div>
@@ -99,46 +149,63 @@
         </div>
     </div>
 </section>
-<form>
-    @Html.AntiForgeryToken()
-</form>
+
 @section jsScripts{
 <script>
-      //  const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-        document.getElementById('submitMail').addEventListener(
+        var SubButton = document.getElementById('submitMail');
+        var UserMail = document.getElementById('user_email');
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        SubButton.addEventListener(
             'click',
-            function (e) { // Add the event parameter 'e'
-                e.preventDefault(); // Use 'e.preventDefault()' to prevent the default behavior
+            function (e) { 
+                e.preventDefault(); 
                 submitMail();
             }
         );
     function submitMail()
     {
-            var usermail = document.getElementById('user_email').value;
+            
             var data = {
-                EMailId: usermail
+                EMailId: UserMail.value
             };
             axios.defaults.headers.common['RequestVerificationToken'] = token;
             axios.post('/api/newsletter', data)
                 .then(function (response) {
-                    var typeResp = response.data;
-                    console.log(response);
-                    if (typeResp.type == "success") {
-
-                        toaster("success", typeResp.message);
-                    }
-                    else if (typeResp.type == "error") {
-                        // loginBtn.innerHTML = "Log In";
-                        toaster("error", typeResp.message);
-                    }
+                    console.log(response)
+                        toaster("success",response.data);  
                 })
                 .catch(function (error) {
-                    //  loginBtn.innerHTML = "Log In";
                     console.log(error);
-                    toaster("error", "connection issue");
+                    toaster("error", error.response.data);
+
                 })
 
     }
+
+
+    function addblgs() {
+        let innerArticle = "";
+            innerArticle += ` <article class="swiper-slide h-auto swiper-slide-next" role="group" aria-label="2 / 3" style="width: 416px; margin-right: 24px;">
+                                <div class="card border-0 h-100">
+                                    <div class="card-body pb-4">
+                                        <div class="d-flex align-items-center mb-4 mt-n1"><span class="fs-sm text-muted">{{blogdate}}</span><span class="fs-xs opacity-20 mx-3">|</span><a class="badge text-nav fs-xs border" href="#">{{tag}}</a></div>
+                                        <h3 class="h4 card-title"><a href="#">${{blogdesc}}</a></h3>
+                                        <p class="card-text">${{blogdesc}}</p>
+                                    </div>
+                                    <div class="card-footer pt-3">
+                                        <a class="d-flex align-items-center text-decoration-none pb-2" href="#">
+                                            <img class="rounded-circle" src="assets/img/avatar/07.jpg" width="48" alt="Post author">
+                                            <h6 class="ps-3 mb-0">{{blogauthor}}</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>`;
+            document.getElementById("articleHolder").innerHTML = innerArticle;
+
+    }
+
+        document.getElementById('readlAll').addEventListener('click', addblgs);
 
 </script>
 }
