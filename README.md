@@ -2,10 +2,15 @@
 The Coffeeroom Project Prototype(razor pages + api)
 
 Tech stack:
- - umbrella.js
- - axios
- - core-js
+ <li> - <s>umbrella.js</s>
+<li> - <s>jquery</s>
+ <li> - axios
+ <li> - core-js
 
 Behind:
-  c#
- ..
+<ul>langs:
+  <li>c#
+  <li>python
+</ul>
+
+
