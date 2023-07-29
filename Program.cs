@@ -8,16 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowSpecificOrigins",
-//        builder =>
-//        {
-//            builder.WithOrigins("https://laymaann.in");
-//            builder.AllowAnyHeader();
-//            builder.AllowAnyMethod();
-//        });
-//});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder.WithOrigins("https://laymaann.in");
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+        });
+});
 
 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -33,6 +33,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddScoped<IUserProfileRepo, UserProfileRepo>();
 builder.Services.AddScoped<IMailingListRepo, MailingListRepo>();
+builder.Services.AddScoped<IPassResetTokenRepo,PassResetTokenRepo>();
 
 builder.Services.AddWebMarkupMin(options =>
 {
@@ -52,11 +53,7 @@ builder.Services.AddWebMarkupMin(options =>
 .AddXmlMinification()
 .AddHttpCompression();
 
-
 var app = builder.Build();
-
-
-
 
 if (!app.Environment.IsDevelopment())
 {
@@ -67,7 +64,7 @@ app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseWebMarkupMin();
-//app.UseCors();
+app.UseCors();
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
