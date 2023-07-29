@@ -1,3 +1,4 @@
+using Coffeeroom.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using WebMarkupMin.AspNetCore7;
@@ -29,6 +30,9 @@ builder.Services.AddSession(options =>
     options.Cookie.Name = ".coffeebreak.Session";
     options.IdleTimeout = TimeSpan.FromSeconds(3600);
 });
+
+builder.Services.AddScoped<IUserProfileRepo, UserProfileRepo>();
+builder.Services.AddScoped<IMailingListRepo, MailingListRepo>();
 
 builder.Services.AddWebMarkupMin(options =>
 {

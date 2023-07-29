@@ -15,7 +15,7 @@
     <Folder Include="Views\Shared\ContentViews\Magazines\2023\" />
     <Folder Include="Views\Shared\ContentViews\Apps\" />
     <Folder Include="Pages\Users\" />
-    <Folder Include="Pages\Music\" />
+    <Folder Include="Views\Shared\ContentViews\Music\" />
     <Folder Include="wwwroot\assets\images\gallery\albums\" />
     <Folder Include="wwwroot\content\appcontent\" />
     <Folder Include="wwwroot\content\archivecontent\" />

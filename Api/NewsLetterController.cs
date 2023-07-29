@@ -1,56 +1,51 @@
 ﻿using Coffeeroom.Core.Helpers;
 using Coffeeroom.Models.Domain;
 using Coffeeroom.Models.View;
+using Coffeeroom.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Serilog;
 
 namespace Coffeeroom.Api
 {
+    
     public class NewsLetterController : Controller
     {
+
+        public readonly IMailingListRepo _mailingListRepo;
+        public readonly IUserProfileRepo _userProfileRepo;
         public string connectionString = ConfigHelper.NewConnectionString;
-       
+
+        public NewsLetterController(IMailingListRepo mailingListRepo,IUserProfileRepo userProfileRepo)
+        {
+            _mailingListRepo = mailingListRepo;
+            _userProfileRepo = userProfileRepo;
+        }
+
         [HttpPost]
         [Route("api/newsletter")]
-        [ValidateAntiForgeryToken]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> AddMailToLetter([FromBody] Mail mail)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    using SqlConnection connection = new(connectionString);
-                    await connection.OpenAsync();
-
-                    string checkEmailQuery = "SELECT COUNT(*) FROM TblMailingList WHERE Email = @Email";
-                    SqlCommand checkEmailCmd = new(checkEmailQuery, connection);
-                    checkEmailCmd.Parameters.AddWithValue("@Email", mail.EMailId);
-                    int emailCount = (int)await checkEmailCmd.ExecuteScalarAsync();
-
-                    if (emailCount == 0)
+                    try
                     {
-                        string getMaxIdQuery = "SELECT MAX(Id) FROM TblMailingList";
-                        SqlCommand getMaxIdCmd = new(getMaxIdQuery, connection);
-                        int maxId = (int)await getMaxIdCmd.ExecuteScalarAsync();
-                        int newId = maxId + 1;
-
-                        string addEmailQuery = "INSERT INTO TblMailingList (Id, Email) VALUES (@Id, @Email)";
-                        SqlCommand addEmailCmd = new(addEmailQuery, connection);
-                        addEmailCmd.Parameters.AddWithValue("@Id", newId);
-                        addEmailCmd.Parameters.AddWithValue("@Email", mail.EMailId);
-                        await addEmailCmd.ExecuteNonQueryAsync();
-                        Log.Information("mail added to newsletter:" + mail.EMailId);
-                        return Ok("Mail Added Successfully");
+                        await _mailingListRepo.AddAsync(mail);
+                        return Ok("email submitted!!");
+                        
                     }
-                    else
+                    catch(Exception ex)
                     {
-                        return BadRequest("Email already present");
+                        Log.Error("email submission in page:" + ex.Message.ToString());
+                        return BadRequest("something went wrong");
                     }
                 }
                 else
                 {
-                    return BadRequest("invalid form data");
+                    return BadRequest("Invalid form data");
                 }
                
             }

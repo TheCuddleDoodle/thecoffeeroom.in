@@ -3,41 +3,221 @@
 @{
     ViewData["NavBarProps"] = "navbar navbar-expand-lg fixed-top bg-light";
 }
-<section class="ignore-dark-mode bg-secondary position-relative mb-2 pb-2 min-vh-100 py-5">
-    <div class="swiper swiper-scale-effect position-absolute top-0 start-0 w-100 h-100 swiper-fade swiper-initialized swiper-horizontal swiper-pointer-events swiper-watch-progress swiper-backface-hidden" data-swiper-options="{
-      &quot;effect&quot;: &quot;fade&quot;,
-      &quot;speed&quot;: 800,
-      &quot;autoplay&quot;: {
-        &quot;delay&quot;: 7000,
-        &quot;disableOnInteraction&quot;: false
-      },
-      &quot;pagination&quot;: {
-        &quot;el&quot;: &quot;.swiper-pagination&quot;,
-        &quot;clickable&quot;: true
-      }
-    }">
-        <div class="swiper-wrapper" id="swiper-wrapper-dbd8e2a1b4e5ecfc" aria-live="off" style="transition-duration: 0ms;">
-            <div class="swiper-slide swiper-slide-visible swiper-slide-active" role="group" aria-label="1 / 3" style="width: 1519px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
-                <div class="swiper-slide-cover bg-position-top-center" style="background-image: url(assets/img/landing/yoga-studio/hero/01.jpg);"></div>
+<section>
+    <div class="jarallax bg-dark min-vh-100 py-5" data-jarallax="" data-type="scroll-opacity" data-speed="0.7">
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-40"></div>
+
+        <div class="container position-relative zindex-5 py-sm-4 py-lg-5 mt-4">
+            <!-- Text + button-->
+            <div class="row pt-lg-2 py-xl-4 py-xxl-5 mb-md-4 mb-lg-5">
+                <div class="col-md-10 col-lg-9 col-xl-8 col-xxl-7 pt-5 mb-5">
+                    <h1 class="display-2 text-light text-uppercase pb-sm-2 pb-md-3">Decor to create comfort at home</h1>
+                    <p class="text-light opacity-70 pb-3 pb-md-4 mb-3" style="max-width: 520px;">On the site you will find all the wonderful decor items from photo frames to tablecloths for the dining table</p><a class="btn btn-outline-light" href="shop-catalog.html">Explore the catalog</a>
+                </div>
             </div>
-            <div class="swiper-slide swiper-slide-next" role="group" aria-label="2/3" style="width: 1519px; opacity: 0; transform: translate3d(-1519px, 0px, 0px); transition-duration: 0ms;">
-                <div class="swiper-slide-cover bg-position-top-center" style="background-image: url(assets/img/landing/yoga-studio/hero/02.jpg);"></div>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="fw-medium text-light text-uppercase">Most Popular</div>
+                <!-- Slider prev/next buttons-->
+                <div class="d-flex">
+                    <button class="btn btn-prev btn-icon btn-sm btn-outline-light rounded-circle ms-3" type="button" id="popular-prev" tabindex="0" aria-label="Previous slide" aria-controls="swiper-wrapper-106210d10f8fb6f204"><i class="ai-arrow-left"></i></button>
+                    <button class="btn btn-next btn-icon btn-sm btn-outline-light rounded-circle ms-3" type="button" id="popular-next" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-106210d10f8fb6f204"><i class="ai-arrow-right"></i></button>
+                </div>
             </div>
-            <div class="swiper-slide" role="group" aria-label="3/3" style="width: 1519px; opacity: 0; transform: translate3d(-3038px, 0px, 0px); transition-duration: 0ms;">
-                <div class="swiper-slide-cover bg-position-top-center" style="background-image: url(assets/img/landing/yoga-studio/hero/03.jpg);"></div>
+            <!-- Slider (popular items)-->
+            <div class="swiper swiper-initialized swiper-horizontal swiper-pointer-events" data-swiper-options="{
+          &quot;slidesPerView&quot;: 1,
+          &quot;spaceBetween&quot;: 24,
+          &quot;loop&quot;: true,
+          &quot;navigation&quot;: {
+            &quot;prevEl&quot;: &quot;#popular-prev&quot;,
+            &quot;nextEl&quot;: &quot;#popular-next&quot;
+          },
+          &quot;breakpoints&quot;: {
+            &quot;500&quot;: {
+              &quot;slidesPerView&quot;: 2
+            },
+            &quot;860&quot;: {
+              &quot;slidesPerView&quot;: 3
+            },
+            &quot;1200&quot;: {
+              &quot;slidesPerView&quot;: 4
+            }
+          }
+        }">
+                <div class="swiper-wrapper" id="swiper-wrapper-106210d10f8fb6f204" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(-1980px, 0px, 0px);">
+                    <div class="swiper-slide h-auto swiper-slide-duplicate swiper-slide-duplicate-prev" role="group" aria-label="2 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="1">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/02.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Pot for home flowers</h3>
+                                        <p class="fs-sm mb-0">$11.00 <del class="text-muted fs-xs">$15.00</del></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="swiper-slide h-auto swiper-slide-duplicate swiper-slide-duplicate-active" role="group" aria-label="3 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="2">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/03.png" width="97" alt="Product">
+                                    <div class="ps-4">
+                                        <h3 class="fs-sm mb-2">Ceramic soap dispenser</h3>
+                                        <p class="fs-sm mb-0">$16.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="swiper-slide h-auto swiper-slide-duplicate swiper-slide-duplicate-next" role="group" aria-label="4 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="3">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/04.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Wooden clock with metal hands</h3>
+                                        <p class="fs-sm mb-0">$24.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="swiper-slide h-auto swiper-slide-duplicate" role="group" aria-label="5 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="4">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/05.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Scented candle in ceramic shell</h3>
+                                        <p class="fs-sm mb-0">$13.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Item-->
+                    <div class="swiper-slide h-auto" role="group" aria-label="1 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="0">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/01.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Exquisite glass vase</h3>
+                                        <p class="fs-sm mb-0">$19.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Item-->
+                    <div class="swiper-slide h-auto swiper-slide-prev" role="group" aria-label="2 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="1">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/02.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Pot for home flowers</h3>
+                                        <p class="fs-sm mb-0">$11.00 <del class="text-muted fs-xs">$15.00</del></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Item-->
+                    <div class="swiper-slide h-auto swiper-slide-active" role="group" aria-label="3 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="2">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/03.png" width="97" alt="Product">
+                                    <div class="ps-4">
+                                        <h3 class="fs-sm mb-2">Ceramic soap dispenser</h3>
+                                        <p class="fs-sm mb-0">$16.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Item-->
+                    <div class="swiper-slide h-auto swiper-slide-next" role="group" aria-label="4 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="3">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/04.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Wooden clock with metal hands</h3>
+                                        <p class="fs-sm mb-0">$24.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Item-->
+                    <div class="swiper-slide h-auto" role="group" aria-label="5 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="4">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/05.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Scented candle in ceramic shell</h3>
+                                        <p class="fs-sm mb-0">$13.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide h-auto swiper-slide-duplicate" role="group" aria-label="1 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="0">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/01.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Exquisite glass vase</h3>
+                                        <p class="fs-sm mb-0">$19.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="swiper-slide h-auto swiper-slide-duplicate swiper-slide-duplicate-prev" role="group" aria-label="2 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="1">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/02.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Pot for home flowers</h3>
+                                        <p class="fs-sm mb-0">$11.00 <del class="text-muted fs-xs">$15.00</del></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="swiper-slide h-auto swiper-slide-duplicate swiper-slide-duplicate-active" role="group" aria-label="3 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="2">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/03.png" width="97" alt="Product">
+                                    <div class="ps-4">
+                                        <h3 class="fs-sm mb-2">Ceramic soap dispenser</h3>
+                                        <p class="fs-sm mb-0">$16.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div><div class="swiper-slide h-auto swiper-slide-duplicate swiper-slide-duplicate-next" role="group" aria-label="4 / 5" style="width: 306px; margin-right: 24px;" data-swiper-slide-index="3">
+                        <a class="card h-100 border-0 rounded-1 text-decoration-none px-xxl-1" href="shop-single.html">
+                            <div class="card-body p-4 px-sm-3 px-md-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="assets/img/landing/shop/hero/04.png" width="97" alt="Product">
+                                    <div class="ps-3 ps-md-4">
+                                        <h3 class="fs-sm mb-2">Wooden clock with metal hands</h3>
+                                        <p class="fs-sm mb-0">$24.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
             </div>
         </div>
-        <div class="swiper-pagination mb-4 swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1" aria-current="true"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span></div>
-        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-    </div>
-    <!-- Content-->
-    <div class="container position-relative zindex-2 pb-2 mb-2">
-        <div class="row pt-md-3 py-xxl-5 my-5">
-            <div class="col py-5 mb-md-4 mb-lg-5">
-                <h1 class="display-1 text-uppercase mb-4">Our Gallery</h1>
-                <p class="d-block fs-xl pb-2 mb-4 mb-md-5" style="max-width: 500px;">Snaps from my Camera Roll.Selected ones</p>
-            </div>
-        </div>
+        <div id="jarallax-container-0" style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; overflow: hidden; z-index: -100; clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0px 100%);"><div class="jarallax-img" style="background-image: url(&quot;assets/img/landing/shop/hero/bg.jpg&quot;); object-fit: cover; object-position: 50% 50%; max-width: none; position: fixed; top: 0px; left: 0px; width: 1481.6px; height: 918.16px; overflow: hidden; pointer-events: none; transform-style: preserve-3d; backface-visibility: hidden; margin-top: -97.58px; transform: translate3d(0px, -392.42px, 0px); opacity: 0.417427;" data-jarallax-original-styles="background-image: url(assets/img/landing/shop/hero/bg.jpg);"></div></div>
     </div>
 </section>
 <section class="container overflow-hidden pt-5 mt-5 pb-5 mb-2 mb-lg-3 mb-xl-4 mb-xxl-5">
@@ -89,7 +269,78 @@
         <div class="text-center pb-sm-2 pb-md-4 mt-n1 mt-lg-n2"><a class="btn btn-lg btn-outline-dark rounded-0" href="#">Let's work together</a></div>
     </div>
 </section>
-
+<section class="position-relative">
+    <div class="container position-relative zindex-2">
+        <div class="row align-items-center g-3 g-lg-4 mb-3 mb-lg-4">
+            <div class="col-sm-6 text-center order-sm-2">
+                <div class="ai-instagram fs-2 text-primary mb-2 mb-md-3 mb-lg-4"></div>
+                <h2 class="h1 mb-2 mb-sm-0">Follow us<br><a href="#" class="text-primary text-decoration-none">#aroundecor</a></h2>
+            </div>
+            <div class="col-6 col-sm-3 order-sm-1">
+                <a class="d-block card-hover zoom-effect" href="#">
+                    <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 rounded-1 overflow-hidden zindex-2 opacity-0">
+                        <i class="ai-instagram lead text-white position-relative zindex-2"></i>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-20"></div>
+                    </div>
+                    <div class="zoom-effect-wrapper rounded-1"><img class="zoom-effect-img" src="assets/img/landing/shop/instagram/01.jpg" alt="Instagram image"></div>
+                </a>
+            </div>
+            <div class="col-6 col-sm-3 order-sm-3">
+                <a class="d-block card-hover zoom-effect" href="#">
+                    <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 rounded-1 overflow-hidden zindex-2 opacity-0">
+                        <i class="ai-instagram lead text-white position-relative zindex-2"></i>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-20"></div>
+                    </div>
+                    <div class="zoom-effect-wrapper rounded-1"><img class="zoom-effect-img" src="assets/img/landing/shop/instagram/02.jpg" alt="Instagram image"></div>
+                </a>
+            </div>
+        </div>
+        <div class="row g-3 g-lg-4">
+            <div class="col-6 col-sm-3">
+                <a class="d-block card-hover zoom-effect" href="#">
+                    <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 rounded-1 overflow-hidden zindex-2 opacity-0">
+                        <i class="ai-instagram lead text-white position-relative zindex-2"></i>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-20"></div>
+                    </div>
+                    <div class="zoom-effect-wrapper rounded-1"><img class="zoom-effect-img" src="assets/img/landing/shop/instagram/03.jpg" alt="Instagram image"></div>
+                </a>
+            </div>
+            <div class="col-6 col-sm-3">
+                <a class="d-block card-hover zoom-effect" href="#">
+                    <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 rounded-1 overflow-hidden zindex-2 opacity-0">
+                        <i class="ai-instagram lead text-white position-relative zindex-2"></i>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-20"></div>
+                    </div>
+                    <div class="zoom-effect-wrapper rounded-1"><img class="zoom-effect-img" src="assets/img/landing/shop/instagram/04.jpg" alt="Instagram image"></div>
+                </a>
+            </div>
+            <div class="col-6 col-sm-3">
+                <a class="d-block card-hover zoom-effect" href="#">
+                    <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 rounded-1 overflow-hidden zindex-2 opacity-0">
+                        <i class="ai-instagram lead text-white position-relative zindex-2"></i>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-20"></div>
+                    </div>
+                    <div class="zoom-effect-wrapper rounded-1"><img class="zoom-effect-img" src="assets/img/landing/shop/instagram/05.jpg" alt="Instagram image"></div>
+                </a>
+            </div>
+            <div class="col-6 col-sm-3">
+                <a class="d-block card-hover zoom-effect" href="#">
+                    <div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 rounded-1 overflow-hidden zindex-2 opacity-0">
+                        <i class="ai-instagram lead text-white position-relative zindex-2"></i>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-20"></div>
+                    </div>
+                    <div class="zoom-effect-wrapper rounded-1"><img class="zoom-effect-img" src="assets/img/landing/shop/instagram/06.jpg" alt="Instagram image"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="d-none d-lg-block bg-dark position-absolute start-0 bottom-0 w-100" style="height: 155px;">
+        <div class="d-none d-dark-mode-block position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(255,255,255, .02);">  </div>
+    </div>
+    <div class="d-lg-none bg-dark position-absolute start-0 bottom-0 w-100" style="height: 80px;">
+        <div class="d-none d-dark-mode-block position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(255,255,255, .02);">  </div>
+    </div>
+</section>
 
 @section cssLib{
     <link rel="stylesheet" media="screen" href="~/assets/vendor/lightgallery/css/lightgallery-bundle.min.css" />

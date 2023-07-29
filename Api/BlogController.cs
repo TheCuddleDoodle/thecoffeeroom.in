@@ -6,7 +6,7 @@ namespace Coffeeroom.Api
     public class BlogController : Controller
     {
         [HttpGet("api/blogs/firstthree")]
-        public async Task<IActionResult> GetFirstThree()
+        public  IActionResult GetFirstThree()
         {
             return Ok("done successfully");
         }
