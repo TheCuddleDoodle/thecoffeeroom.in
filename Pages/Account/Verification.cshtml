@@ -1,6 +1,7 @@
 ﻿@page "/account/verify"
 @model Coffeeroom.Pages.Account.VerificationModel
 @{
+    Layout = "_LayoutEmpty";
 }
 
 <section class="bg-secondary py-5">
@@ -22,6 +23,7 @@
                         <div class="card-body">
                             <h1 class="display-2">Hi , <span>@Model.UserDetailsDisplay.FirstName</span></h1>
                             <p class="fs-lg pb-4 mb-2 mb-sm-3">Your account has been verified!!</p>
+                            <a class="btn-lg btn btn-primary" href="/account/login">LOGIN</a>
                         </div>
                     </div>
 
@@ -37,6 +39,7 @@
                     <div class="card-body">
                         <h1 class="display-4"><span>Error!</span></h1>
                         <p class="fs-lg pb-4 mb-2 mb-sm-3">The Link is invalid/expired</p>
+                        <a type="button" href="/account/login"  class="btn-md btn btn-primary ripple">LOGIN</a>
                     </div>
                 </div>
             </div>

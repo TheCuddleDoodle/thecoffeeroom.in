@@ -72,7 +72,7 @@
         console.log("Form Data:", formObject);
         axios({
             method: "POST",
-            url: "/account/signup?handler=usersignup",
+            url: "/api/account/signup",
             headers: {
                 "Content-Type": "application/json",
                 "RequestVerificationToken" : token
