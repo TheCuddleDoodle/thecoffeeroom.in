@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Coffeeroom.Api
+namespace Coffeeroom.Controllers
 {
     [Route("api/autologin")]
     [ApiController]

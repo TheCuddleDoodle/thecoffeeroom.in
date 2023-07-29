@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Serilog;
 
-namespace Coffeeroom.Api
+namespace Coffeeroom.Controllers
 {
     public class LiveSearchController : ControllerBase
     {

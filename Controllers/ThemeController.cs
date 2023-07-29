@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
-namespace Coffeeroom.Api
+namespace Coffeeroom.Controllers
 {
     [Route("api/themer")]
-    [ApiController]
     public class ThemeController : ControllerBase
     {
         [HttpGet("{id}")]

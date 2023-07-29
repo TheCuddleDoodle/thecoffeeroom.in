@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Serilog;
 
-namespace Coffeeroom.Api
+namespace Coffeeroom.Controllers
 {
     
     public class NewsLetterController : Controller
@@ -24,7 +24,7 @@ namespace Coffeeroom.Api
 
         [HttpPost]
         [Route("api/newsletter")]
-        [IgnoreAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddMailToLetter([FromBody] Mail mail)
         {
             try
@@ -40,7 +40,7 @@ namespace Coffeeroom.Api
                     catch(Exception ex)
                     {
                         Log.Error("email submission in page:" + ex.Message.ToString());
-                        return BadRequest("something went wrong");
+                        return BadRequest(ex.Message.ToString());
                     }
                 }
                 else
