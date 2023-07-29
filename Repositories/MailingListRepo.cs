@@ -39,7 +39,6 @@ namespace Coffeeroom.Repositories
             {
                 throw new Exception("email already present");
             }
-            throw new NotImplementedException();
         }
 
         public Task<Mail> DeleteAsync(int Id)
