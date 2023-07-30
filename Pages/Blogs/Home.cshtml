@@ -1,0 +1,144 @@
+﻿@page "/blogs/{classify?}/{key?}"
+@model Coffeeroom.Pages.Blogs.HomeModel
+@{
+    ViewData["ActiveCategory"] = "";
+    ViewData["ActiveYear"] = "";
+    ViewData["ActiveTag"] = "";
+    ViewData["ActivePage"] = "Blogs";
+}
+
+<div class="container py-5 mb-lg-4" id="app">
+    <!-- Breadcrumb-->
+    <nav aria-label="breadcrumb" class="pt-1">
+        <ol class="pb-lg-2 pb-2 pt-4 breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+        </ol>
+    </nav>
+
+    <div class="row mb-md-2 pt-3 mb-xl-4">
+        <!-- Blog posts-->
+        <div class="col-lg-9 pe-lg-4 pe-xl-5">
+                <h1 class="pb-3 pb-lg-4">Blogs</h1>
+            <!-- Post-->
+            <div id="blogcontainer">
+                <div>
+                    <router-view>
+                     <article class="row g-0 border-0 mb-4">
+                        <a class="col-sm-5 rounded-5 placeholder placeholder-wave" style="min-height: 14rem"></a>
+                        <div class="col-sm-7">
+                            <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
+                                <p class="card-text placeholder-glow">
+                                    <span class="placeholder placeholder-sm col-7 me-2"></span>
+                                    <span class="placeholder placeholder-sm col-4"></span>
+                                    <span class="placeholder placeholder-sm col-4 me-2"></span>
+                                    <span class="placeholder placeholder-sm col-6"></span>
+                                    <span class="placeholder placeholder-sm col-8"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+
+                    </router-view>
+                   
+                </div>
+
+            </div>
+
+            <!-- Pagination-->
+            <div class="row gy-3 align-items-center mt-lg-5 pt-2 pt-md-4 pt-lg-0">
+
+                <div class="col col-md-12 col-12 order-md-2 order-3 text-center">
+                    <button class="btn btn-primary ripple w-md-auto w-100" id="load_more" onclick="loaddefault()" data-id="0" type="button">Load more posts</button>
+                </div>
+
+            </div>
+        </div>
+        <!-- Sidebar (offcanvas on sreens < 992px)-->
+        <aside class="col-lg-3">
+            <div class="offcanvas-lg offcanvas-end" id="sidebarBlog">
+                <div class="offcanvas-header">
+                    <h4 class="offcanvas-title">Sidebar</h4>
+                    <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" data-bs-target="#sidebarBlog"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <!-- Search box-->
+                    <div class="position-relative mb-4 mb-lg-5">
+                        <i class="ai-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                        <input class="form-control ps-5" type="search" placeholder="Enter keyword">
+                    </div>
+                    <!-- Category links-->
+                    <h4 class="pt-1 pt-lg-0 mt-lg-n2">Categories:</h4>
+                    <ul class="nav flex-column mb-lg-5 mb-4">
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 @(ViewData["ActiveCategory"].ToString() == ""? "active" : "")" href="/blogs">All categories</a></li>
+
+                        <li class="mb-2"><a class="nav-link d-flex p-0 "><router-link to="/blogs">Home</router-link><span class="fs-sm text-muted ms-2">(0)</span></a></li>
+                        <li class="mb-2"><a class="nav-link d-flex p-0 "><router-link to="/blogs/about">About</router-link><span class="fs-sm text-muted ms-2">(0)</span></a></li>
+                        <li class="mb-2"><a class="nav-link d-flex p-0 "><router-link to="/blogs/some">Some</router-link><span class="fs-sm text-muted ms-2">(0)</span></a></li>
+                      
+                    </ul>
+
+                    <h4 class="pt-1 pt-lg-0 mt-lg-n2">Year:</h4>
+                    <ul class="nav flex-column mb-lg-5 mb-4">
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 active" href="/blogs">All</a></li>
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 " href="/blogs/year/2023">2023</a></li>
+                        <li class="mb-2"><a id="cat_all" class="nav-link d-flex p-0 " href="/blogs/year/2022">2022</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<button class="d-lg-none btn btn-sm fs-sm btn-primary w-100 rounded-0 fixed-bottom" data-bs-toggle="offcanvas" data-bs-target="#sidebarBlog"><i class="ai-layout-column me-2"></i>Sidebar</button>
+
+
+@section jsScripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+    <script>
+        // Home component
+        const HomeComponent = {
+            template: `
+                <div>
+                    <h1>Home Component</h1>
+                </div>
+            `
+        };
+
+        // Vue.js component for handling dynamic params
+        const DynamicParamsComponent = {
+            props: ['param1', 'param2'],
+            template: `
+                <div>
+                    <h1>Dynamic Params Component</h1>
+                    <p>Param 1: {{ param1 }}</p>
+                    <p>Param 2: {{ param2 }}</p>
+                </div>
+            `
+        };
+
+        // Vue Router configuration
+        const routes = [
+            { path: '/blogs', component: HomeComponent },
+            { path: '/blogs/:param1/:param2', component: DynamicParamsComponent, props: true }
+        ];
+
+        const router = new VueRouter({
+            mode: 'history',
+            routes
+        });
+
+        const app = new Vue({
+            router
+        }).$mount('#app');
+    </script>
+
+     
+}
+
+@section jsLib{
+    <script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="/assets/vendor/shufflejs/dist/shuffle.min.js"></script>
+}

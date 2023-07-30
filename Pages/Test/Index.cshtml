@@ -1,25 +1,29 @@
-﻿@page "/some"
+﻿@page "/some/{asa?}/{sasa?}/{asas?}"
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
     @section cssStyles{
-        <style>
-            .fade-in {
-                opacity: 0;
-                transition: opacity 0.5s ease-in-out;
-            }
 
-                .fade-in.fade-in-active {
-                    opacity: 1;
-                }
-        </style>
 
     }
 
     <section class="container pt-5 mt-5">
-        <div id="app"></div>
+        <div id="app">
+            <h2>Welcome to the Vue.js with History Routing in Razor Pages!</h2>
+
+            <ul>
+                <!-- Use router-link component for navigation -->
+                <li><router-link to="/">Home</router-link></li>
+                <li><router-link to="/about">About</router-link></li>
+            </ul>
+
+            <!-- This div will be replaced with the appropriate component based on the URL -->
+            <div>
+                <router-view></router-view>
+            </div>
+        </div>
 
     </section>
 
@@ -31,5 +35,43 @@
     
     }
     @section jsScripts{
-        <script src="/vue/some.js"></script>
+    <script>
+        const HomeComponent = {
+            template: `
+                    <div>
+                        <h1>Welcome to Home!</h1>
+                        <p>This is the Home view.</p>
+                    </div>
+                `
+        };
+
+        const AboutComponent = {
+            template: `
+                    <div>
+                        <h1>About Us</h1>
+                        <p>This is the About view.</p>
+                    </div>
+                `
+        };
+    </script>
+    
+    <script>
+        const routes = [
+            { path: '/', component: HomeComponent },
+            { path: '/about', component: AboutComponent },
+            { path: '*', redirect: '/' } // Fallback route that redirects to the index page
+        ];
+
+        const router = new VueRouter({
+            mode: 'history', // Use history mode for clean URLs
+            base: '/some', // Set the base path for the router
+            routes
+        });
+
+        const app = new Vue({
+            router
+        }).$mount('#app');
+    </script>
+
+
     }

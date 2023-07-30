@@ -1,4 +1,4 @@
-﻿@page "/blogs/{classify?}/{key?}"
+﻿@page "/blogstemp/{classify?}/{key?}"
 @model Coffeeroom.Pages.Blogs.IndexModel
 @{
     ViewData["ActiveCategory"] = "";
@@ -164,17 +164,18 @@
        
         document.addEventListener('DOMContentLoaded', function () {
         loaddefault();
-        loadLatestPosts();
+        //loadLatestPosts();
         });
 
         const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+        const loadMore = document.getElementById("load_more");
+        var blogcontainer = document.querySelector('#blogcontainer');
+
         function loaddefault() {
-            let currid = parseInt(u("#load_more").attr("data-id"));
-            //let currid = parseInt(document.getElementById("load_more").getAttribute('data-id'));
+            let currid = parseInt(loadMore.getAttribute('data-id'));
             if (currid != "n") {
                 let next = currid + 2;
-                //document.getElementById("load_more").setAttribute('data-id', next);
-                u("#load_more").attr("data-id", next);
+                loadMore.setAttribute("data-id", next);
                 $.ajax({
                     type:"POST", url:"/blogs?handler=FetchBlogs", contentType: 'application/json',
                     data:JSON.stringify({
@@ -185,7 +186,7 @@
                     success: function (data) {
                         var textdt = "";
                         if (data.length != 0) {
-                            u("#blogcontainer").empty();
+                          blogcontainer.innerHTML = "";
                             for (var i = 0; i < data.length; i++) {
                                 textdt += '<article class="row g-0 border-0 mb-4">' +
                                     '<a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="/blog/' + data[i].datePosted.substring(0, 4) + '/' + data[i].urlHandle + '" style="background-image: url(/content/blogcontent/' + data[i].datePosted.substring(0, 4) + '/' + data[i].urlHandle + '/cover.jpg); min-height: 14rem"></a>' +
@@ -204,10 +205,10 @@
                                     '</div>' +
                                     '</article>';
                             }
-                            u('#blogcontainer').append(textdt);
+                            blogcontainer.innerHTML = textdt;
                         }
                         else {
-                            u("#load_more").text("no more posts");
+                            loadMore.textContent = "no more posts";
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -216,32 +217,33 @@
                 });
             }
             else {
-                u("#load_more").attr("data-id", "n").text("something went wrong");
+                loadMore.setAttribute("data-id", "n");
+                loadMore.textContent = "something went wrong";
             }
 
         }
     
         
-        async function loadLatestPosts() {
-          axios.defaults.headers.common['RequestVerificationToken'] = token;
-          await axios.get('@Url.Page("/blogs")?handler=latestposts')
-                .then(function (response) {
-                    console.log(response.data);
-                    var customerList = '';
-                    var sideblogs = response.data;
-                    for (var i = 0; i < sideblogs.length; i++) {
-                        customerList += '<article class="position-relative d-flex align-items-center mb-4">'
-                        customerList += '<img class="rounded" src="assets/img/blog/sidebar/01.jpg" width="92" alt="Post image">'
-                        customerList += '<div class="ps-3">'
-                        customerList += '<h4 class="h6 mb-2"><a class="stretched-link" href="'+ sideblogs[i].urlHandle+'">' + sideblogs[i].title + '</a></h4><span class="fs-sm text-muted">13 hours ago</span>'
-                        customerList += '</div></article>'
-                    }
-                    u("latestPosts").html(customerList);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+        //async function loadLatestPosts() {
+        //  axios.defaults.headers.common['RequestVerificationToken'] = token;
+        //  await axios.get('@Url.Page("/blogs")?handler=latestposts')
+        //        .then(function (response) {
+        //            console.log(response.data);
+        //            var customerList = '';
+        //            var sideblogs = response.data;
+        //            for (var i = 0; i < sideblogs.length; i++) {
+        //                customerList += '<article class="position-relative d-flex align-items-center mb-4">'
+        //                customerList += '<img class="rounded" src="assets/img/blog/sidebar/01.jpg" width="92" alt="Post image">'
+        //                customerList += '<div class="ps-3">'
+        //                customerList += '<h4 class="h6 mb-2"><a class="stretched-link" href="'+ sideblogs[i].urlHandle+'">' + sideblogs[i].title + '</a></h4><span class="fs-sm text-muted">13 hours ago</span>'
+        //                customerList += '</div></article>'
+        //            }
+        //            u("latestPosts").html(customerList);
+        //        })
+        //        .catch(function (error) {
+        //            console.log(error);
+        //        });
+        //}
     </script>
 }
 

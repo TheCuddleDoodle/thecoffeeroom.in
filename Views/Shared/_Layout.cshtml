@@ -132,7 +132,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="custom_font" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300&display=swap" rel="stylesheet">
-    <script src="https://umbrellajs.com/umbrella.min.js"></script>
+
     <!-- Vendor styles-->
     <link href="~/libraries/aos/aos.css" rel="stylesheet" />
     <!-- Main Theme Styles + Bootstrap-->
@@ -274,11 +274,14 @@
     </a>
 
     <script src="~/libraries/axios/axios.min.js"></script>
+
     <script>
         
         function livesearch() {
-            u('#search_stat').html('Search <i class="ai-clock mb-1"></i>');
-            //document.getElementById("search_stat").innerHTML = `Search <i class="ai-clock mb-1"></i>`;
+            const searchStat = document.getElementById('#search_stat');
+            const searchResults = document.getElementById('#search_results');
+
+            searchStat.innerHTML = 'Search <i class="ai-clock mb-1"></i>';
             let ddr = document.getElementById("global_search").value;
             if (ddr.length >= 2) {
                 axios.get('/api/livesearch/all/' + ddr)
@@ -293,22 +296,23 @@
                             sb.append(' <span class="fs-sm text-muted ms-auto">' + response.data[i].description + '</span>');
                             sb.append('</div></div>');
                         }
-                        u('#search_results').html(sb.toString());
-                        u('#search_stat').html('Search');
+                        searchResults.innerHTML = sb.toString();
+                        searchStat.innerHTML = 'Search';
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        u('#search_stat').html('Search');
-                        u('#search_results').html('');
+                        searchStat.innerHTML = '';
+                        searchResults.innerHTML = '';
                     });
             }
             else {
-                    u('#search_results').html('');
-                    u('#search_stat').html('Search');
+                searchResults.innerHTML = '';
+                searchStat.innerHTML = 'Search';
             }
         }
     </script>
-       
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
     @await RenderSectionAsync("jsScripts", required: false)
     <script src="~/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
