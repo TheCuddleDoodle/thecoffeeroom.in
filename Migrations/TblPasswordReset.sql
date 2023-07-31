@@ -1,7 +1,7 @@
-﻿USE [coffeeroomdb]
+USE [coffeeroomdb]
 GO
 
-/****** Object:  Table [jsm33t].[TblPasswordReset]    Script Date: 7/29/2023 2:51:36 PM ******/
+/****** Object:  Table [dbo].[TblPasswordReset]    Script Date: 31-07-2023 16:28:44 ******/
 SET ANSI_NULLS ON
 GO
 
