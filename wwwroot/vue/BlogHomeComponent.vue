@@ -1,4 +1,4 @@
-﻿<!-- Dynamic Component.vue -->
+﻿<!-- HomeComponent.vue -->
 
 <template>
     <div>

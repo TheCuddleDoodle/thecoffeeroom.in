@@ -1,26 +1,80 @@
-// Define Vue components
-const Home = {
-    template: '<div><h1>Home Page</h1><p>Welcome to the home page!</p></div>',
+const HomeComponent = {
+    mounted() {
+        this.loadDefault();
+    },
+    methods: {
+        async loadDefault() {
+            document.getElementById("titleBlog").innerHTML = "something";
+            try {
+                const response = await axios.get('/api/livesearch/all/blog');
+                const data = response.data;
+                this.blogs = data;
+            } catch (error) {
+                console.error('Error fetching data from API:', error);
+            }
+        },
+    },
+    data() {
+        return {
+            blogs: [] // We will store the fetched data here
+        };
+    },
+    template: `
+            <div>
+              <ul>
+                <li v-for="blog in blogs" :key="blog.title">{{ blog.title }}</li>
+              </ul>
+            </div>
+          `
 };
 
-const About = {
-    template: '<div><h1>About Page</h1><p>This is the about page of our app.</p></div>',
+// Vue.js component for handling dynamic params
+const DynamicParamsComponent = {
+    props: ['param1', 'param2'],
+    mounted() {
+        this.loadDefault();
+    },
+    methods: {
+        async loadDefault() {
+            document.getElementById("titleBlog").innerHTML = "another thing";
+            try {
+                const response = await axios.get('/api/livesearch/all/blog');
+                const data = response.data;
+                this.blogs = data;
+            } catch (error) {
+                console.error('Error fetching data from API:', error);
+            }
+        },
+    },
+    data() {
+        return {
+            blogs: [] // We will store the fetched data here
+        };
+    },
+    template: `
+                    <div>
+                      <ul>
+                        <li v-for="blog in blogs" :key="blog.title">{{ blog.title }}</li>
+                      </ul>
+                    </div>
+                  `
 };
 
-// Define routes
+// Vue Router configuration
 const routes = [
-    { path: '/', component: Home },
-    { path: '/about', component: About },
+    { path: '/blogs', component: HomeComponent },
+    { path: '/blogs/:param1/:param2', component: DynamicParamsComponent, props: true }
 ];
 
-// Create and configure Vue Router
 const router = new VueRouter({
-    routes,
-    mode: 'hash', // Use hash routing
+    mode: 'history',
+    routes
 });
 
-// Create and mount Vue instance
+//const app = new Vue({
+//    router
+//}).$mount('#app');
+
 new Vue({
-    el: '#app',
     router,
-});
+}).$mount('#app');

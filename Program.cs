@@ -42,7 +42,7 @@ builder.Services.AddWebMarkupMin(options =>
 })
 .AddHtmlMinification(options =>
 {
-    options.MinificationSettings.PreserveNewLines = false;
+    options.MinificationSettings.PreserveNewLines = true;
     options.MinificationSettings.MinifyEmbeddedCssCode = true;
     options.MinificationSettings.RemoveHtmlComments = true;
     options.MinificationSettings.WhitespaceMinificationMode = WhitespaceMinificationMode.Safe;
