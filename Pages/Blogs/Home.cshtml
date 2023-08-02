@@ -109,8 +109,7 @@
 
 
 @section jsScripts{
-    <script src="https://unpkg.com/vue@3.2.36/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/vue-router@4.0.13/dist/vue-router.global.prod.js"></script>
+
     <script>
         const routerViewElement = document.querySelector('router-view');
         const CategorisedBlogComponent = {
@@ -123,15 +122,24 @@
                             this.blogs = [];
                             this.$nextTick(() => {
                                 this.loadDefault();
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth', // Use 'smooth' for smooth scrolling effect, 'auto' for instant scrolling
+                            });
                             });
                         }
                     }
                 },
                 mounted() {
                     this.loadDefault("","")
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth', // Use 'smooth' for smooth scrolling effect, 'auto' for instant scrolling
+                });
                 },
               
                 methods: {
+
                     async loadDefault() {
                         document.getElementById("titleBlog").innerHTML = "Blogs '" + this.param2 + "'" ;
                         try {
@@ -244,7 +252,11 @@
                 blogs: [],
             };
         },
-        async mounted() {                
+        async mounted() {        
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth', // Use 'smooth' for smooth scrolling effect, 'auto' for instant scrolling
+                });
                 document.getElementById("titleBlog").innerHTML = "Our Blogs";
                 try {
                     const response = await axios.get('/api/blogs/0/na/na');
@@ -259,7 +271,6 @@
         },
     };
 
-    // Vue Router configuration
     const routes = [
         { path: '/blogs', component: HomeComponent },
         { path: '/blogs/:param1/:param2', component: CategorisedBlogComponent, props: true }
@@ -273,7 +284,7 @@
     const app = Vue.createApp({
         data() {
             return {
-                isLoading: true, // Set isLoading to true initially
+                isLoading: true,
             };
         },
     });

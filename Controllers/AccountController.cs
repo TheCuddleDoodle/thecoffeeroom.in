@@ -1,4 +1,5 @@
 ﻿using Coffeeroom.Core.Helpers;
+using Coffeeroom.Models.Domain;
 using Coffeeroom.Models.View;
 using Coffeeroom.Pages.Account;
 using Microsoft.AspNetCore.Mvc;
@@ -65,8 +66,8 @@ namespace Coffeeroom.Controllers
                             {
 
                                 body = "<h1>Hey there,</h1>" +
-                                        "<p> This is for the verification of your account @CoffeeRoom." +
-                                        "" + otp + " is your OTP which is valid for 30 minutes </p >." +
+                                        "<p> This is for the verification of your account @TheCoffeeRoom." +
+                                        "" + otp + " is your OTP which is valid for 30 minutes </p>." +
                                         "Or alternatively you can click here to verify directly:" +
                                         "<a type=\"button\" href=\"https://thecoffeeroom.in/account/verify?uzrnm=" + FilteredUsername + "&key=" + otp + "\"><b> VERIFY </b></a>";
 
@@ -133,5 +134,47 @@ namespace Coffeeroom.Controllers
             var keys = new { message, type };
             return new JsonResult(keys);
         }
+
+        [HttpGet]
+        [Route("/api/getavatars")]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> OnGetAvatarListAsync()
+        {
+            try
+            {
+                List<Avatar> entries = new();
+                string sql;
+                string connectionString = ConfigHelper.NewConnectionString;
+                using (SqlConnection connection = new(connectionString))
+                {
+                    await connection.OpenAsync();
+                    sql = "select * from TblAvatarMaster";
+                    using SqlCommand command = new(sql, connection);
+                    using SqlDataReader dataReader = await command.ExecuteReaderAsync();
+
+                    while (await dataReader.ReadAsync())
+                    {
+                        Avatar entry = new()
+                        {
+                            Id = Int32.Parse(dataReader["Id"].ToString()),
+                            Title = (string)dataReader["Title"],
+                            Image = (string)dataReader["Image"]
+                        };
+                        entries.Add(entry);
+                    }
+                    await connection.CloseAsync();
+                }
+                return new JsonResult(entries);
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error("error in live search: " + ex.Message.ToString());
+                return BadRequest("something went wrong");
+            }
+        }
+
+
+
     }
 }

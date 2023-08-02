@@ -24,8 +24,8 @@ namespace Coffeeroom.Pages.Blogs
             await connection.OpenAsync();
             var command = new SqlCommand(
               "SELECT bc.Title,COUNT(bp.CategoryId) AS Occurrences FROM TblBlogCategory bc " +
-              "LEFT JOIN TblBlogMaster bp ON bc.Id = bp.CategoryId WHERE bc.IsActive = 1 " +
-              "GROUP BY bc.Title;", connection
+              "LEFT JOIN TblBlogMaster bp ON bc.Id = bp.CategoryId AND bp.IsActive = 1 " +
+              "WHERE bc.IsActive = 1 GROUP BY bc.Title ", connection
             );
             var reader = await command.ExecuteReaderAsync();
 
