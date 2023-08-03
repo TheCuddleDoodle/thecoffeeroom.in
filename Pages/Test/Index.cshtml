@@ -10,67 +10,52 @@
     }
 
     <section class="container pt-5 mt-5">
-        <div id="app">
-            <h2>Welcome to the Vue.js with History Routing in Razor Pages!</h2>
+    <div id="app">
+        <button class="btn btn-md">{{ something }}</button>
+        <input v-model="originalVariable" type="text" placeholder="Type something...">
+        <p>Original Variable: {{ originalVariable }}</p>
+        <p>Dependent Variable: {{ dependentVariable }}</p>
 
-            <ul>
-                <!-- Use router-link component for navigation -->
-                <li><router-link to="/">Home</router-link></li>
-                <li><router-link to="/about">About</router-link></li>
-            </ul>
-
-            <!-- This div will be replaced with the appropriate component based on the URL -->
-            <div>
-                <router-view></router-view>
-            </div>
-        </div>
+        <template v-if="ok">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+        <template v-else>
+            <h1>no title</h1>
+            <p>falana</p>
+            <p>dhimkana2</p>
+        </template>
+    </div>
 
     </section>
 
-    @section cssLib{
 
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-        <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
-   
-    
-    }
     @section jsScripts{
-    <script>
-        const HomeComponent = {
-            template: `
-                    <div>
-                        <h1>Welcome to Home!</h1>
-                        <p>This is the Home view.</p>
-                    </div>
-                `
-        };
 
-        const AboutComponent = {
-            template: `
-                    <div>
-                        <h1>About Us</h1>
-                        <p>This is the About view.</p>
-                    </div>
-                `
-        };
-    </script>
-    
     <script>
-        const routes = [
-            { path: '/', component: HomeComponent },
-            { path: '/about', component: AboutComponent },
-            { path: '*', redirect: '/' } // Fallback route that redirects to the index page
-        ];
-
-        const router = new VueRouter({
-            mode: 'history', // Use history mode for clean URLs
-            base: '/some', // Set the base path for the router
-            routes
+        const app = Vue.createApp({
+            data() {
+                return {
+                    something: 'Hey there its working',
+                    originalVariable: '',
+                };
+            },
+            computed: {
+                dependentVariable() {
+                    // Return the computed value based on the originalVariable
+                    return this.originalVariable.toUpperCase(); // You can change the computation as per your needs.
+                },
+            },
+            mounted() {
+                // This code will be executed when the component is mounted
+                console.log('Component mounted!');
+                //on load equivalent
+                this.originalVariable = 'Hello, Vue!'; 
+            },
         });
+        app.mount('#app');
 
-        const app = new Vue({
-            router
-        }).$mount('#app');
     </script>
 
 

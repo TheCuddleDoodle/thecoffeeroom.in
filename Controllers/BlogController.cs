@@ -54,6 +54,17 @@ namespace Coffeeroom.Controllers
                              "ORDER BY Id OFFSET " + mode + " " +
                              "ROWS FETCH NEXT 2 ROWS ONLY";
                     }
+
+                    else if (classify == "search")
+                    {
+                        sql = "SELECT m.Id, m.Title,m.Description,m.UrlHandle,m.DatePosted,m.Tags,YEAR(m.DatePosted) AS Year,c.Title AS Category,c.Locator,COUNT(bc.Id) AS Comments FROM TblBlogMaster m " +
+                             "LEFT JOIN TblBlogComment bc ON m.Id = bc.PostId " +
+                             "JOIN TblBlogCategory c ON m.CategoryId = c.Id " +
+                             "WHERE m.CategoryId = c.Id and m.Title like '%" + key + "%' AND m.IsActive = 1" +
+                             "GROUP BY m.Id, m.Title,m.Description,m.UrlHandle, m.DatePosted,m.Tags,c.Title,c.Locator " +
+                             "ORDER BY Id OFFSET " + mode + " " +
+                             "ROWS FETCH NEXT 2 ROWS ONLY";
+                    }
                 }
                 else
                 {

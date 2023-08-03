@@ -77,7 +77,6 @@ namespace Coffeeroom.Pages.Blogs
         }
         public async Task<IActionResult> OnPostLdCommentsAsync(string url)
         {
-
             Dictionary<int, dynamic> comments = new Dictionary<int, dynamic>();
             using var connection = new SqlConnection(connectionString);
             await connection.OpenAsync();

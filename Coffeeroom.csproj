@@ -12,6 +12,7 @@
     <Folder Include="Data\Migrations\TSQL\" />
     <Folder Include="Data\DataAccess\" />
     <Folder Include="Logs\" />
+    <Folder Include="Pages\Documentation\" />
     <Folder Include="Views\Shared\ContentViews\Magazines\2023\" />
     <Folder Include="Views\Shared\ContentViews\Apps\" />
     <Folder Include="Pages\Users\" />

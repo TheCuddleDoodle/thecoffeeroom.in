@@ -128,6 +128,8 @@
       })();
       
     </script>
+      <script src="https://unpkg.com/vue@3.2.36/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.13/dist/vue-router.global.prod.js"></script>
     <!-- Import Google Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -144,7 +146,8 @@
         <link rel="stylesheet" href="~/assets/css/theme.css" />
     </environment>
     <environment include="production">
-        <link rel="stylesheet" href="~/assets/css/coffeeroom.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/css/coffeeroom.css" asp-append-version="true" />
+        @*<link rel="stylesheet" href="~/assets/css/coffeeroom.min.css" asp-append-version="true" />*@
         <link rel="stylesheet" href="~/assets/css/theme.min.css" />
     </environment>
   
@@ -274,8 +277,10 @@
         </svg><i class="ai-arrow-up"></i>
     </a>
 
-    <script src="~/libraries/axios/axios.min.js"></script>
 
+    <script src="~/libraries/axios/axios.min.js"></script>
+@*    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>*@
     <script>
         
         function livesearch() {
@@ -312,8 +317,7 @@
             }
         }
     </script>
-    <script src="https://unpkg.com/vue@3.2.36/dist/vue.global.prod.js"></script>
-    <script src="https://unpkg.com/vue-router@4.0.13/dist/vue-router.global.prod.js"></script>
+
     @await RenderSectionAsync("jsScripts", required: false)
     <script src="~/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>

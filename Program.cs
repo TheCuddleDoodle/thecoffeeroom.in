@@ -21,8 +21,9 @@ builder.Services.AddCors(options =>
 
 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .WriteTo.File("Logs/coffeelog.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.Async(writeTo => writeTo.Console())
+                .WriteTo.Async(a => a.File("Logs/coffeelog.txt", rollingInterval: RollingInterval.Day))
+                //.WriteTo.File("Logs/coffeelog.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
 builder.Services.AddSession(options =>

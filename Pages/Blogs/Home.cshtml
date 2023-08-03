@@ -13,9 +13,6 @@
             display: none;
         }
     </style>
-     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-        <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
-   
 }
 
 <div class="container py-5 mb-lg-4" id="app">
@@ -30,7 +27,7 @@
     <div class="row mb-md-2 pt-3 mb-xl-4">
         <!-- Blog posts-->
         <div class="col-lg-9 pe-lg-4 pe-xl-5">
-            <h1 class="pb-3 pb-lg-4" id="titleBlog">Blogs</h1>
+            <h1 class="pb-3 pb-lg-4" id="titleBlog">{{titleItem}}</h1>
                 <div v-if="placeHolder">
                     <article class="row g-0 border-0 mb-4">
                         <a class="col-sm-5 rounded-5 placeholder placeholder-wave" style="min-height: 14rem"></a>
@@ -70,7 +67,7 @@
                     <!-- Search box-->
                     <div class="position-relative mb-4 mb-lg-5">
                         <i class="ai-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                        <input class="form-control ps-5" type="search" placeholder="Enter keyword">
+                        <input v-model="inputValue" @@keyup="updateRouteParam" class="form-control ps-5" type="search" placeholder="Enter keyword">
                     </div>
                     <!-- Category links-->
                     <h4 class="pt-1 pt-lg-0 mt-lg-n2">Categories:</h4>
@@ -131,7 +128,9 @@
                     }
                 },
                 mounted() {
-                    this.loadDefault("","")
+                isLoading: false,
+                    this.loadDefault("",""),
+                   
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth', // Use 'smooth' for smooth scrolling effect, 'auto' for instant scrolling
@@ -141,7 +140,7 @@
                 methods: {
 
                     async loadDefault() {
-                        document.getElementById("titleBlog").innerHTML = "Blogs '" + this.param2 + "'" ;
+                       document.getElementById("titleBlog").innerHTML = "Blogs '" + this.param2 + "'" ;
                         try {
                             const response = await axios.get('/api/blogs/0/'+this.param1 +'/' + this.param2);
                             const data = response.data;
@@ -158,106 +157,33 @@
                     return {
                         blogs: [], // We will store the fetched data here,
                         isLoading : true,
+                        //titleItem: "Blogs -" + this.param2 
+
                     };
                 },
             template: `
-                            <div v-if="blogs.length === 0"> <article class="row g-0 border-0 mb-4">
-                                <a class="col-sm-5 rounded-5 placeholder placeholder-wave" style="min-height: 14rem"></a>
-                                <div class="col-sm-7">
-                                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                                        <p class="card-text placeholder-glow">
-                                            <span class="placeholder placeholder-sm col-7 me-2"></span>
-                                            <span class="placeholder placeholder-sm col-4"></span>
-                                            <span class="placeholder placeholder-sm col-4 me-2"></span>
-                                            <span class="placeholder placeholder-sm col-6"></span>
-                                            <span class="placeholder placeholder-sm col-8"></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </article></div>
-                            <div v-else>
-                   <div v-for="blog in blogs" :key="blog.title">
-                      <article class="row g-0 border-0 mb-4">
-                   <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5"
-                   v-bind:href="'/blog/' + blog.datePosted.substring(0,4) + '/' + blog.urlHandle "
-                   v-bind:style="{ 'background-image': 'url(/content/blogcontent/' + blog.datePosted.substring(0, 4) + '/' + blog.urlHandle + '/cover.jpg)', 'min-height': '14rem' }">
-                  <!-- Content inside the anchor tag -->
-                </a>
-
-                                <div class="col-sm-7">
-                                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                                                <h3><a v-bind:href="'/blog/' + blog.datePosted.substring(0, 4)+'/' + blog.urlHandle">{{blog.title}}</router-link></h3>
-                                            <p class="d-sm-none d-md-block">{{blog.description}}</p>
-                                            <div class="d-flex flex-wrap align-items-center mt-n2">
-                                                <a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">{{blog.comments}}<i class="ai-message fs-lg ms-1"></i></a>
-                                                <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
-                                                <span class="fs-sm text-muted mt-2">{{blog.datePosted.substring(0, 7)}}</span>
-                                                <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
-                                                <router-link class="badge text-nav fs-xs border mt-2" :to="'/blogs/category/'+  blog.locator ">{{blog.category}}</router-link>
-                                            </div>
-                                   </div>
-                              </div>
-                            </article>
-                        </div>
-                        </div>
+               @await Html.PartialAsync("Components/_blogs")
                         `,
 
         };
             // Vue.js component for handling the Home route
             const HomeComponent = {
         template: `
-                         <div v-if="blogs.length === 0"> <article class="row g-0 border-0 mb-4">
-                                <a class="col-sm-5 rounded-5 placeholder placeholder-wave" style="min-height: 14rem"></a>
-                                <div class="col-sm-7">
-                                    <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                                        <p class="card-text placeholder-glow">
-                                            <span class="placeholder placeholder-sm col-7 me-2"></span>
-                                            <span class="placeholder placeholder-sm col-4"></span>
-                                            <span class="placeholder placeholder-sm col-4 me-2"></span>
-                                            <span class="placeholder placeholder-sm col-6"></span>
-                                            <span class="placeholder placeholder-sm col-8"></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </article></div>
-                          <div v-else>
-           <div v-for="blog in blogs" :key="blog.title">
-              <article class="row g-0 border-0 mb-4">                            
-           <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5"
-           v-bind:href="'/blog/' + blog.datePosted.substring(0,4) + '/' + blog.urlHandle "
-           v-bind:style="{ 'background-image': 'url(/content/blogcontent/' + blog.datePosted.substring(0, 4) + '/' + blog.urlHandle + '/cover.jpg)', 'min-height': '14rem' }">
-          <!-- Content inside the anchor tag -->
-        </a>
+        @await Html.PartialAsync("Components/_blogs")
 
-                        <div class="col-sm-7">
-                            <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
-                                        <h3><a v-bind:href="'/blog/' + blog.datePosted.substring(0, 4)+'/' + blog.urlHandle">{{blog.title}}</router-link></h3>
-                                    <p class="d-sm-none d-md-block">{{blog.description}}</p>
-                                    <div class="d-flex flex-wrap align-items-center mt-n2">
-                                        <a class="nav-link text-muted fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">{{blog.comments}}<i class="ai-message fs-lg ms-1"></i></a>
-                                        <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
-                                        <span class="fs-sm text-muted mt-2">{{blog.datePosted.substring(0, 7)}}</span>
-                                        <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
-                                        <router-link class="badge text-nav fs-xs border mt-2" :to="'/blogs/category/'+  blog.locator ">{{blog.category}}</router-link>
-                                    </div>
-                           </div>
-                      </div>
-                    </article>
-                </div>
-                </div>
-                        
-                `,
+                        `,
         data() {
             return {
                 blogs: [],
+                titleItem : 'Blogs'
             };
         },
         async mounted() {        
                 window.scrollTo({
                     top: 0,
-                    behavior: 'smooth', // Use 'smooth' for smooth scrolling effect, 'auto' for instant scrolling
+                    behavior: 'smooth',
                 });
-                document.getElementById("titleBlog").innerHTML = "Our Blogs";
+                
                 try {
                     const response = await axios.get('/api/blogs/0/na/na');
                     const data = response.data;
@@ -285,8 +211,22 @@
         data() {
             return {
                 isLoading: true,
+                inputValue: '',
+                    titleItem: 'Blogs'
             };
         },
+        methods:
+        {
+                updateRouteParam(){
+                    if (this.inputValue.trim() !== '') {
+                        this.$router.replace({ path: `/blogs/search/${this.inputValue}` });
+                    }
+                    else
+                    {
+                        this.$router.replace({ path: `/blogs` });
+                    }
+                }
+        }
     });
     app.use(router);
     app.mount('#app');
