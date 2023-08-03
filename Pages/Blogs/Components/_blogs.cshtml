@@ -25,7 +25,7 @@
             <div class="col-sm-7">
                 <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
                     <h3>
-                        <a v-bind:href="'/blog/' + blog.datePosted.substring(0, 4)+'/' + blog.urlHandle">
+                        <router-link v-bind:href="'/blog/' + blog.datePosted.substring(0, 4)+'/' + blog.urlHandle">
                             {{blog.title}}</router-link>
                     </h3>
                     <p class="d-sm-none d-md-block">{{blog.description}}</p>

@@ -18,9 +18,8 @@
     <div v-for="blog in blogs" :key="blog.title">
         <article class="row g-0 border-0 mb-4">
             <a class="col-sm-5 bg-repeat-0 bg-size-cover bg-position-center rounded-5"
-               v-bind:href="'/blog/' + blog.datePosted.substring(0,4) + '/' + blog.urlHandle "
+               v-bind:href="'/blog/' + blog.datePosted.substring(0,4) + '/' + bloxg.urlHandle "
                v-bind:style="{ 'background-image': 'url(/content/blogcontent/' + blog.datePosted.substring(0, 4) + '/' + blog.urlHandle + '/cover.jpg)', 'min-height': '14rem' }">
-                <!-- Content inside the anchor tag -->
             </a>
 
             <div class="col-sm-7">

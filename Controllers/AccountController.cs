@@ -168,7 +168,6 @@ namespace Coffeeroom.Controllers
             }
             catch (Exception ex)
             {
-
                 Log.Error("error in live search: " + ex.Message.ToString());
                 return BadRequest("something went wrong");
             }

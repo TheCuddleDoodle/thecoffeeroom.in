@@ -7,12 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Documentation\**" />
+    <Content Remove="Pages\Documentation\**" />
+    <EmbeddedResource Remove="Pages\Documentation\**" />
+    <None Remove="Pages\Documentation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Data\Migrations\Schemas\" />
     <Folder Include="Data\Migrations\StoredProcedures\" />
     <Folder Include="Data\Migrations\TSQL\" />
     <Folder Include="Data\DataAccess\" />
     <Folder Include="Logs\" />
-    <Folder Include="Pages\Documentation\" />
     <Folder Include="Views\Shared\ContentViews\Magazines\2023\" />
     <Folder Include="Views\Shared\ContentViews\Apps\" />
     <Folder Include="Pages\Users\" />

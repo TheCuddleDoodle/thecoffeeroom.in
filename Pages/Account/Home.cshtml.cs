@@ -113,10 +113,6 @@ namespace Coffeeroom.Pages.Account
                             }
                             HttpContext.Session.SetString("first_name", EditProfile.FirstName.Trim());
                             HttpContext.Session.SetString("fullname", EditProfile.FirstName.Trim() + " " + EditProfile.LastName.Trim());
-
-
-                            // HttpContext.Session.SetString("role", role);
-                            // HttpContext.Session.SetString("avatar", role);
                         }
                         await connection.CloseAsync();
                     }
